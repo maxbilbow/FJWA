@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component LANGUAGE_LEVEL="JDK_1_7" jdk="1.7" jdk_type="JavaSDK">
+	<exclude-output/>
+	<contentEntry url="file://$MODULE_DIR$">
+		<excludeFolder url="file://$MODULE_DIR$/src/main/java/practice/db"/>
+	</contentEntry>
+	<levels>
+		<level name="org.springframework:spring-orm:3.2.0.RELEASE" value="project"/>
+	</levels>
+</component>
