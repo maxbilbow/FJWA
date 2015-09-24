@@ -54,22 +54,7 @@ public class BoomController {
 		return  this.bombs = bombService.synchronize();//"redirect:boom.html";
 	}
 
-//
-//	@RequestMapping(value = "addBomb", method = RequestMethod.POST)
-//	public String updateBomb(@Valid @ModelAttribute("bomb") Bomb bomb, BindingResult result){
-//		//		Bomb bomb = WeakBomb.newInstance();
-//		System.out.println("(UPDATE BOMB) result has errors: " + result.hasErrors());
-//
-//		System.out.println("Timer set: " + bomb.timeRemaining());
-//
-//		if(result.hasErrors()) {
-//
-//			return "redirect:boom.html";
-//		} else {
-//			bombService.save(bomb);
-//		}
-//		return "redirect:boom.html";
-//	}
+
 
 	@RequestMapping(value = "removeAll", method = RequestMethod.GET)
 	public @ResponseBody List<Bomb> removeAll(Model model){
@@ -77,11 +62,7 @@ public class BoomController {
 		return this.bombs;
 	}
 	
-//	@RequestMapping(value = "clean", method = RequestMethod.GET)
-//	public @ResponseBody List<Bomb> clean(Model model){
-//		updateModel(model, bombService.clean());
-//		return this.bombs;
-//	}
+
 
 
 

@@ -1,19 +1,15 @@
 package fjwa.service;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import fjwa.model.IEntity;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 import fjwa.RMXException;
-import fjwa.repository.EntityRepository;
 
 public abstract class AbstractEntityService<E extends IEntity> implements EntityService<E> {
 
@@ -22,17 +18,17 @@ public abstract class AbstractEntityService<E extends IEntity> implements Entity
 	protected String errorLog = "";
 
 
-	protected abstract EntityRepository<E> repository();
-	
+	protected abstract JpaRepository<E, Long> repository();
+
 	@Override
 	@Transactional
 	public List<E> findAllEntities() {
 		try {
-			List<E> newList = repository().loadAll();
+			List<E> newList = (List<E>) repository().findAll();
 			if ( newList != null )
 				this.entities = newList;
-		} catch (RMXException e) {
-			this.addError(e);
+		} catch (Exception e) {
+			this.addError(RMXException.unexpected(e));
 		}
 		return this.entities;
 	}
@@ -53,8 +49,8 @@ public abstract class AbstractEntityService<E extends IEntity> implements Entity
 		try {
 			this.getEntities().add(entity);
 			return repository().save(entity);
-		} catch (RMXException e) {
-			this.addError(e);
+		} catch (Exception e) {
+			this.addError(RMXException.unexpected(e));
 		}
 		return entity;
 	}
@@ -67,10 +63,10 @@ public abstract class AbstractEntityService<E extends IEntity> implements Entity
 		try { 
 			if (entities.contains(entity))
 				entities.remove(entity);
-			repository().remove(entity);
+			repository().delete(entity);
 			return true;
-		} catch (RMXException e) {
-			this.addError(e);
+		} catch (Exception e) {
+			this.addError(RMXException.unexpected(e));
 		} 
 		return false;
 	}
@@ -80,9 +76,9 @@ public abstract class AbstractEntityService<E extends IEntity> implements Entity
 	public List<E> removeAll() {
 		for (E entity : entities) {
 			try {
-				this.repository().remove(entity);
-			} catch (RMXException e) {
-				addError(RMXException.unexpected(e));
+				this.repository().delete(entity);
+			} catch (Exception e) {
+				this.addError(RMXException.unexpected(e));
 			}
 		}
 		entities = null;
@@ -128,6 +124,6 @@ public abstract class AbstractEntityService<E extends IEntity> implements Entity
 		return entities;
 	}
 
-	
+
 
 }

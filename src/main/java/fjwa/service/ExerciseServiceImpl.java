@@ -4,22 +4,23 @@ package fjwa.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import fjwa.repository.ExerciseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import fjwa.model.Activity;
 import fjwa.model.Exercise;
-import fjwa.repository.EntityRepository;
 
 
 @Service("exerciseService")
 public class ExerciseServiceImpl extends AbstractEntityService<Exercise> implements ExerciseService {
 
 	@Autowired
-	private EntityRepository<Exercise> exerciseRepository;
+	private ExerciseRepository exerciseRepository;
 	
 	@Override
-	protected EntityRepository<Exercise> repository() {
+	protected JpaRepository<Exercise, Long> repository() {
 		return exerciseRepository;
 	}
 	

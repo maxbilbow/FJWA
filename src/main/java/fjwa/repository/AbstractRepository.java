@@ -1,68 +1,75 @@
 package fjwa.repository;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
+import fjwa.model.Goal;
 import fjwa.model.IEntity;
-import org.hibernate.HibernateException;
 
-import click.rmx.Tests;
-import fjwa.RMXError;
 import fjwa.RMXException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public abstract class AbstractRepository<E extends IEntity> implements EntityRepository<E> {
+@Deprecated
+public abstract class AbstractRepository<E extends IEntity, ID extends Serializable> implements JpaRepository<E, ID> {
 
 	@PersistenceContext
-	protected EntityManager em;
+	private EntityManager em;
 
-	@Override
-	public E save(E entity) throws RMXException {
-		try {
+    protected EntityManager entityManager() {
+        return em;
+    }
+
+    @Override
+    public <S extends E> S save(S entity) {
+
 			if (entity.getId() == null) {
 				em.persist(entity);
 				em.flush();
 			} else {
 				entity = em.merge(entity);
 			}
-		} catch (Exception e) {
-			throw RMXException.unexpected(e);
-		}
+
 		return entity;
 	}
 
-	@Override
-	public E remove(E entity) throws RMXException {	
-		if (entity != null) 
-			try {
-				em.remove(em.contains(entity) ? entity : em.merge(entity));
-				em.flush();
-			} catch (Exception e) {
-				throw RMXException.unexpected(e);
-			} 
-		return entity;
+    @Override
+    public E findOne(ID id) {
+        return null;
+    }
+
+    @Override
+    public boolean exists(ID id) {
+        return false;
+    }
+
+    @Override
+	public void delete(E entity)   {
+		if (entity != null)
+            em.remove(em.contains(entity) ? entity : em.merge(entity));
+            em.flush();
+
 	}
 
+    @Override
+    public void delete(Iterable<? extends E> iterable) {
 
-	@Override
-	@Deprecated
-	public E synchronize(E entity) throws RMXException {
-		try {
-//			if (em.contains(entity)) {
-				entity = em.merge(entity);
-//				em.flush();
-//			}
-		} catch (Exception e) {
-			throw RMXException.unexpected(e);
-		}
-		return entity; //TODO: check this is correct
-	}
-	
-	protected class TypedQueryPair {
+    }
+
+    @Override
+    public void deleteAll() {
+
+    }
+
+
+    protected class TypedQueryPair {
 		public final String query;
 		public final Class<E> Class;
 		public TypedQueryPair(String query, Class<E> Class) {
@@ -70,46 +77,19 @@ public abstract class AbstractRepository<E extends IEntity> implements EntityRep
 			this.Class = Class;
 		}
 	}
-	
-	protected abstract String FIND_ALL();
-	protected abstract Class<E> CLASS();
-//	protected abstract String findAllInTable();
+
+    protected abstract String FIND_ALL();
+    protected abstract Class<E> CLASS();
+
 	
 	@Override
-	public List<E> loadAll() throws RMXException {
-		try {
+	public List<E> findAll()  {
 			TypedQuery<E> query = em.createNamedQuery(FIND_ALL(), CLASS());
 //			Query query = em.create
 			List<E> entities = query.getResultList();
-			return entities;
-		} catch (Exception e) {
-			throw RMXException.unexpected(e);
-		}
-
+		return entities;
 	}
 
-	@Override
-	public Object executeQuery(String query) throws RMXException {
-		Object result = null;
-		try {
-			Query q = em.createQuery(query);
-			result = q.getSingleResult();
-		} catch (Exception e) {
-			throw RMXException.unexpected(e);
-		}
-		return result;
-	}
-	
-	
-	@Override
-	public Object queryList(String query) throws RMXException {
-		Object result = null;
-		try {
-			Query q = em.createQuery(query);
-			result = q.getResultList();//getSingleResult();
-		} catch (Exception e) {
-			throw RMXException.unexpected(e);
-		}
-		return result;
-	}
+
+
 }
