@@ -43,7 +43,8 @@ public class GoalController {
 	}
 	
 	@RequestMapping(value = "addGoal", method = RequestMethod.POST)
-	public String updateGoal(@Valid @ModelAttribute("goal") Goal goal, BindingResult result) {
+	public String updateGoal(@Valid @ModelAttribute("goal") Goal goal,
+							 BindingResult result) {
 		
 		System.out.println("result has errors: " + result.hasErrors());
 		

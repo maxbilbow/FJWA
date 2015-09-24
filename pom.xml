@@ -9,7 +9,6 @@
 		<hibernate.version>4.3.2.Final</hibernate.version>
 		<junit.version>4.12</junit.version>
 		<springData.version>1.9.0.RELEASE</springData.version>
-		<jstl.version>1.2</jstl.version>
 	</properties>
   <dependencies>
     <dependency>
@@ -18,38 +17,23 @@
       <version>${junit.version}</version>
       <scope>test</scope>
     </dependency>
-    <dependency>
-    	<groupId>org.springframework</groupId>
-    	<artifactId>spring-webmvc</artifactId>
-    	<version>${spring.version}</version>
-    </dependency>
+
 	  <dependency>
-		  <groupId>org.springframework.data</groupId>
-		  <artifactId>spring-data-jpa</artifactId>
-		  <version>${springData.version}</version>
-		  <exclusions>
-			  <exclusion>
-				  <groupId>org.springframework</groupId>
-				  <artifactId>spring-aop</artifactId>
-			  </exclusion>
-		  </exclusions>
-	  </dependency>
-	  <dependency>
-    	<groupId>javax.servlet</groupId>
-    	<artifactId>jstl</artifactId>
-    	<version>${jstl.version}</version>
-    </dependency>
-	  <dependency>
+		  <groupId>javax.servlet</groupId>
+		  <artifactId>jstl</artifactId>
+		  <version>1.2</version>
+
 		  <groupId>javax.servlet</groupId>
 		  <artifactId>javax.servlet-api</artifactId>
 		  <version>3.0.1</version>
 		  <scope>provided</scope>
 	  </dependency>
 	  <dependency>
-    	<groupId>org.hibernate</groupId>
-    	<artifactId>hibernate-validator</artifactId>
-		<version>${hibernate.version}</version>
-    </dependency>
+		  <groupId>javax.transaction</groupId>
+		  <artifactId>jta</artifactId>
+		  <version>1.1</version>
+	  </dependency>
+
     <dependency>
     	<groupId>org.codehaus.jackson</groupId>
     	<artifactId>jackson-mapper-asl</artifactId>
@@ -60,8 +44,6 @@
 		  <artifactId>jackson-databind</artifactId>
 		  <version>2.6.2</version>
 	  </dependency>
-
-
 	  <dependency>
 		  <groupId>com.fasterxml.jackson.core</groupId>
 		  <artifactId>jackson-core</artifactId>
@@ -72,37 +54,53 @@
     	<artifactId>xstream</artifactId>
     	<version>1.4.8</version>
     </dependency>
-	<dependency>
-		<groupId>org.springframework</groupId>
-		<artifactId>spring-oxm</artifactId>
-		<version>${spring.version}</version>
-	</dependency>
 
-	<dependency>
-		<groupId>mysql</groupId>
-		<artifactId>mysql-connector-java</artifactId>
-		<version>5.1.21</version>
-	</dependency>
-	<dependency>
-		<groupId>org.hibernate</groupId>
-		<artifactId>hibernate-entitymanager</artifactId>
-		<version>${hibernate.version}</version>
-	</dependency>
-	<dependency>
-		<groupId>javax.transaction</groupId>
-		<artifactId>jta</artifactId>
-		<version>1.1</version>
-	</dependency>
-	<dependency>
-		<groupId>org.springframework</groupId>
-		<artifactId>spring-jdbc</artifactId>
-		<version>${spring.version}</version>
-	</dependency>
-	<dependency>
-		<groupId>org.springframework</groupId>
-		<artifactId>spring-orm</artifactId>
-		<version>${spring.version}</version>
-	</dependency>
+	  <dependency>
+		  <groupId>mysql</groupId>
+		  <artifactId>mysql-connector-java</artifactId>
+		  <version>5.1.21</version>
+	  </dependency>
+
+	  <dependency>
+		  <groupId>org.hibernate</groupId>
+		  <artifactId>hibernate-entitymanager</artifactId>
+		  <version>${hibernate.version}</version>
+
+		  <groupId>org.hibernate</groupId>
+		  <artifactId>hibernate-validator</artifactId>
+		  <version>${hibernate.version}</version>
+	  </dependency>
+
+
+	  <dependency>
+		  <groupId>org.springframework</groupId>
+		  <artifactId>spring-webmvc</artifactId>
+		  <version>${spring.version}</version>
+
+		  <groupId>org.springframework</groupId>
+		  <artifactId>spring-oxm</artifactId>
+		  <version>${spring.version}</version>
+
+		  <groupId>org.springframework</groupId>
+		  <artifactId>spring-jdbc</artifactId>
+		  <version>${spring.version}</version>
+
+		  <groupId>org.springframework</groupId>
+		  <artifactId>spring-orm</artifactId>
+		  <version>${spring.version}</version>
+
+		  <groupId>org.springframework.data</groupId>
+		  <artifactId>spring-data-jpa</artifactId>
+		  <version>${springData.version}</version>
+		  <exclusions>
+			  <exclusion>
+				  <groupId>org.springframework</groupId>
+				  <artifactId>spring-aop</artifactId>
+			  </exclusion>
+		  </exclusions>
+	  </dependency>
+
+
       <!-- TEMP START -->
       <!--<dependency>-->
       <!--<groupId>javax.servlet</groupId>-->

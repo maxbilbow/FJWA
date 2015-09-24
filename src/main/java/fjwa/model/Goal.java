@@ -47,7 +47,7 @@ public class Goal implements IEntity {
 	private int minutes;
 
 	@OneToMany(mappedBy = "goal", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
-	private List<Exercise> exercises = new ArrayList<Exercise>();
+	private List<Exercise> exercises = new ArrayList<>();
 	
 	public List<Exercise> getExercises() {
 		return exercises;

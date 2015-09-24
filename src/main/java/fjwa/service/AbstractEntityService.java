@@ -37,7 +37,7 @@ public abstract class AbstractEntityService<E extends IEntity> implements Entity
 	public String getErrors() {
 		String log = "ERRORS: " + this.errorLog;
 		for (String error : seriousErrors.values()) {
-			log += "<br/>" + error;
+			log += "\n" + error;
 		}
 		this.errorLog = "";
 		return log;//.replace("\n", "<br/>");

@@ -19,7 +19,7 @@
     <table name="exercise" schema="" catalog="bomb_tracker" type="TABLE">
       <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
       <column name="activity" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
-      <column name="minutes" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="MINUTES" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
       <column name="goal_GOAL_ID" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
       <primary-key name="PRIMARY" columns="id"/>
       <foreign-key name="FK_nhoy5bn476l26ronf7okohtnn" columns="goal_GOAL_ID" ref-table="goals" ref-schema="" ref-catalog="bomb_tracker" ref-columns="GOAL_ID" update-rule="3" delete-rule="3" deferrability="2"/>

@@ -1,12 +1,7 @@
 package fjwa.model;
 
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Range;
@@ -26,8 +21,9 @@ public class Exercise implements IEntity{
 	@Id
 	@GeneratedValue
 	private Long id;
-	
+
 	@Range(min = 1, max = 120)
+	@Column(name="MINUTES")
 	private int minutes;
 
 	@NotNull

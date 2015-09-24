@@ -89,7 +89,7 @@ public class Bomb implements IEntity {
 	}
 
 	public boolean isOutOfTime() {
-		return this.outOfTime  = timeRemaining() < 0;
+		return this.outOfTime = timeRemaining() < 0;
 	}	
 
 	public boolean isLive() {
