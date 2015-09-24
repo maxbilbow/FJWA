@@ -1,35 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component name="dataSourceStorage">
-  <data-source name="MySQL - bomb_tracker@localhost" uuid="e9dc0fc9-6be4-441a-8f2b-1fdc29a1d8bc">
-    <database-info product="MySQL" version="5.6.26-log" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.35 ( Revision: 5fb9c5849535c13917c2cf9baaece6ef9693ef27 )">
-      <extra-name-characters>#@</extra-name-characters>
-      <identifier-quote-string>`</identifier-quote-string>
-    </database-info>
-    <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower"/>
-    <schema name="" catalog="bomb_tracker"/>
-    <table name="bomb_table" schema="" catalog="bomb_tracker" type="TABLE">
-      <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
-      <column name="description" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <column name="live" sqlType="BIT" precision="1" scale="0" nullable="false" jdbcType="-7"/>
-      <column name="outOfTime" sqlType="BIT" precision="1" scale="0" nullable="false" jdbcType="-7"/>
-      <column name="startTime" sqlType="TINYBLOB" precision="255" scale="0" nullable="true" jdbcType="-2"/>
-      <column name="startTimeInSeconds" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <primary-key name="PRIMARY" columns="id"/>
-    </table>
-    <table name="exercise" schema="" catalog="bomb_tracker" type="TABLE">
-      <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
-      <column name="activity" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
-      <column name="MINUTES" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
-      <column name="goal_GOAL_ID" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
-      <primary-key name="PRIMARY" columns="id"/>
-      <foreign-key name="FK_nhoy5bn476l26ronf7okohtnn" columns="goal_GOAL_ID" ref-table="goals" ref-schema="" ref-catalog="bomb_tracker" ref-columns="GOAL_ID" update-rule="3" delete-rule="3" deferrability="2"/>
-      <index name="FK_nhoy5bn476l26ronf7okohtnn" unique="false" columns="goal_GOAL_ID"/>
-    </table>
-    <table name="goals" schema="" catalog="bomb_tracker" type="TABLE">
-      <column name="GOAL_ID" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
-      <column name="MINUTES" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
-      <primary-key name="PRIMARY" columns="GOAL_ID"/>
-      <exported-key name="FK_nhoy5bn476l26ronf7okohtnn" table="exercise" schema="" catalog="bomb_tracker" columns="goal_GOAL_ID"/>
-    </table>
+  <data-source name="bomb_tracker@localhost" uuid="3f88ea60-21a7-4737-8848-36ec3d7db2ad">
+    <database-info product="" version="" jdbc-version="" driver-name="" driver-version=""/>
   </data-source>
 </component>

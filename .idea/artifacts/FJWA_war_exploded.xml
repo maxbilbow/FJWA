@@ -41,15 +41,15 @@
           <element id="library" level="project" name="Maven: commons-logging:commons-logging:1.2" />
           <element id="library" level="project" name="Maven: org.springframework:spring-expression:4.2.1.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-web:4.2.1.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-oxm:4.2.1.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-jdbc:4.2.1.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-tx:4.2.1.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-orm:4.2.1.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework.data:spring-data-jpa:1.9.0.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework.data:spring-data-commons:1.11.0.RELEASE" />
-          <element id="library" level="project" name="Maven: org.springframework:spring-tx:4.1.7.RELEASE" />
           <element id="library" level="project" name="Maven: org.aspectj:aspectjrt:1.8.6" />
           <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.12" />
           <element id="library" level="project" name="Maven: org.slf4j:jcl-over-slf4j:1.7.12" />
-          <element id="library" level="project" name="Maven: org.springframework:spring-oxm:4.2.1.RELEASE" />
-          <element id="library" level="project" name="Maven: org.springframework:spring-jdbc:4.2.1.RELEASE" />
-          <element id="library" level="project" name="Maven: org.springframework:spring-orm:4.2.1.RELEASE" />
         </element>
       </element>
       <element id="directory" name="META-INF">
