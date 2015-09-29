@@ -66,7 +66,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
         super.configureContentNegotiation(configurer);
         configurer.mediaType("json",MediaType.APPLICATION_JSON);
-        configurer.mediaType("xml",MediaType.APPLICATION_XML);
+        configurer.mediaType("xml", MediaType.APPLICATION_XML);
     }
 
 	@Bean
@@ -115,7 +115,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     public DataSource dataSource() {
         final DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/fjwa?createDatabaseIfNotExist=true");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/fjwa?autoReconnect=true&createDatabaseIfNotExist=true");
         dataSource.setUsername("root");
         dataSource.setPassword("password");
 

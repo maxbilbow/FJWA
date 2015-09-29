@@ -74,7 +74,7 @@
 
     </div>
 
-     <script src="jquery-1.8.3.js" />
+     <script src="js/jquery-1.8.3.js" />
     <script src="assets/js/bootstrap.js" />
   </body>
 </html>

@@ -1,44 +1,54 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<html ng-app>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Goals Report</title>
+	<style type="text/css">
+		.cell {
+			display: inline-block;
+			vertical-align: top;
+			width: 100px;
+		}
+		.cell-header .cell {
+			font-weight: bold;
+		}
+	</style>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
+	<script>
+		function GoalReports($scope, $http) {
+			$http.get('GoalReports.json').
+					success(function(data) {
+						$scope.goalReports = data;
+					});
+		}
+	</script>
+
 </head>
 <body>
 
 
-<table>
+<h3>Reports: {{goalReports.length}}</h3>
 	
-	<tr>
-		<th>Minutes</th><th>Exercise Minutes</th><th>Activity</th>
-	</tr>
-	<tr>
-		<td>
-	<div ng-controller="Reports">
+	<div class="cell-header">
+		<div class="cell">Minutes</div>
+		<div class="cell">Exercise Minutes</div>
+		<div class="cell">Activity</div>
+	</div>
 
-		<div class="goals-container">
 
-				<table ng-repeat="goalReport in goalReports">
-					<tr>
-					<td>${goalReport.goalMinutes}</td><td>${goalReport.exerciseMinutes}</td><td>${goalReport.exerciseActivity}</td>
-					</tr>
-				</table>
+	<div ng-controller="GoalReports">
+
+		<div class="goalReports-container">
+			<div ng-repeat="goalReport in goalReports">
+				<div class="cell">{{goalReport.goalMinutes}}</div>
+				<div class="cell">{{goalReport.exerciseMinutes}}</div>
+				<div class="cell">{{goalReport.exerciseActivity}}</div>
+			</div>
 		</div>
 	</div>
-	</td>
-	</tr>
-</table>
 
-<script type="javascript">
-	function Reports($scope, $http) {
-		$http.get('http://localhost:8080/EventTracker/GoalReports.json').
-				success(function(data) {
-					$scope.events = data;
-				});
-	}
-</script>
+
+
 </body>
 </html>

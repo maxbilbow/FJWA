@@ -91,7 +91,7 @@
         <spring:message code="minutes.goal"/> ${goal.minutes}
       </span>
     </div>
-    <script  type="text/javascript" src="jquery-1.8.3.js" ></script>
+    <script  type="text/javascript" src="js/jquery-1.8.3.js" ></script>
     <script type="text/javascript" src="assets/js/bootstrap.js" ></script>
     <script type="text/javascript">
       $(document).ready(

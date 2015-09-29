@@ -61,6 +61,13 @@
         <a class="btn btn-primary" href="boom.html">
           BOOM! »
         </a>
+        <br/>
+        <a class="btn btn-primary" href="getGoalReports.html">
+          getGoalReports »
+        </a>
+        <a class="btn btn-primary" href="getGoals.html">
+          getGoals »
+        </a>
       </div>
       <div>
       </div>
