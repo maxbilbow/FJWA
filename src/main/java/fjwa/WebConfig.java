@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.http.MediaType;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -15,10 +16,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
@@ -61,22 +59,38 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 		registry.addInterceptor(changeInterceptor);
 	}
 
+    /**
+     * Setup a simple strategy: use all the defaults and return XML by default when not sure.
+     */
+    @Override
+    public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
+        super.configureContentNegotiation(configurer);
+        configurer.mediaType("json",MediaType.APPLICATION_JSON);
+        configurer.mediaType("xml",MediaType.APPLICATION_XML);
+    }
+
 	@Bean
 	public InternalResourceViewResolver getInternalResourceViewResolver() {
 		InternalResourceViewResolver resolver = new InternalResourceViewResolver();
 		resolver.setPrefix("/WEB-INF/jsp/");
 		resolver.setSuffix(".jsp");
 
+
 		return resolver;
 	}
 
+
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/assets/**").addResourceLocations("/assets/");
 		registry.addResourceHandler("/pdfs/**").addResourceLocations("/assets/pdf/");
 		registry.addResourceHandler("/css/**").addResourceLocations("/assets/css/");
 		registry.addResourceHandler("/img/**").addResourceLocations("/assets/img/");
         registry.addResourceHandler("/js/**").addResourceLocations("/assets/js/");
         registry.addResourceHandler("/shaders/**").addResourceLocations("/assets/shaders/");
+
+
+
     }
 
     //Data setup

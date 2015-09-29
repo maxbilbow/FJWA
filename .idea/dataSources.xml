@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DataSourceManagerImpl" format="xml" hash="2350990131">
+  <component name="DataSourceManagerImpl" format="xml" hash="475616942">
     <data-source source="LOCAL" name="bomb_tracker@localhost" uuid="3f88ea60-21a7-4737-8848-36ec3d7db2ad">
       <driver-ref>mysql</driver-ref>
       <synchronize>true</synchronize>

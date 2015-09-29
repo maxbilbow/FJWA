@@ -23,6 +23,7 @@ public class WebAppInitializer implements WebApplicationInitializer {
 		dispatcher.addMapping("*.json");
 		dispatcher.addMapping("*.xml");
         dispatcher.addMapping("*.js");
+
 	}
 
 	private AnnotationConfigWebApplicationContext getContext() {
