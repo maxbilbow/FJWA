@@ -1,20 +1,18 @@
 package fjwa.controller;
 
 
-import java.util.List;
-
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
-
+import fjwa.model.Activity;
+import fjwa.model.Exercise;
+import fjwa.model.Goal;
+import fjwa.service.ExerciseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import fjwa.model.Activity;
-import fjwa.model.Exercise;
-import fjwa.model.Goal;
-import fjwa.service.ExerciseService;
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+import java.util.List;
 
 
 
@@ -34,8 +32,8 @@ public class MinutesController {
 	
 	@RequestMapping(value = "/addMinutes",  method = RequestMethod.POST)
 	public String addMinutes(@Valid @ModelAttribute ("exercise") Exercise exercise,
-							 HttpSession session,
-							 BindingResult result) {
+							 BindingResult result,
+							 HttpSession session) {
 		System.err.println(result);
 		System.out.println("exercise: " + exercise.getMinutes());
 		System.out.println("exercise activity: " + exercise.getActivity());
