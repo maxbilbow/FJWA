@@ -9,7 +9,7 @@ import fjwa.model.IEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
-import fjwa.RMXException;
+import click.rmx.debug.RMXException;
 
 public abstract class AbstractEntityService<E extends IEntity> implements EntityService<E> {
 

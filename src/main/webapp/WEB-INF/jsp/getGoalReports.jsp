@@ -27,6 +27,17 @@
 </head>
 <body>
 
+<div class="navbar navbar-fixed-top navbar-inverse">
+	<div class="navbar-inner">
+		<div class="container">
+			<a class="brand" href="/FJWA/">
+				Home
+			</a>
+			<ul class="nav">
+			</ul>
+		</div>
+	</div>
+</div>
 
 <h3>Reports: {{goalReports.length}}</h3>
 	
@@ -49,6 +60,6 @@
 	</div>
 
 
-
+<script src="js/bootstrap.js"></script>
 </body>
 </html>

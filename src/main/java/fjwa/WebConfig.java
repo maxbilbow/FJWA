@@ -141,4 +141,8 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         hibernateProperties.setProperty("hibernate.globally_quoted_identifiers", "true");
         return hibernateProperties;
     }
+
+
+
+
 }

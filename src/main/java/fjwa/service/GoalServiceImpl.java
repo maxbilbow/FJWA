@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import fjwa.RMXException;
+import click.rmx.debug.RMXException;
 import fjwa.model.Goal;
 import fjwa.model.GoalReport;
 import fjwa.repository.GoalRepository;

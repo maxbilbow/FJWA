@@ -1,9 +1,9 @@
 package fjwa.service;
 
-import java.util.List;
-
-import fjwa.RMXException;
+import click.rmx.debug.RMXException;
 import fjwa.model.Bomb;
+
+import java.util.List;
 
 public interface BombService extends EntityService<Bomb> {
 	

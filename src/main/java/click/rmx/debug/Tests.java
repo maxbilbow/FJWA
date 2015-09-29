@@ -1,6 +1,6 @@
 
 
-package click.rmx;
+package click.rmx.debug;
 
 import java.lang.reflect.Method;
 

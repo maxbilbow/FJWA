@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/security 
+		http://www.springframework.org/schema/security/spring-security.xsd">
+
+	<ldap-server ldif="classpath:users.ldif"  />
+
+	<http auto-config="true" use-expressions="true" >
+		<intercept-url pattern="/login.html" access="permitAll"/>
+		<intercept-url pattern="/loginFailed.html" access="permitAll"/>
+		<intercept-url pattern="/logout.html" access="permitAll"/>
+		<intercept-url pattern="/403.html" access="permitAll"/>
+		<intercept-url pattern="/**" access="hasRole('ROLE_USER')" />
+		<form-login login-page="/login.html" authentication-failure-url="/loginFailed.html"/>
+		<logout logout-success-url="/logout.html"/>
+		<access-denied-handler error-page="/403.html"/>
+	</http>
+
+	<authentication-manager>
+		<ldap-authentication-provider 
+			group-search-filter="member={0}"
+			group-search-base="ou=groups"
+			user-search-base="ou=people"
+			user-search-filter="uid={0}" />
+	</authentication-manager>
+
+	<!-- 
+	<authentication-manager>
+		<authentication-provider> 
+			<password-encoder hash="bcrypt" />
+			<jdbc-user-service data-source-ref="dataSource"/>
+		</authentication-provider>		
+	</authentication-manager>
+	 -->
+	
+	<beans:bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<beans:property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<beans:property name="url" value="jdbc:mysql://localhost:3306/fitnessTracker" />	
+		<beans:property name="username" value="root" />
+		<beans:property name="password" value="password" />
+	</beans:bean>
+	
+</beans:beans>

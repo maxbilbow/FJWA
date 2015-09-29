@@ -1,4 +1,4 @@
-package fjwa;
+package click.rmx.debug;
 
 public enum RMXError {
 	/**

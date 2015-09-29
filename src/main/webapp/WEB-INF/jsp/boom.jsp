@@ -40,8 +40,8 @@
     <div class="navbar navbar-fixed-top navbar-inverse">
       <div class="navbar-inner">
         <div class="container">
-          <a class="brand" href="addGoal.html">
-            Get started
+          <a class="brand" href="/FJWA/">
+            Home
           </a>
           <ul class="nav">
           </ul>
