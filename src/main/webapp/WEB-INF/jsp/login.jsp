@@ -16,15 +16,17 @@
 
 <body onload='document.f.j_username.focus();'>
 	<h3>Fitness Tracker Custom Login Page</h3>
-	<c:if test="${not empty error}">
-		<div class="errorblock">
-			Your login was unsuccessful. <br />
-			Caused: ${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message }
-		</div>
-	</c:if>
+
 
 	<c:url var="loginUrl" value="/login.html"/>
 	<form action="${loginUrl}" name="f" method="post">
+		<c:if test="${param.error != null}">
+			<div class="errorblock">
+				Your login was unsuccessful. <br />
+				Caused: ${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message } <br/>
+-- 				Error: ${param.error}
+			</div>
+		</c:if>
 		<table>
 			<tr> 
 				<td>User:</td>
@@ -37,9 +39,9 @@
 			<tr>
 
 				<td colspan="2">
-					<%--<input type="hidden"--%>
-									   <%--name="${_csrf.parameterName}"--%>
-									   <%--value="${_csrf.token}"/>--%>
+					<input type="hidden"
+									   name="${_csrf.parameterName}"
+									   value="${_csrf.token}"/>
 					<input type="submit" name="Submit" value="Submit"></td>
 			</tr>
 			<tr>

@@ -56,20 +56,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                    .and()
                 .exceptionHandling()
                     .accessDeniedPage("/403.html")
-                    .and()
-                .csrf().disable();
+                    .and();
+//                .csrf().disable();
 
 
 
     }
 
-//    <authentication-manager>
-//    <ldap-authentication-provider
-//    group-search-filter="member={0}"
-//    group-search-base="ou=groups"
-//    user-search-base="ou=people"
-//    user-search-filter="uid={0}" />
-//    </authentication-manager>
+
     @Autowired
     private DataSource dataSource;
 
@@ -82,18 +76,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                        .groupSearchFilter("member={0}").groupSearchBase("ou=groups")
 //                .userSearchBase("ou=people").userSearchFilter("uid={0}")
 //                // enable in memory based authentication with a user named
-//                .and()
-//                .jdbcAuthentication()
-//                .dataSource(dataSource)
-//                .withDefaultSchema()
-////                .withUser("user").password("password").roles("USER").and()
-////                .withUser("admin").password("password").roles("USER", "ADMIN")
-//                .and()
+
+                //DB Usage
+//              .jdbcAuthentication()
+//                    .dataSource(dataSource)
+//                    .withDefaultSchema()
+//                    .withUser("user").password("password").roles("USER").and()
+//                    .withUser("admin").password("password").roles("USER", "ADMIN");
+
+                //In Memory usage
                 .inMemoryAuthentication()
                     .withUser("user").password("password").roles("USER").and()
                     .withUser("admin").password("secret").roles("USER", "ADMIN");
 
     }
+
+    @Bean //For use with auth.inMemoryAuthentication()
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+
 
     // Expose the UserDetailsService as a Bean
     @Bean
@@ -102,11 +105,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return super.userDetailsServiceBean();
     }
 
-    @Bean
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
 
 //Data
     @Bean
