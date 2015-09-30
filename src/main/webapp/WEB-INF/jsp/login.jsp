@@ -23,7 +23,8 @@
 		</div>
 	</c:if>
 
-	<form action="j_spring_security_check" name="f" method="post">
+	<c:url var="loginUrl" value="/login.html"/>
+	<form action="${loginUrl}" name="f" method="post">
 		<table>
 			<tr> 
 				<td>User:</td>
@@ -34,7 +35,12 @@
 				<td><input type="password" name="j_password" ></td>
 			</tr>
 			<tr>
-				<td colspan="2"><input type="submit" name="Submit" value="Submit"></td>
+
+				<td colspan="2">
+					<%--<input type="hidden"--%>
+									   <%--name="${_csrf.parameterName}"--%>
+									   <%--value="${_csrf.token}"/>--%>
+					<input type="submit" name="Submit" value="Submit"></td>
 			</tr>
 			<tr>
 				<td colspan="2"><input type="reset" name="reset" > </td>

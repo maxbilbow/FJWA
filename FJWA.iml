@@ -43,6 +43,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/.settings" />
       <excludeFolder url="file://$MODULE_DIR$/META-INF" />
+      <excludeFolder url="file://$MODULE_DIR$/reference" />
       <excludeFolder url="file://$MODULE_DIR$/src/main/webapp/WEB-INF/config" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>

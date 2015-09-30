@@ -24,7 +24,7 @@ public class FitnessPermissionEvaluator implements PermissionEvaluator {
     }
 
     public boolean hasPermission(Authentication auth, Object targetDomainObject, Object permission) {
-
+        System.err.println("FitnessPermissionEvaluator::hasPermission(1)");
         JdbcTemplate template = new JdbcTemplate(datasource);
 
         Object [] args = {((User)auth.getPrincipal()).getUsername(),
@@ -45,6 +45,7 @@ public class FitnessPermissionEvaluator implements PermissionEvaluator {
 
     public boolean hasPermission(Authentication arg0, Serializable id,
                                  String type, Object permission) {
+        System.err.println("FitnessPermissionEvaluator::hasPermission(2)");
         return false;
     }
 

@@ -53,33 +53,33 @@
           </p>
         </div>
         <a class="btn btn-primary" href="addGoal.html">
-          Add Goal »
+          Add Goal
         </a>
         
         <sec:authorize ifAnyGranted="ROLE_ADMIN">
         <a class="btn btn-primary" href="editGoal.html">
-          Edit Goal »
+          Edit Goal
         </a>
         </sec:authorize>
         
         <a class="btn btn-primary" href="addMinutes.html">
-          Add Exercise Minutes »
+          Add Exercise Minutes
         </a>
         
-        <a class="btn btn-warning" href="j_spring_security_logout">
+        <a class="btn btn-warning" href="logout.html">
         	Logout >>
         </a>
 
         <br/>
         <a class="btn btn-primary" href="boom.html">
-          BOOM! »
+          BOOM!
         </a>
 
         <a class="btn btn-primary" href="getGoalReports.html">
-          getGoalReports »
+          getGoalReports
         </a>
         <a class="btn btn-primary" href="getGoals.html">
-          getGoals »
+          getGoals
         </a>
       </div>
       <div>

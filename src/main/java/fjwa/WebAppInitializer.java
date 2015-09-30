@@ -28,7 +28,7 @@ public class WebAppInitializer implements WebApplicationInitializer {
         dispatcher.addMapping("*.js");
 
 		setUpFilterMapping(servletContext);
-//		setUpSecurityMapping(servletContext);
+		setUpSecurityMapping(servletContext);
 
 
 	}
