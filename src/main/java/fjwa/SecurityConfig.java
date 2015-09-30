@@ -8,7 +8,6 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -64,6 +63,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
+//    @Autowired
+//    private JdbcDaoImpl jdbcDaol;
+
     @Autowired
     private DataSource dataSource;
 
@@ -78,24 +80,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                // enable in memory based authentication with a user named
 
                 //DB Usage
-//              .jdbcAuthentication()
-//                    .dataSource(dataSource)
+              .jdbcAuthentication()
+                    .dataSource(dataSource);
+                //Optional Defauly setup
 //                    .withDefaultSchema()
 //                    .withUser("user").password("password").roles("USER").and()
 //                    .withUser("admin").password("password").roles("USER", "ADMIN");
 
                 //In Memory usage
-                .inMemoryAuthentication()
-                    .withUser("user").password("password").roles("USER").and()
-                    .withUser("admin").password("secret").roles("USER", "ADMIN");
+//                .inMemoryAuthentication()
+//                    .withUser("user").password("password").roles("USER").and()
+//                    .withUser("admin").password("secret").roles("USER", "ADMIN");
 
     }
 
-    @Bean //For use with auth.inMemoryAuthentication()
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
+//    @Bean //For use with auth.inMemoryAuthentication()
+//    @Override
+//    public AuthenticationManager authenticationManagerBean() throws Exception {
+//        return super.authenticationManagerBean();
+//    }
 
 
     // Expose the UserDetailsService as a Bean
@@ -129,15 +132,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public DataSource dataSource() {
-        final DriverManagerDataSource dataSource = new DriverManagerDataSource();
+    public DriverManagerDataSource dataSource() {
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://localhost:3306/fjwa?autoReconnect=true&createDatabaseIfNotExist=true");
         dataSource.setUsername("root");
         dataSource.setPassword("password");
-
         return dataSource;
     }
+
 
     @Bean
     public PlatformTransactionManager transactionManager(final EntityManagerFactory emf) {
@@ -150,6 +153,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
         return new PersistenceExceptionTranslationPostProcessor();
     }
+
 
 
 

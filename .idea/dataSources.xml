@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DataSourceManagerImpl" format="xml" hash="475616942">
-    <data-source source="LOCAL" name="bomb_tracker@localhost" uuid="3f88ea60-21a7-4737-8848-36ec3d7db2ad">
+  <component name="DataSourceManagerImpl" format="xml" hash="3395319718">
+    <data-source source="LOCAL" name="FJWA - @localhost" uuid="3a63fc6b-d645-4eec-8d25-ac4b12a95957">
       <driver-ref>mysql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/bomb_tracker</jdbc-url>
+      <jdbc-url>jdbc:mysql://localhost:3306/fjwa</jdbc-url>
       <driver-properties>
         <property name="zeroDateTimeBehavior" value="convertToNull" />
         <property name="tinyInt1isBit" value="false" />

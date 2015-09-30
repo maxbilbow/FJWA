@@ -6,11 +6,17 @@
   <version>0.0.1-SNAPSHOT</version>
 	<properties>
 		<spring.version>4.2.1.RELEASE</spring.version>
-        <spring.security.version>4.0.2.RELEASE</spring.security.version>
-		<hibernate.version>4.3.2.Final</hibernate.version>
-		<junit.version>4.12</junit.version>
-		<springData.version>1.9.0.RELEASE</springData.version>
-		<javax.validation.version>1.1.0.Final</javax.validation.version>
+        <spring-security.version>4.0.2.RELEASE</spring-security.version>
+		<!--<hibernate.version>5.2.1.Final</hibernate.version>-->
+        <hibernate.version>4.3.2.Final</hibernate.version>
+        <hibernate-jpa.version>1.0.0.Final</hibernate-jpa.version>
+        <hibernate-validator.version>${hibernate.version}</hibernate-validator.version>
+		<!--<junit.version>4.12</junit.version>-->
+		<spring-data-jpa.version>1.9.0.RELEASE</spring-data-jpa.version>
+		<!--<javax-validation.version>1.1.0.Final</javax-validation.version>-->
+        <mysql.version>5.1.36</mysql.version>
+        <tomcat.version>8.0.26</tomcat.version>
+        <commons-logging.version>1.2</commons-logging.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<start-class>fjwa.Application</start-class>
 		<java.version>1.8</java.version>
@@ -26,7 +32,7 @@
         <dependency>
             <groupId>org.apache.tomcat</groupId>
             <artifactId>tomcat-catalina</artifactId>
-            <version>8.0.26</version>
+            <version>${tomcat.version}</version>
         </dependency>
 
 
@@ -42,11 +48,7 @@
 			<scope>test</scope>
 		</dependency>
 
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-jdbc</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
+
 
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -89,7 +91,7 @@
         <dependency>
             <groupId>org.hibernate.javax.persistence</groupId>
             <artifactId>hibernate-jpa-2.1-api</artifactId>
-            <version>1.0.0.Final</version>
+            <version>${hibernate-jpa.version}</version>
         </dependency>
 
         <dependency>
@@ -100,13 +102,13 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
-            <version>${hibernate.version}</version>
+            <version>${hibernate-validator.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-jpa</artifactId>
-            <version>${springData.version}</version>
+            <version>${spring-data-jpa.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.springframework</groupId>
@@ -118,34 +120,34 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.36</version>
+			<version>${mysql.version}</version>
 		</dependency>
 
         <!-- SECURITY -->
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-taglibs</artifactId>
-            <version>${spring.security.version}</version>
+            <version>${spring-security.version}</version>
         </dependency>
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-core</artifactId>
-			<version>${spring.security.version}</version>
+			<version>${spring-security.version}</version>
 		</dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>
-            <version>${spring.security.version}</version>
+            <version>${spring-security.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-web</artifactId>
-            <version>${spring.security.version}</version>
+            <version>${spring-security.version}</version>
         </dependency>
         <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
-            <version>1.2</version>
+            <version>${commons-logging.version}</version>
         </dependency>
 
 

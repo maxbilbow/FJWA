@@ -36,7 +36,7 @@ CREATE TABLE `authorities` (
 
 LOCK TABLES `authorities` WRITE;
 /*!40000 ALTER TABLE `authorities` DISABLE KEYS */;
-INSERT INTO `authorities` VALUES ('bryan','ROLE_USER'),('chris','ROLE_ADMIN'),('chris','ROLE_USER'),('mark','ROLE_BAD');
+INSERT INTO `authorities` VALUES ('max','ROLE_USER'),('max','ROLE_ADMIN'),('chris','ROLE_USER'),('mark','ROLE_BAD');
 /*!40000 ALTER TABLE `authorities` ENABLE KEYS */;
 UNLOCK TABLES;
 

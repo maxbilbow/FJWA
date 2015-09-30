@@ -26,6 +26,7 @@ public class WebAppInitializer implements WebApplicationInitializer {
 		dispatcher.addMapping("*.json");
 		dispatcher.addMapping("*.xml");
         dispatcher.addMapping("*.js");
+		dispatcher.addMapping("*.css");
 
 		setUpFilterMapping(servletContext);
 		setUpSecurityMapping(servletContext);

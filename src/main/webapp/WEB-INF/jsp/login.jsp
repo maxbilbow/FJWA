@@ -3,15 +3,23 @@
 <html>
 <head>
 	<title>Fitness Tracker Custom Login Page</title>
-	<style type="text/css">
-		.errorblock {
-			color: #ff0000;
-			background-color: #ffEEEE;
-			border: 3px solid #ff0000;
-			padding: 8px;
-			margin: 16px;
-		}
-	</style>
+
+	<%--<spring:url value="/assets/css/error.css" var="errCss"/>--%>
+	<%--<link href="${errCss}" rel="stylesheet">--%>
+    <style type="text/css">
+        .error {
+            color: #ff0000;
+        }
+
+        .errorblock {
+            color: #000;
+            background-color: #ffEEEE;
+            border: 3px solid #ff0000;
+            padding: 8px;
+            margin: 16px;
+        }
+
+    </style>
 </head>
 
 <body onload='document.f.j_username.focus();'>
@@ -24,7 +32,6 @@
 			<div class="errorblock">
 				Your login was unsuccessful. <br />
 				Caused: ${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message } <br/>
--- 				Error: ${param.error}
 			</div>
 		</c:if>
 		<table>
