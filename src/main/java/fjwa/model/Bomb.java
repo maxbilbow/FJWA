@@ -37,7 +37,7 @@ public class Bomb implements IEntity {
 		return new Bomb();
 	}
 	
-	
+	private boolean diffusable;
 	
 	@Range(min = 0)
 	private int startTimeInSeconds;
@@ -51,6 +51,7 @@ public class Bomb implements IEntity {
 		this.setStartTimeInSeconds(
 				(int) (Math.random() * 20 + 5)
 				);
+		diffusable = true;
 	}
 
 	@Override
@@ -101,9 +102,13 @@ public class Bomb implements IEntity {
 	}
 
 	public void setLive(boolean live) {
-		this.setStartTimeInSeconds(this.timeRemaining());
+		if (this.diffusable) {
+			this.setStartTimeInSeconds(this.timeRemaining());
 //		this.startTime = Instant.now();
-		this.live = live;
+			this.live = live;
+		} else {
+			System.err.println("Bomb cannot be diffused. Run!");
+		}
 	}
 
 	public void setStartTime(Instant startTime) {
@@ -125,5 +130,12 @@ public class Bomb implements IEntity {
 		int timeInSeconds = (int) (this.startTimeInSeconds - dt.getSeconds());
 		return timeInSeconds;
 	}
-	
+
+	public boolean isDiffusable() {
+		return diffusable;
+	}
+
+	public void setDiffusable(boolean diffusable) {
+		this.diffusable = diffusable;
+	}
 }

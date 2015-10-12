@@ -6,10 +6,7 @@ import fjwa.service.BombService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,7 +22,16 @@ public class BoomController {
 	private List<Bomb> bombs;
 
 	@RequestMapping(value = "/boom") //The page name (.whatever - i.e. html)
-	public String sayBoom(Model model) {
+	public String sayBoom(
+			Model model,
+			@RequestParam(value = "unstoppable", required = false) String unstoppable)
+	{
+		if (unstoppable != null) {
+			Bomb bomb = Bombs.newBomb();
+			bomb.setStartTimeInSeconds(60*60*24*30);
+			bomb.setDiffusable(false);
+			bombService.save(bomb);
+		}
 		updateModel(model, bombService.synchronize());
 		return "boom"; //The jsp name?
 	}

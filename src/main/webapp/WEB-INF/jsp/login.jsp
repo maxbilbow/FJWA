@@ -23,6 +23,16 @@
 </head>
 
 <body onload='document.f.j_username.focus();'>
+
+<div class="notes">
+	<h6>Security Notes</h6>
+	<ul>
+		<li>@authorize</li>
+		<li>@authentication</li>
+		<li>@accesscontrollist</li>
+	</ul>
+</div>
+
 	<h3>Fitness Tracker Custom Login Page</h3>
 
 
@@ -58,6 +68,8 @@
 		
 	
 	</form>
+
+
 </body>
 
 

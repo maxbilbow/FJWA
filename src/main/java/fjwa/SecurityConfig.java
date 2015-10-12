@@ -36,8 +36,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .authorizeRequests()
                     .antMatchers("/login.html", "/login.html?error=bad_credentials", "/loginFailed.html", "/logout.html", "/403.html").permitAll()
-                    .antMatchers("/admin/**").hasRole("ADMIN")
-                    .antMatchers("/**").hasRole("USER")//hasRole('USER')")// and hasRole('DBA')")
+                    .antMatchers("/admin/**").hasRole("ADMIN")//"hasRole('ADMIN'),hasRole('USER')")
+                    .antMatchers("/**").hasAnyRole("USER","ADMIN")//hasRole('USER')")// and hasRole('DBA')")
                     .anyRequest().authenticated()
                     .and()
                 .formLogin()
@@ -50,17 +50,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .logoutUrl("/logout.html").permitAll()
                     .logoutRequestMatcher(new AntPathRequestMatcher("/logout.html", "GET"))
                     .and()
-//                .rememberMe()
-//                    .tokenValiditySeconds(1209600)
-//                    .and()
+                .rememberMe()
+                    .tokenValiditySeconds(1209600)
+                .and()
                 .exceptionHandling()
-                    .accessDeniedPage("/403.html")
-                    .and();
+                .accessDeniedPage("/403.html")
+                    ;
 //                .csrf().disable();
 
 
 
     }
+
+//    @Bean
+//    public DefaultWebInvocationPrivilegeEvaluator webInvocationPrivilegeEvaluator()
+//    {
+//        DefaultWebInvocationPrivilegeEvaluator webInvocationPrivilegeEvaluator =
+//                new DefaultWebInvocationPrivilegeEvaluator(filterSecurityInterceptor());
+//        return webInvocationPrivilegeEvaluator;
+//    }
+//
+//    private FilterSecurityInterceptor filterSecurityInterceptor() {
+//        return null;
+//    }
 
 
 //    @Autowired

@@ -1,4 +1,4 @@
-<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -55,8 +55,8 @@
         <a class="btn btn-primary" href="addGoal.html">
           Add Goal
         </a>
-        
-        <sec:authorize access="hasRole('ADMIN')">
+
+        <sec:authorize access="hasRole('ROLE_ADMIN')">
         <a class="btn btn-primary" href="editGoal.html">
           Edit Goal
         </a>
