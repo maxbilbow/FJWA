@@ -20,13 +20,18 @@
 			$http.get('GoalReports.json').
 					success(function(data) {
 						$scope.goalReports = data;
+
+						$("div#loading").html('');
+						$("div#loading").css().setProperty('display','none');
 					});
 		}
 	</script>
 
 </head>
 <body>
-
+<div id="loading">
+loading . . .
+</div>
 <div class="navbar navbar-fixed-top navbar-inverse">
 	<div class="navbar-inner">
 		<div class="container">

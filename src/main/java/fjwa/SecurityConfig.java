@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.transaction.PlatformTransactionManager;
 
@@ -93,7 +94,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 //DB Usage
               .jdbcAuthentication()
-                    .dataSource(dataSource);
+                    .dataSource(dataSource)
+                .passwordEncoder(new BCryptPasswordEncoder());
                 //Optional Defauly setup
 //                    .withDefaultSchema()
 //                    .withUser("user").password("password").roles("USER").and()
@@ -148,10 +150,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
         if (USE_REMOTE_DATABASE) {
-            dataSource.setUrl("jdbc:mysql://devsql.maxbilbow.com/spring_mvc_dev?autoReconnect=true");
-//            dataSource.setUrl("jdbc:mysql://rmxdb.c8kzyhurz6of.us-west-2.rds.amazonaws.com:3306/fjwa?autoReconnect=true");
-            dataSource.setUsername("maxbilbow");
-            dataSource.setPassword("Purple22");
+//            dataSource.setUrl("jdbc:mysql://devsql.maxbilbow.com/spring_mvc_dev?autoReconnect=true");
+
+            dataSource.setUrl("jdbc:mysql://rmxdb-test.c8kzyhurz6of.us-west-2.rds.amazonaws.com:3306/fjwa?autoReconnect=true&createDatabaseIfNotExist=true");
+            dataSource.setUsername("root");
+            dataSource.setPassword("password");
         } else {
             dataSource.setUrl("jdbc:mysql://localhost:3306/fjwa?autoReconnect=true&createDatabaseIfNotExist=true");
             dataSource.setUsername("root");
