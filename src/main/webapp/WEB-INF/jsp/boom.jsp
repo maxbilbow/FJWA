@@ -13,12 +13,15 @@
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Le styles -->
-    <link href="assets/css/bootstrap.css" rel="stylesheet">
+    <link href="${fjwa_root}/assets/css/bootstrap.css" rel="stylesheet">
     <style>
       body { padding-top: 60px; /* 60px to make the container go all the way
       to the bottom of the topbar */ }
+        .red {
+            background-color: red;
+        }
     </style>
-    <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="${fjwa_root}/assets/css/bootstrap-responsive.css" rel="stylesheet">
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js">
@@ -33,14 +36,14 @@
     <style>
     </style>
     
-    <script src="assets/js/gl.js"></script>
+    <script src="${fjwa_root}/assets/js/gl.js"></script>
     
   </head>
   <body  onload="startSession()">
     <div class="navbar navbar-fixed-top navbar-inverse">
       <div class="navbar-inner">
         <div class="container">
-          <a class="brand" href="/FJWA/">
+          <a class="brand" href="${fjwa_root}/">
             Home
           </a>
           <ul class="nav">
@@ -53,11 +56,15 @@
    
           
 <h1>${boom}</h1>
-<div>
+
         
         <a class="btn btn-primary" href="#" onclick="addBomb()">
           Add Bomb
         </a>
+
+    <a class="btn btn-primary red" href="${fjwa_root}/admin/superBomb.html">
+        DO NOT PRESS
+    </a>
         
         <a class="btn btn-primary" href="#"  onclick="defuse()">
           defuse!
@@ -71,28 +78,16 @@
           Remove All
         </a>
        
-        
-        <!--  - <a class="btn btn-primary" href="#" onclick="updateBombs()">
-          Update
-        </a> -->
-       <p id="error_log">${errors}</p>
-       
-       <p id="update_test">${bombs}</p>
-<!-- 
-				<div>
-					<p id="bomb_list">c:forEach:
-							
-					<c:forEach items="${bombs}" var="bomb">
-						<br/>${bomb.description}
-					</c:forEach>				
-						
-					</p>
-					
-				</div>
-				-->
 
-			</div>
-   </div>
+          <h3>Errors:</h3>
+       <div class="rmx-error-log">
+       ${errors}
+       </div>
+       
+       <div>
+           <p id="update_test">${bombs}</p>
+</div>
+
    
       <div style="float: left; display: inline;">
        <canvas id="gl">
@@ -122,7 +117,8 @@
 	    		update: function(data) {
 	    	    	this.bombs = data;
 	    	    },
-	    	    showAll:false
+	    	    showAll:false,
+                root:'${fjwa_root}'
 	    };
 		glrun('triangles',true);
 		loadData();
@@ -132,29 +128,32 @@
 	}
 	
     function loadData() {
-    	$.getJSON('<spring:url value="updateBombs.json"/>', {
+    	$.getJSON('<spring:url value="/updateBombs.json"/>', {
     				ajax : 'true'
     				}, fjwa.update);
     }
     
     function defuse() {
-    	$.getJSON('<spring:url value="defuse.json"/>', {
+    	$.getJSON('<spring:url value="/defuse.json"/>', {
 			ajax : 'true'
 			}, fjwa.update
 			);
+        checkForErrors();
     }
     
     function addBomb() {
-    	$.getJSON('<spring:url value="addBomb.json"/>', {
+    	$.getJSON('<spring:url value="/addBomb.json"/>', {
 			ajax : 'true'
 			}, fjwa.update
 			);
+        checkForErrors();
     }
     
     function removeAll() {
-    	$.getJSON('<spring:url value="removeAll.json"/>', {
+    	$.getJSON('<spring:url value="/removeAll.json"/>', {
 			ajax : 'true'
 			}, fjwa.update);
+        checkForErrors();
     }
     
     function toggleBombs(toggle) {
@@ -163,6 +162,7 @@
 		$(document).ready(function () {
 			$('a#show_expired').html(fjwa.showAll ? "Hide Expired" : "Show Expired");
 		});
+        checkForErrors();
     }
     
     function updateBombs() {
@@ -191,11 +191,20 @@
     		$('p#bomb_list').html(html);
     	});
     }
-    
+    function checkForErrors() {
+        $(document).ready(function () {
+            $.getJSON('<spring:url value="/errorLog.json"/>', {
+                ajax: 'true'
+            }, function (data) {
+                alert(data);
+                $("div.rmx-error-log").html(data);
+            });
+        });
+    }
     function updateBombsFromServer() {
     	$(document).ready(
     			function() {
-    				$.getJSON('<spring:url value="updateBombs.json"/>', {
+    				$.getJSON('<spring:url value="/updateBombs.json"/>', {
     					ajax : 'true'
     				}, function(data){
     					
@@ -226,12 +235,12 @@
     	
    
   
-    <script src="js/jquery.js">
+    <script src="${fjwa_root}/js/jquery.js">
     </script>
      <script src="http://malsup.github.com/jquery.form.js"></script> 
     
     
-    <script src="assets/js/bootstrap.js">
+    <script src="${fjwa_root}/assets/js/bootstrap.js">
     </script>
 </body>
 </html>

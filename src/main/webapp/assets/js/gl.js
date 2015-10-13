@@ -188,7 +188,7 @@ function loadAssets() {
         return new String((req.status === 200) ? req.responseText : '');
     };
 
-    var localDir = rmx.local ? 'assets/shaders/' : 'https://raw.githubusercontent.com/maxbilbow/rmx-js/master/webgl/modelViewProjection/shaders/';
+    var localDir = rmx.local ? fjwa.root + '/assets/shaders/' : 'https://raw.githubusercontent.com/maxbilbow/rmx-js/master/webgl/modelViewProjection/shaders/';
     rmx.V_SHADER = getSourceSynch(localDir + 'Shader.vsh');
 
     rmx.F_SHADER = getSourceSynch(localDir + 'Shader.fsh');

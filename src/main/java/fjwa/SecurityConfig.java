@@ -28,7 +28,7 @@ import java.util.Properties;
 @EnableWebSecurity
 //@EnableAutoConfiguration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    private static final boolean USE_REMOTE_DATABASE = true;
+    private static final boolean USE_REMOTE_DATABASE = false;
 
     @Override //TODO should not be overridden?
     protected void configure(HttpSecurity http) throws Exception {
@@ -43,7 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .and()
                 .formLogin()
                     .loginPage("/login.html").failureUrl("/login.html?error=bad_credentials").permitAll() //("/loginFailed.html").permitAll()
-                    .defaultSuccessUrl("/boom.html", false)
+                    .defaultSuccessUrl("/", false)
                     .usernameParameter("j_username")
                     .passwordParameter("j_password")
                     .and()
@@ -139,7 +139,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     final Properties additionalProperties() {
         final Properties hibernateProperties = new Properties();
-        hibernateProperties.setProperty("hibernate.hbm2ddl.auto", USE_REMOTE_DATABASE ? "update" : "create-drop");
+        hibernateProperties.setProperty("hibernate.hbm2ddl.auto", "update");// USE_REMOTE_DATABASE ? "update" : "create-drop");
         hibernateProperties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
         hibernateProperties.setProperty("hibernate.globally_quoted_identifiers", "true");
         return hibernateProperties;
@@ -152,7 +152,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         if (USE_REMOTE_DATABASE) {
 //            dataSource.setUrl("jdbc:mysql://devsql.maxbilbow.com/spring_mvc_dev?autoReconnect=true");
 
-            dataSource.setUrl("jdbc:mysql://rmxdb-test.c8kzyhurz6of.us-west-2.rds.amazonaws.com:3306/fjwa?autoReconnect=true&createDatabaseIfNotExist=true");
+            dataSource.setUrl("jdbc:mysql://rmxdb-test.c8kzyhurz6of.us-west-2.rds.amazonaws.com:3306/fjwa");//?autoReconnect=true&createDatabaseIfNotExist=true");
             dataSource.setUsername("root");
             dataSource.setPassword("password");
         } else {

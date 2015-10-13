@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Range;
 
@@ -21,12 +22,11 @@ import org.hibernate.validator.constraints.Range;
 })
 public class Bomb implements IEntity {
 	public static final String 
-	FIND_ALL_BOMBS = "findAllBombs", 
-	CLASS = "fjwa.model.Bomb";
+	FIND_ALL_BOMBS = "findAllBombs";
 	@Id
 	@GeneratedValue
 	private Long id;
-	
+
 	private Instant startTime;
 
 	private String description;
@@ -49,9 +49,9 @@ public class Bomb implements IEntity {
 
 	public Bomb() {
 		this.setStartTimeInSeconds(
-				(int) (Math.random() * 20 + 5)
+				(int) (Math.random() * 60 + 5)
 				);
-		diffusable = true;
+		this.setDiffusable(true);
 	}
 
 	@Override
@@ -102,7 +102,7 @@ public class Bomb implements IEntity {
 	}
 
 	public void setLive(boolean live) {
-		if (this.diffusable) {
+		if (this.isDiffusable() || live) {
 			this.setStartTimeInSeconds(this.timeRemaining());
 //		this.startTime = Instant.now();
 			this.live = live;

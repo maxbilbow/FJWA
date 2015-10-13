@@ -13,16 +13,41 @@
       <foreign-key name="fk_authorities_users" columns="username" ref-table="users" ref-schema="" ref-catalog="fjwa" ref-columns="username" update-rule="3" delete-rule="3" deferrability="2"/>
       <index name="ix_auth_username" unique="true" columns="username,authority"/>
     </table>
+    <table name="bomb_table" schema="" catalog="fjwa" type="TABLE">
+      <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
+      <column name="description" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="diffusable" sqlType="BIT" precision="1" scale="0" nullable="false" jdbcType="-7"/>
+      <column name="live" sqlType="BIT" precision="1" scale="0" nullable="false" jdbcType="-7"/>
+      <column name="outOfTime" sqlType="BIT" precision="1" scale="0" nullable="false" jdbcType="-7"/>
+      <column name="startTime" sqlType="TINYBLOB" precision="255" scale="0" nullable="true" jdbcType="-2"/>
+      <column name="startTimeInSeconds" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+    </table>
+    <table name="exercise" schema="" catalog="fjwa" type="TABLE">
+      <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
+      <column name="activity" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="MINUTES" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="goal_GOAL_ID" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="FK_nhoy5bn476l26ronf7okohtnn" columns="goal_GOAL_ID" ref-table="goals" ref-schema="" ref-catalog="fjwa" ref-columns="GOAL_ID" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="FK_nhoy5bn476l26ronf7okohtnn" unique="false" columns="goal_GOAL_ID"/>
+    </table>
+    <table name="goals" schema="" catalog="fjwa" type="TABLE">
+      <column name="GOAL_ID" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
+      <column name="MINUTES" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="GOAL_ID"/>
+      <exported-key name="FK_nhoy5bn476l26ronf7okohtnn" table="exercise" schema="" catalog="fjwa" columns="goal_GOAL_ID"/>
+    </table>
     <table name="users" schema="" catalog="fjwa" type="TABLE">
       <column name="username" sqlType="VARCHAR" precision="50" scale="0" nullable="false" jdbcType="12"/>
-      <column name="password" sqlType="VARCHAR" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="password" sqlType="VARCHAR" precision="60" scale="0" nullable="true" jdbcType="12"/>
       <column name="enabled" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
       <primary-key name="PRIMARY" columns="username"/>
       <exported-key name="fk_authorities_users" table="authorities" schema="" catalog="fjwa" columns="username"/>
     </table>
   </data-source>
   <data-source name="devsql.maxbilbow.com - @dreamhost" uuid="617e89a4-e339-43e3-a4df-4f912f53f7ca">
-    <database-info product="MySQL" version="5.1.56-log" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.35 ( Revision: 5fb9c5849535c13917c2cf9baaece6ef9693ef27 )">
+    <database-info product="MySQL" version="5.6.25-log" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.35 ( Revision: 5fb9c5849535c13917c2cf9baaece6ef9693ef27 )">
       <extra-name-characters>#@</extra-name-characters>
       <identifier-quote-string>`</identifier-quote-string>
     </database-info>
@@ -48,6 +73,7 @@
       <column name="outOfTime" sqlType="BIT" precision="1" scale="0" nullable="false" jdbcType="-7"/>
       <column name="startTime" sqlType="TINYBLOB" precision="255" scale="0" nullable="true" jdbcType="-2"/>
       <column name="startTimeInSeconds" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="diffusable" sqlType="BIT" precision="1" scale="0" nullable="false" jdbcType="-7"/>
       <primary-key name="PRIMARY" columns="id"/>
     </table>
     <table name="goals" schema="" catalog="spring_mvc_dev" type="TABLE">

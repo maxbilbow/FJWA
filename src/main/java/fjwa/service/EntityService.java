@@ -1,19 +1,29 @@
 package fjwa.service;
 
-import java.util.Collection;
 import java.util.List;
+import java.util.function.Predicate;
 
 
 public interface EntityService<E> {
-	List<E> findAllEntities();
+//	@Deprecated
+//	List<E> findAllEntities();
+
+	List<E> getEntities();
+
+	List<E> getEntities(int secondsBetweenDBCheck);
+
+//	List<E> pullData();
 
 	E save(E entity);
 
-	boolean remove(E entity);
+	boolean removeOne(E entity);
 	
 	String getErrors();
-	
-	List<E> synchronize();
+
+
+//	void pushData();
 	
 	List<E> removeAll();
+
+	List<E> removeIf(Predicate<E> predicate);
 }

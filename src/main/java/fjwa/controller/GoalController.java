@@ -57,7 +57,7 @@ public class GoalController {
 	
 	@RequestMapping(value = "getGoals", method = RequestMethod.GET)
 	public String getGoals(Model model) {
-		Collection<Goal> goals = goalService.findAllEntities();
+		Collection<Goal> goals = goalService.getEntities(0);
 		model.addAttribute("goals", goals);
 		return "getGoals";
 	}

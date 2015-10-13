@@ -1,5 +1,7 @@
 package fjwa.controller;
 
+import click.rmx.debug.RMXError;
+import click.rmx.debug.RMXException;
 import fjwa.model.Bomb;
 import fjwa.model.Bombs;
 import fjwa.service.BombService;
@@ -19,68 +21,80 @@ public class BoomController {
 	@Autowired
 	private BombService bombService;
 
-	private List<Bomb> bombs;
-
-	@RequestMapping(value = "/boom") //The page name (.whatever - i.e. html)
+	@RequestMapping(value = "/boom.html", method = RequestMethod.GET) //The page name (.whatever - i.e. html)
 	public String sayBoom(
 			Model model,
 			@RequestParam(value = "unstoppable", required = false) String unstoppable)
 	{
-		if (unstoppable != null) {
+		if (unstoppable != null && (unstoppable.isEmpty() || Boolean.parseBoolean(unstoppable)) ) {
 			Bomb bomb = Bombs.newBomb();
 			bomb.setStartTimeInSeconds(60*60*24*30);
 			bomb.setDiffusable(false);
 			bombService.save(bomb);
 		}
-		updateModel(model, bombService.synchronize());
+		model.addAttribute("fjwa_root","/FJWA");
+		updateModel(model, bombService.getEntities());
 		return "boom"; //The jsp name?
 	}
 
+	@RequestMapping("/admin/superBomb.html")
+	public String addSuperBomb(Model model)
+	{
+		return sayBoom(model, "true");
+	}
+
 	private void updateModel(Model model, List<Bomb> bombs) {
-		this.bombs = bombs;
 		if (bombs == null || bombs.isEmpty())
 			model.addAttribute("boom", "No bombs... safe!");
 		else {
 			model.addAttribute("boom", "Time is ticking...");
 		}
 		model.addAttribute("bombs", bombs);
-		model.addAttribute("fjwa.bombs", (List<Bomb>) bombs);
+		model.addAttribute("fjwa.bombs", bombs);
 		model.addAttribute("errors", bombService.getErrors());
 	}
+
 	@RequestMapping(value = "addBomb", method = RequestMethod.GET)
 	public @ResponseBody List<Bomb> addBomb(Model model) {//, BindingResult result){
 		Bomb bomb = Bombs.newBomb();
 		bombService.save(bomb);
-		return  this.bombs = bombService.synchronize();//"redirect:boom.html";
+		return bombService.getEntities();//"redirect:boom.html";
 	}
 
 
 
-	@RequestMapping(value = "removeAll", method = RequestMethod.GET)
-	public @ResponseBody List<Bomb> removeAll(Model model){
-		updateModel(model, bombService.removeAll());
-		return this.bombs;
-	}
-
-
-
-
-
-	/**
-	 * @warning Should be called in client-side js
-	 * @param model
-	 * @return
-	 */
-	@RequestMapping(value = "updateBombs", method = RequestMethod.GET) //bombs?
-	public @ResponseBody List<Bomb> updateBombs(Model model) {
-//		updateModel(model, bombService.synchronize());
+	@RequestMapping(value = "/removeAll.json", method = RequestMethod.GET)
+	public @ResponseBody List<Bomb> removeAll(){
+		List<Bomb> bombs = bombService.removeIf(bomb -> {
+			if (bomb.isDiffusable())
+				return true;
+			else
+				bombService.addError(
+						RMXException.newInstance(
+								bomb.getName() + " simply cannot be stopped!",
+								RMXError.JustForFun
+						)
+				);
+			return false;
+		});
 		return bombs;
 	}
 
+	/**
+	 * @warning Should be called in client-side js
+	 * @return
+	 */
+	@RequestMapping(value = "updateBombs", method = RequestMethod.GET) //bombs?
+	public @ResponseBody List<Bomb> updateBombs()
+			 {
+//		updateModel(model, bombService.pushData());
+		return bombService.getEntities(10);
+	}
+
 	@RequestMapping(value = "defuse", method = RequestMethod.GET) //bombs?
-	public @ResponseBody List<Bomb> defuse(Model model) {
-		updateModel(model, bombService.defuse());
-		return this.bombs;
+	public @ResponseBody List<Bomb> defuse() {
+		bombService.defuse();
+		return bombService.getEntities();
 	}
 
 

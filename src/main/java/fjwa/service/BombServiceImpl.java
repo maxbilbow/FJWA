@@ -1,7 +1,6 @@
 package fjwa.service;
 
 
-import click.rmx.debug.RMXException;
 import fjwa.model.Bomb;
 import fjwa.repository.BombRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,26 +24,17 @@ public class BombServiceImpl extends AbstractEntityService<Bomb> implements Bomb
 
 	@Override
 	@Transactional
-	public List<Bomb> defuse() {
-		for (Bomb bomb : getEntities())
-			bomb.setLive(false);
-		return this.synchronize();
+	public void defuse() {
+		 runOnAfterThread(() -> {
+			List<Bomb> entities = getEntities();
+			for (Bomb bomb : entities) {
+				bomb.setLive(false);
+				repository().save(bomb);
+			}
+		}, null, PUSH_THREAD);
 	}
 
-	@Override
-	public List<Bomb> removeAll() {
-		for (Bomb bomb : getEntities()) {
-			if (bomb.isDiffusable())
-				try {
-					this.repository().delete(bomb);
-				} catch (Exception e) {
-					this.addError(RMXException.unexpected(e));
-				}
-			else
-				System.err.println(bomb.getName() + " simply cannot be stopped!");
-		}
-		return this.findAllEntities();
-	}
+
 
 
 	//	@Override
@@ -52,7 +42,7 @@ public class BombServiceImpl extends AbstractEntityService<Bomb> implements Bomb
 //	public void cleanUp() {
 //		for (Bomb bomb : getEntities())
 //			if (bomb != null && (bomb.hasTimeRunOut() || !bomb.isLive()))
-//				this.remove(bomb);
+//				this.removeOne(bomb);
 //	}
 
 

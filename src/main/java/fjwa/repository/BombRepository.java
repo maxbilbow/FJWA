@@ -1,7 +1,6 @@
 package fjwa.repository;
 
 
-import fjwa.model.Exercise;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
