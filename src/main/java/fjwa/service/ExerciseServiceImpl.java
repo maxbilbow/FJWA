@@ -1,16 +1,15 @@
 package fjwa.service;
 
 
-import java.util.ArrayList;
-import java.util.List;
-
+import fjwa.model.Activity;
+import fjwa.model.Exercise;
 import fjwa.repository.ExerciseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
-import fjwa.model.Activity;
-import fjwa.model.Exercise;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Service("exerciseService")
@@ -43,4 +42,15 @@ public class ExerciseServiceImpl extends AbstractEntityService<Exercise> impleme
 		
 		return activities;
 	}
+
+	/**
+	 * @Warning always returns null
+	 * @return null
+	 */
+	@Override
+	@Deprecated
+	public Exercise addNew() {
+		return null;
+	}
+
 }

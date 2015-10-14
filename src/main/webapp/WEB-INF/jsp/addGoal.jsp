@@ -33,7 +33,7 @@
     <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
 
   </head>
-  <body>
+  <body onload="checkForErrors()">
     <div class="navbar navbar-fixed-top navbar-inverse">
       <div class="navbar-inner">
         <div class="container">
@@ -74,7 +74,11 @@
 
     </div>
 
-     <script src="js/jquery-1.8.3.js" />
+    <div class="rmx-error-log">
+    </div>
+
+    <script src="js/jquery.js" />
     <script src="assets/js/bootstrap.js" />
+    <script src="js/debug.js"></script>
   </body>
 </html>

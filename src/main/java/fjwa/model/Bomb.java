@@ -8,8 +8,10 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
+import click.rmx.debug.OnlineBugger;
+import click.rmx.debug.RMXError;
+import click.rmx.debug.RMXException;
 import org.hibernate.validator.constraints.Range;
 
 @Entity
@@ -107,7 +109,13 @@ public class Bomb implements IEntity {
 //		this.startTime = Instant.now();
 			this.live = live;
 		} else {
-			System.err.println("Bomb cannot be diffused. Run!");
+			OnlineBugger
+					.getInstance()
+					.addException(RMXException
+									.newInstance("Bomb cannot be diffused. Run!", RMXError.JustForFun)
+					);
+
+			System.out.println("Bomb cannot be diffused. Run!");
 		}
 	}
 
@@ -137,5 +145,10 @@ public class Bomb implements IEntity {
 
 	public void setDiffusable(boolean diffusable) {
 		this.diffusable = diffusable;
+	}
+
+	@Override
+	public String toString() {
+		return this.getDescription();
 	}
 }

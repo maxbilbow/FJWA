@@ -9,7 +9,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Goals Report</title>
 </head>
-<body>
+<body onload="checkForErrors()">
 
 
 <table>
@@ -45,8 +45,11 @@
 
 
 </table>
+<div class="rmx-error-log">
+</div>
 
-
+<script src="js/debug.js"></script>
+<script src="js/jquery.js"></script>
 
 </body>
 </html>

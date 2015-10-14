@@ -20,8 +20,12 @@
         .red {
             background-color: red;
         }
+        #bomb_list {
+            display: block;
+        }
     </style>
     <link href="${fjwa_root}/assets/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="${fjwa_root}/assets/css/error.css" rel="stylesheet">
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js">
@@ -79,14 +83,14 @@
         </a>
        
 
-          <h3>Errors:</h3>
+         
        <div class="rmx-error-log">
        ${errors}
        </div>
        
-       <div>
-           <p id="update_test">${bombs}</p>
-</div>
+       <div id="bomb_list">
+           ${bombs}
+      </div>
 
    
       <div style="float: left; display: inline;">
@@ -138,37 +142,34 @@
 			ajax : 'true'
 			}, fjwa.update
 			);
-        checkForErrors();
+
     }
-    
+
     function addBomb() {
     	$.getJSON('<spring:url value="/addBomb.json"/>', {
 			ajax : 'true'
 			}, fjwa.update
 			);
-        checkForErrors();
     }
-    
+
     function removeAll() {
-    	$.getJSON('<spring:url value="/removeAll.json"/>', {
+    	$.getJSON('${fjwa_root}/removeAll.json', {
 			ajax : 'true'
 			}, fjwa.update);
-        checkForErrors();
     }
-    
+
     function toggleBombs(toggle) {
     	if (toggle)
     		fjwa.showAll = !fjwa.showAll;
 		$(document).ready(function () {
 			$('a#show_expired').html(fjwa.showAll ? "Hide Expired" : "Show Expired");
 		});
-        checkForErrors();
     }
     
     function updateBombs() {
     	//updateClientSide();
-    	
-    	
+
+        checkForErrors();
     	updateBombsFromServer();
     	
     	window.requestAnimationFrame(updateBombs);
@@ -191,16 +192,7 @@
     		$('p#bomb_list').html(html);
     	});
     }
-    function checkForErrors() {
-        $(document).ready(function () {
-            $.getJSON('<spring:url value="/errorLog.json"/>', {
-                ajax: 'true'
-            }, function (data) {
-                alert(data);
-                $("div.rmx-error-log").html(data);
-            });
-        });
-    }
+   
     function updateBombsFromServer() {
     	$(document).ready(
     			function() {
@@ -208,7 +200,7 @@
     					ajax : 'true'
     				}, function(data){
     					
-    					var html = 'SERVER SIDE:';
+    					var html = '';
     					if (data != null) {
     						fjwa.bombs = data;
     						var len = data.length;
@@ -221,7 +213,7 @@
     					}
     					
     					
-    					$('p#update_test').html(html);
+    					$('div#bomb_list').html(html);
     				});
     				
     			});
@@ -242,5 +234,6 @@
     
     <script src="${fjwa_root}/assets/js/bootstrap.js">
     </script>
+        <script src="${fjwa_root}/js/debug.js"></script>
 </body>
 </html>

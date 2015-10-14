@@ -14,7 +14,7 @@ canvas#gl {
 <script src="assets/js/gl.js"></script>
 
 </head>
-<body  onload="glrun('triangles',true)">
+<body  onload="checkForErrors(); glrun('triangles',true)">
 <h1>${greeting}</h1>
 
  <canvas id="gl">
@@ -29,7 +29,11 @@ canvas#gl {
 <button type="button" onclick="showLog()">See Log</button>
 </form>
 
+<div class="rmx-error-log">
+</div>
 
 
+<script src="js/debug.js"></script>
+<script src="js/jquery.js"></script>
 </body>
 </html>

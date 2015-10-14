@@ -91,7 +91,10 @@
         <spring:message code="minutes.goal"/> ${goal.minutes}
       </span>
     </div>
-    <script  type="text/javascript" src="js/jquery-1.8.3.js" ></script>
+    <div class="rmx-error-log">
+    </div>
+
+    <script  type="text/javascript" src="js/jquery.js" ></script>
     <script type="text/javascript" src="assets/js/bootstrap.js" ></script>
     <script type="text/javascript">
       $(document).ready(
@@ -113,7 +116,10 @@
               });
 
     </script>
+
+    <script src="js/debug.js"></script>
   </body>
+
 </html>
 
 

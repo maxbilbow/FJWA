@@ -28,7 +28,7 @@ import java.util.Properties;
 @EnableWebSecurity
 //@EnableAutoConfiguration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    private static final boolean USE_REMOTE_DATABASE = false;
+    private static final boolean USE_REMOTE_DATABASE = true;
 
     @Override //TODO should not be overridden?
     protected void configure(HttpSecurity http) throws Exception {
@@ -145,21 +145,30 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return hibernateProperties;
     }
 
+    enum DB {
+        LOCAL("jdbc:mysql://localhost:3306/fjwa",
+                "root", "password"),
+        MAX_BILBOW("jdbc:mysql://devsql.maxbilbow.com/spring_mvc_dev",
+                "maxbilbow", "Purple22"),
+        AMAZON("jdbc:mysql://rmxdb-test.c8kzyhurz6of.us-west-2.rds.amazonaws.com:3306/fjwa",
+                "root", "password");
+
+        public final String url, username, password;
+
+        DB(String url, String username, String password) {
+            this.url = url;
+            this.username = username;
+            this.password = password;
+        }
+    }
+    private final DB db = DB.LOCAL;
     @Bean
     public DriverManagerDataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        if (USE_REMOTE_DATABASE) {
-//            dataSource.setUrl("jdbc:mysql://devsql.maxbilbow.com/spring_mvc_dev?autoReconnect=true");
-
-            dataSource.setUrl("jdbc:mysql://rmxdb-test.c8kzyhurz6of.us-west-2.rds.amazonaws.com:3306/fjwa");//?autoReconnect=true&createDatabaseIfNotExist=true");
-            dataSource.setUsername("root");
-            dataSource.setPassword("password");
-        } else {
-            dataSource.setUrl("jdbc:mysql://localhost:3306/fjwa?autoReconnect=true&createDatabaseIfNotExist=true");
-            dataSource.setUsername("root");
-            dataSource.setPassword("password");
-        }
+        dataSource.setUrl(db.url + "?autoReconnect=true&createDatabaseIfNotExist=true");
+        dataSource.setUsername(db.username);
+        dataSource.setPassword(db.password);
         return dataSource;
     }
 

@@ -2,180 +2,146 @@ package fjwa.service;
 
 import click.rmx.debug.OnlineBugger;
 import click.rmx.debug.RMXException;
+import click.rmx.threads.RMXThreadMap;
 import fjwa.model.IEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Duration;
 import java.time.Instant;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Predicate;
 
 public abstract class AbstractEntityService<E extends IEntity> implements EntityService<E> {
-	private static final int STD_DB_UPDATE_TIME = 5;
-	private List<E> entities = new ArrayList<>();
-	private HashMap<Integer, Thread> threads = new HashMap<>();
+    private static final int STD_DB_UPDATE_TIME = 5;
+    private List<E> entities = new ArrayList<>();
+    protected RMXThreadMap<Integer> threads =
+            new RMXThreadMap<>(
+                    null,
+                    (t,s) -> OnlineBugger.getInstance().addLog(t.getName() + " completed: " + s));
 
-	protected final int PUSH_THREAD = 0, PULL_THREAD = 1, NEW_THREAD = -1;
+    protected final int NEW_THREAD = -1, PUSH_THREAD = 2, PULL_THREAD = 1, PULL_DATA = 2;
 
-	protected abstract JpaRepository<E, Long> repository();
+    protected abstract JpaRepository<E, Long> repository();
 
-//	@Override
-	@Transactional
-	protected List<E> pullData() {
-		runOnAfterThread(() -> {
-			List<E> newList = repository().findAll();
-			if (newList != null)
-				this.entities = newList;
-			this.lastUpdate = Instant.now();
-		}, PULL_THREAD);
-		return this.getEntities();
-	}
+    @Override
+    @Transactional
+    public Thread pullData() {
 
-	@Override
-	public String getErrors() {
-		return OnlineBugger.getInstance().getErrorHtml();
-	}
+        Thread thread = threads.getOrDefault(PULL_DATA, new Thread());
+        if (!thread.isAlive() || thread.getName() != "pullData")
+           thread = threads.runOnAfterThread(() -> {
+                        List<E> newList = repository().findAll();
+                        if (newList != null)
+                            this.entities = newList;
+                        this.lastUpdate = Instant.now();
+                    },
+                    e -> OnlineBugger.getInstance().addException(e), PULL_DATA);
+        thread.setName("pullData");
+        return thread;
+//
+//
+//            threads.put(PULL_DATA, threads.runOnNewThread(() -> {
+//                        List<E> newList = repository().findAll();
+//                        if (newList != null)
+//                            this.entities = newList;
+//                        this.lastUpdate = Instant.now();
+//                    })
+//            );
+    }
+
+
 //	ThreadGroup threadGroup = new ThreadGroup(this.getClass().getSimpleName());
 
 
+    @Override
+    @Transactional
+    public E save(E entity) {
+        this.entities.add(entity);
+        threads.runOnAfterThread(
+                () -> repository().save(entity),
+                e -> entities.remove(entity),
+                PUSH_THREAD).setName("save: " + entity);
+        return entity;
+    }
 
-	@Override
-	@Transactional
-	public E save(E entity) {
-		this.entities.add(entity);
-		runOnAfterThread(
-				() -> repository().save(entity),
-				e -> entities.remove(entity),
-				PUSH_THREAD);
-		return entity;
-	}
+
+    @Override
+    @Transactional
+    public boolean removeOne(E entity) {
+        if (entities.contains(entity)) {
+            entities.remove(entity);
+            threads.runOnAfterThread(
+                    () -> repository().delete(entity),
+                    e -> addError(RMXException.unexpected(e, "Failed to remove entity from list and table")),
+                    PUSH_THREAD
+            ).setName("removeOne: " + entity);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    @Transactional
+    public List<E> removeIf(Predicate<E> predicate) {
+        List<E> toRemove = new ArrayList<>();
+        for (E entity : getEntities()) {
+            if (predicate.test(entity))
+                toRemove.add(entity);
+        }
+        threads.runOnAfterThread(
+                () -> toRemove.forEach(ent -> {
+                    try {
+                        repository().delete(ent);
+                    } catch (Exception e) {
+                        addError(RMXException.unexpected(e));
+                    }
+                }),
+                e -> addError(RMXException.unexpected(e)), PUSH_THREAD)
+        .setName("removeIf");
+        return getEntities(0);
+    }
 
 
-	protected Thread runMethodOnThread(Runnable runnable) {
-		return runMethodOnThread(runnable, null);
-	}
+    //	@Override
+    @Transactional
+    @Deprecated
+    private void pushData() {
+        try {
+            for (E entity : getEntities()) {
+                try {
+                    repository().save(entity);//.pushData(entity);
+                } catch (Exception e) {
+                    addError(RMXException.unexpected(e, "Could not sync " + entity));
+                }
+            }
+        } catch (Exception e) {
+            this.addError(RMXException.unexpected(e));
+        }
+    }
 
-	protected Thread runOnAfterThread(Runnable runnable, int threadId)
-	{
-		return runOnAfterThread(runnable, null, threadId);
-	}
+    /**
+     * @return the entities
+     */
+    public List<E> getEntities() {
+        return entities;
+    }
 
-	protected Thread runOnAfterThread(Runnable runnable, Exceptional failAction, int threadId)
-	{
-		Thread thread = threads.getOrDefault(threadId,new Thread());
-		if (thread != null && thread.isAlive())
-			try {
-				thread.join();
-			} catch (InterruptedException e) {
-				if (failAction != null)
-					failAction.run(e);
-				else
-					this.addError(RMXException.unexpected(e));
-			}
-		return threads.put(threadId, runMethodOnThread(runnable,failAction));
-	}
+    private Instant lastUpdate = Instant.now();
 
-	interface Exceptional {
-		void run(Exception e);
-	}
-	protected Thread runMethodOnThread(Runnable runnable, Exceptional failAction)
-	{
-		Thread newThread =  new Thread(() -> {
-			try {
-				runnable.run();
-			} catch (Exception e) {
-				if (failAction != null)
-					failAction.run(e);
-				else
-					this.addError(RMXException.unexpected(e));
-			}
-		});
-		newThread.run();
-		return newThread;
-	}
+    @Override
+    public Instant getLastUpdate() {
+        return lastUpdate;
+    }
 
-	@Override
-	@Transactional
-	public boolean removeOne(E entity) {
-		if (entities.contains(entity)) {
-			entities.remove(entity);
-			runOnAfterThread(
-					() -> repository().delete(entity),
-					e -> addError(RMXException.unexpected(e, "Failed to remove entity from list and table")),
-					PUSH_THREAD
-			);
-			return true;
-		}
-		return false;
-	}
 
-	@Override
-	@Transactional
-	public List<E> removeAll() {
-		return removeIf(e -> true);
-	}
-
-	@Override
-	@Transactional
-	public List<E> removeIf(Predicate<E> predicate)
-	{
-		List<E> toRemove = new ArrayList<>();
-		for (E entity : getEntities()) {
-			if (predicate.test(entity))
-				toRemove.add(entity);
-		}
-		runOnAfterThread(() -> toRemove.forEach(ent -> {
-				try {
-					repository().delete(ent);
-				} catch (Exception e) {
-					addError(RMXException.unexpected(e));
-				}
-			}), PUSH_THREAD);
-		return getEntities(0);
-	}
-
-	public RMXException addError(RMXException e) {
-		if (e == null)
-			return e;
-//		if (e.isSerious())
-			OnlineBugger.getInstance().addHtml(e.html());
-//		else
-//			this.errorLog += "<br/>" + e.html();
-		return e;
-	}
-
-//	@Override
-	@Transactional
-	@Deprecated
-	private void pushData() {
-		try {
-			for (E entity : getEntities()) {
-				try {
-					repository().save(entity);//.pushData(entity);
-				} catch (Exception e) {
-					addError(RMXException.unexpected(e,"Could not sync " + entity));
-				}
-			}
-		} catch (Exception e) {
-			this.addError(RMXException.unexpected(e));
-		}
-	}
-
-	/**
-	 * @return the entities
-	 */
-	public List<E> getEntities() {
-		return entities != null ? entities : pullData();
-	}
-
-	private Instant lastUpdate = Instant.now();
-
-	@Override
-	@Transactional
-	public List<E> getEntities(int secondsBetweenDBCheck) {
-		if (Duration.between(lastUpdate, Instant.now()).getSeconds() > secondsBetweenDBCheck)
-			this.pullData();
-		return this.getEntities();
-	}
+    @Override
+    @Transactional
+    public void addNew(E entity) {
+        this.getEntities().add(entity);
+        threads.runOnAfterThread(
+                () -> repository().save(entity),
+                e -> OnlineBugger.getInstance().addException("Failed to add " + entity),
+                PUSH_THREAD).setName("addNew: " + entity);
+    }
 }

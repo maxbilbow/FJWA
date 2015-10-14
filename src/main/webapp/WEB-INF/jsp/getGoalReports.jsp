@@ -22,13 +22,15 @@
 						$scope.goalReports = data;
 
 						$("div#loading").html('');
-						$("div#loading").css().setProperty('display','none');
+//						$("div#loading").css().setProperty('display','none');
 					});
 		}
 	</script>
-
+	<script src="js/jquery.js"></script>
+	<script src="js/bootstrap.js"></script>
+	<script src="js/debug.js"></script>
 </head>
-<body>
+<body onload="checkForErrors()">
 <div id="loading">
 loading . . .
 </div>
@@ -64,7 +66,9 @@ loading . . .
 		</div>
 	</div>
 
+<div class="rmx-error-log">
+</div>
 
-<script src="js/bootstrap.js"></script>
+
 </body>
 </html>

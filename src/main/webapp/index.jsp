@@ -29,7 +29,7 @@
     <style>
     </style>
   </head>
-  <body>
+  <body onload="checkForErrors()">
     <div class="navbar navbar-fixed-top navbar-inverse">
       <div class="navbar-inner">
         <div class="container">
@@ -85,9 +85,12 @@
       <div>
       </div>
     </div>
-    
-    <script src="js/jquery-1.8.3.js">
+    <div class="rmx-error-log">
+    </div>
+
+    <script src="js/jquery.js">
     </script>
+    <script src="js/debug.js"></script>
     
     <script src="assets/js/bootstrap.js">
     </script>

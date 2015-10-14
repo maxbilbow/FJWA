@@ -25,7 +25,7 @@ public class BombServiceImpl extends AbstractEntityService<Bomb> implements Bomb
 	@Override
 	@Transactional
 	public void defuse() {
-		 runOnAfterThread(() -> {
+		threads.runOnAfterThread(() -> {
 			List<Bomb> entities = getEntities();
 			for (Bomb bomb : entities) {
 				bomb.setLive(false);
@@ -33,6 +33,9 @@ public class BombServiceImpl extends AbstractEntityService<Bomb> implements Bomb
 			}
 		}, null, PUSH_THREAD);
 	}
+
+
+
 
 
 

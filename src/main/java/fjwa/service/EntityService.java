@@ -1,5 +1,12 @@
 package fjwa.service;
 
+import click.rmx.debug.OnlineBugger;
+import click.rmx.debug.RMXException;
+
+import javax.transaction.Transactional;
+import javax.validation.constraints.Null;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -10,20 +17,52 @@ public interface EntityService<E> {
 
 	List<E> getEntities();
 
-	List<E> getEntities(int secondsBetweenDBCheck);
-
-//	List<E> pullData();
+	@Transactional
+	default List<E> getEntities(int secondsBetweenDBCheck) {
+		if (Duration.between(getLastUpdate(), Instant.now()).getSeconds() > secondsBetweenDBCheck)
+			this.pullData();
+		return this.getEntities();
+	}
 
 	E save(E entity);
 
 	boolean removeOne(E entity);
-	
-	String getErrors();
 
+	default String getErrors() {
+		return OnlineBugger.getInstance().getErrorHtml();
+	}
+
+	default RMXException addError(RMXException e) {
+		if (e != null)
+			OnlineBugger.getInstance().addException(e);
+		return e;
+	}
+
+	Instant getLastUpdate();
+
+
+
+
+	Thread pullData();
 
 //	void pushData();
-	
-	List<E> removeAll();
+
+	@Transactional
+	default List<E> removeAll() {
+		return removeIf(e -> true);
+	}
 
 	List<E> removeIf(Predicate<E> predicate);
+
+	/**
+	 * @Warning Will always returns null unless overridden
+	 * @return null
+	 */
+	@Null
+	default E addNew()
+	{
+		return null;
+	}
+
+	void addNew(E entity);
 }

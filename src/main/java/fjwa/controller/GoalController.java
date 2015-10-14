@@ -1,5 +1,7 @@
 package fjwa.controller;
 
+import click.rmx.debug.OnlineBugger;
+import click.rmx.debug.RMXException;
 import fjwa.model.Goal;
 import fjwa.model.GoalReport;
 import fjwa.service.GoalService;
@@ -57,7 +59,12 @@ public class GoalController {
 	
 	@RequestMapping(value = "getGoals", method = RequestMethod.GET)
 	public String getGoals(Model model) {
-		Collection<Goal> goals = goalService.getEntities(0);
+		try {
+			goalService.pullData().join();
+		} catch (InterruptedException e) {
+			OnlineBugger.getInstance().addException(RMXException.unexpected(e));
+		}
+		Collection<Goal> goals = goalService.getEntities();
 		model.addAttribute("goals", goals);
 		return "getGoals";
 	}

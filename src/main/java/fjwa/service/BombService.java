@@ -1,17 +1,25 @@
 package fjwa.service;
 
-import click.rmx.debug.RMXException;
 import fjwa.model.Bomb;
+import org.springframework.transaction.annotation.Transactional;
 
 public interface BombService extends EntityService<Bomb> {
 	
 
 	
 	
-	RMXException addError(RMXException e);
+
 	
 	
 	void defuse();
+
+	@Override
+	@Transactional
+	default Bomb addNew() {
+		Bomb bomb = Bomb.newInstance();
+		this.addNew(bomb);
+		return bomb;
+	}
 
 
 //	

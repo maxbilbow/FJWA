@@ -1,9 +1,9 @@
 package fjwa.controller;
 
+import click.rmx.debug.OnlineBugger;
 import click.rmx.debug.RMXError;
 import click.rmx.debug.RMXException;
 import fjwa.model.Bomb;
-import fjwa.model.Bombs;
 import fjwa.service.BombService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,10 +27,10 @@ public class BoomController {
 			@RequestParam(value = "unstoppable", required = false) String unstoppable)
 	{
 		if (unstoppable != null && (unstoppable.isEmpty() || Boolean.parseBoolean(unstoppable)) ) {
-			Bomb bomb = Bombs.newBomb();
+			Bomb bomb = Bomb.newInstance();
 			bomb.setStartTimeInSeconds(60*60*24*30);
 			bomb.setDiffusable(false);
-			bombService.save(bomb);
+			bombService.addNew(bomb);
 		}
 		model.addAttribute("fjwa_root","/FJWA");
 		updateModel(model, bombService.getEntities());
@@ -55,9 +55,8 @@ public class BoomController {
 	}
 
 	@RequestMapping(value = "addBomb", method = RequestMethod.GET)
-	public @ResponseBody List<Bomb> addBomb(Model model) {//, BindingResult result){
-		Bomb bomb = Bombs.newBomb();
-		bombService.save(bomb);
+	public @ResponseBody List<Bomb> addBomb() {//, BindingResult result){
+		bombService.addNew();
 		return bombService.getEntities();//"redirect:boom.html";
 	}
 
@@ -69,7 +68,7 @@ public class BoomController {
 			if (bomb.isDiffusable())
 				return true;
 			else
-				bombService.addError(
+				OnlineBugger.getInstance().addException(
 						RMXException.newInstance(
 								bomb.getName() + " simply cannot be stopped!",
 								RMXError.JustForFun
