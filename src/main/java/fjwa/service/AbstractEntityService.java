@@ -15,11 +15,15 @@ import java.util.function.Predicate;
 public abstract class AbstractEntityService<E extends IEntity> implements EntityService<E> {
     private static final int STD_DB_UPDATE_TIME = 5;
     private List<E> entities = new ArrayList<>();
+
+    //@Autowired
+    private OnlineBugger debug = OnlineBugger.getInstance();
+
     protected RMXThreadMap<Integer> threads =
             new RMXThreadMap<>(null, (d) -> {
                 double seconds = d.getDuration().toMillis() / 1000;
                 String message = d.thread.getName() + ": " +  (d.isSuccess() ? "COMPLETED" : "FAILED") + " in " + seconds + " seconds";
-                        OnlineBugger.getInstance().addLog(message);
+                        debug.addLog(message);
                     });
 
     protected final int NEW_THREAD = -1, PUSH_THREAD = 2, PULL_THREAD = 1, PULL_DATA = 2;
@@ -38,7 +42,7 @@ public abstract class AbstractEntityService<E extends IEntity> implements Entity
                             this.entities = newList;
                         this.lastUpdate = Instant.now();
                     },
-                    e -> OnlineBugger.getInstance().addException(e), PULL_DATA);
+                    e -> debug.addException(e), PULL_DATA);
         thread.setName("pullData");
         return thread;
 //
@@ -143,7 +147,7 @@ public abstract class AbstractEntityService<E extends IEntity> implements Entity
         this.getEntities().add(entity);
         threads.runOnAfterThread(
                 () -> repository().save(entity),
-                e -> OnlineBugger.getInstance().addException("Failed to add " + entity),
+                e -> debug.addException("Failed to add " + entity),
                 PUSH_THREAD).setName("addNew: " + entity);
     }
 }
