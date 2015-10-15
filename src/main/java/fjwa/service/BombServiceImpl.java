@@ -25,13 +25,13 @@ public class BombServiceImpl extends AbstractEntityService<Bomb> implements Bomb
 	@Override
 	@Transactional
 	public void defuse() {
-		threads.runOnAfterThread(() -> {
+		threads.runOnAfterMainThread(t -> {
 			List<Bomb> entities = getEntities();
-			for (Bomb bomb : entities) {
+			entities.forEach(bomb -> {
 				bomb.setLive(false);
 				repository().save(bomb);
-			}
-		}, null, PUSH_THREAD);
+			});
+		}).setName("diffuse()");
 	}
 
 

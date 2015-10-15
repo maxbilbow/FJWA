@@ -21,6 +21,9 @@ public class BoomController {
 	@Autowired
 	private BombService bombService;
 
+	@Autowired
+	private OnlineBugger debug;
+
 	@RequestMapping(value = "/boom.html", method = RequestMethod.GET) //The page name (.whatever - i.e. html)
 	public String sayBoom(
 			Model model,
@@ -68,7 +71,7 @@ public class BoomController {
 			if (bomb.isDiffusable())
 				return true;
 			else
-				OnlineBugger.getInstance().addException(
+				debug.addException(
 						RMXException.newInstance(
 								bomb.getName() + " simply cannot be stopped!",
 								RMXError.JustForFun

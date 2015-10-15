@@ -4,6 +4,7 @@ import click.rmx.debug.OnlineBugger;
 import click.rmx.debug.RMXException;
 import click.rmx.threads.RMXThreadMap;
 import fjwa.model.IEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,17 +17,13 @@ public abstract class AbstractEntityService<E extends IEntity> implements Entity
     private static final int STD_DB_UPDATE_TIME = 5;
     private List<E> entities = new ArrayList<>();
 
-    //@Autowired
-    private OnlineBugger debug = OnlineBugger.getInstance();
+    @Autowired
+    private OnlineBugger debug;// = OnlineBugger.getInstance();
 
     protected RMXThreadMap<Integer> threads =
-            new RMXThreadMap<>(null, (d) -> {
-                double seconds = d.getDuration().toMillis() / 1000;
-                String message = d.thread.getName() + ": " +  (d.isSuccess() ? "COMPLETED" : "FAILED") + " in " + seconds + " seconds";
-                        debug.addLog(message);
-                    });
+            new RMXThreadMap<>(null, (d) -> debug.addLog(d.toString()));
 
-    protected final int NEW_THREAD = -1, PUSH_THREAD = 2, PULL_THREAD = 1, PULL_DATA = 2;
+//    protected final int NEW_THREAD = -1, PUSH_THREAD = 2, PULL_THREAD = 1, PULL_DATA = 2;
 
     protected abstract JpaRepository<E, Long> repository();
 
@@ -34,15 +31,15 @@ public abstract class AbstractEntityService<E extends IEntity> implements Entity
     @Transactional
     public Thread pullData() {
 
-        Thread thread = threads.getOrDefault(PULL_DATA, new Thread());
-        if (!thread.isAlive() || thread.getName() != "pullData")
-           thread = threads.runOnAfterThread(() -> {
+        Thread thread = threads.getMainThread();
+        if (thread == null || !thread.isAlive() || thread.getName() != "pullData") {
+            thread = threads.runOnAfterMainThread(t -> {
                         List<E> newList = repository().findAll();
                         if (newList != null)
                             this.entities = newList;
                         this.lastUpdate = Instant.now();
-                    },
-                    e -> debug.addException(e), PULL_DATA);
+                    }, (e,t) -> debug.addException(e, t));
+        }
         thread.setName("pullData");
         return thread;
 //
@@ -64,10 +61,12 @@ public abstract class AbstractEntityService<E extends IEntity> implements Entity
     @Transactional
     public E save(E entity) {
         this.entities.add(entity);
-        threads.runOnAfterThread(
-                () -> repository().save(entity),
-                e -> entities.remove(entity),
-                PUSH_THREAD).setName("save: " + entity);
+        threads.runOnAfterMainThread(
+                t -> {
+                    repository().save(entity);
+                    t.setName("save: " + entity);
+                },
+                (e,t) -> entities.remove(entity));
         return entity;
     }
 
@@ -77,11 +76,10 @@ public abstract class AbstractEntityService<E extends IEntity> implements Entity
     public boolean removeOne(E entity) {
         if (entities.contains(entity)) {
             entities.remove(entity);
-            threads.runOnAfterThread(
-                    () -> repository().delete(entity),
-                    e -> addError(RMXException.unexpected(e, "Failed to remove entity from list and table")),
-                    PUSH_THREAD
-            ).setName("removeOne: " + entity);
+            threads.runOnAfterMainThread(
+                    t -> repository().delete(entity),
+                    (e,t) -> addError(RMXException.unexpected(e, "Failed to remove entity from list and table")))
+                    .setName("removeOne: " + entity);
             return true;
         }
         return false;
@@ -95,15 +93,15 @@ public abstract class AbstractEntityService<E extends IEntity> implements Entity
             if (predicate.test(entity))
                 toRemove.add(entity);
         }
-        threads.runOnAfterThread(
-                () -> toRemove.forEach(ent -> {
+        threads.runOnAfterMainThread(
+                t -> toRemove.forEach(ent -> {
                     try {
                         repository().delete(ent);
                     } catch (Exception e) {
                         addError(RMXException.unexpected(e));
                     }
                 }),
-                e -> addError(RMXException.unexpected(e)), PUSH_THREAD)
+                (e,t) -> addError(RMXException.unexpected(e)))
         .setName("removeIf");
         return getEntities(0);
     }
@@ -145,9 +143,10 @@ public abstract class AbstractEntityService<E extends IEntity> implements Entity
     @Transactional
     public void addNew(E entity) {
         this.getEntities().add(entity);
-        threads.runOnAfterThread(
-                () -> repository().save(entity),
-                e -> debug.addException("Failed to add " + entity),
-                PUSH_THREAD).setName("addNew: " + entity);
+        threads.runOnAfterMainThread(
+                t -> {
+                    repository().save(entity);
+                    t.setName("addNew("+entity.toString()+")");
+                }, (e,t) -> debug.addException("Failed to add " + entity));
     }
 }

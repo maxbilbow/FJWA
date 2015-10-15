@@ -1,6 +1,7 @@
 package fjwa;
 
 
+import click.rmx.core.RMXSpringConfig;
 import fjwa.security.FitnessPermissionEvaluator;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -26,7 +27,7 @@ import java.util.Locale;
 @EnableWebMvc
 @EnableTransactionManagement
 @EnableJpaRepositories
-@Import({DBConfig.class})
+@Import({DBConfig.class, RMXSpringConfig.class})
 //@EnableAspectJAutoProxy(proxyTargetClass = true)
 @ComponentScan(basePackages = "fjwa")
 public class WebConfig extends WebMvcConfigurerAdapter {

@@ -78,7 +78,7 @@ public class Bomb implements IEntity {
 	}
 
 	public String getName() {
-		return "B" + this.id;
+		return "B" + (this.id != null ? this.id : " UNKNOWN ID");
 	}
 
 
@@ -149,6 +149,6 @@ public class Bomb implements IEntity {
 
 	@Override
 	public String toString() {
-		return this.getDescription();
+		return "Bomb " + this.getName();
 	}
 }

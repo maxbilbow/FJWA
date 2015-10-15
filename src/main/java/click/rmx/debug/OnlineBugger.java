@@ -71,4 +71,8 @@ public class OnlineBugger {
     private int upTo(LinkedList<String> logs, int i) {
         return logs.size() <= i ? logs.size() - 1 : i - 1;
     }
+
+    public void addException(Exception e, Thread t) {
+        this.addException(RMXException.unexpected(e,"FAILED WITH THREAD: " + t.getName()));
+    }
 }
