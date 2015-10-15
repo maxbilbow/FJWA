@@ -57,7 +57,10 @@ public class OnlineBugger {
 
     public static String toHtml(String string)
     {
-        return string.replace("\n","<br/>");
+        return string
+                .replace("\n", "<br/>")
+                .replace("COMPLETED", "<span style=\"color=green;\">COMPLETED</span>")
+                .replace("FAILED", "<span style=\"color=red;\">FAILED</span>");
     }
 
     public List<String> getLogs() {

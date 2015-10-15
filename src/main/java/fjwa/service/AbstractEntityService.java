@@ -16,9 +16,11 @@ public abstract class AbstractEntityService<E extends IEntity> implements Entity
     private static final int STD_DB_UPDATE_TIME = 5;
     private List<E> entities = new ArrayList<>();
     protected RMXThreadMap<Integer> threads =
-            new RMXThreadMap<>(
-                    null,
-                    (t,s) -> OnlineBugger.getInstance().addLog(t.getName() + " completed: " + s));
+            new RMXThreadMap<>(null, (d) -> {
+                double seconds = d.getDuration().toMillis() / 1000;
+                String message = d.thread.getName() + ": " +  (d.isSuccess() ? "COMPLETED" : "FAILED") + " in " + seconds + " seconds";
+                        OnlineBugger.getInstance().addLog(message);
+                    });
 
     protected final int NEW_THREAD = -1, PUSH_THREAD = 2, PULL_THREAD = 1, PULL_DATA = 2;
 

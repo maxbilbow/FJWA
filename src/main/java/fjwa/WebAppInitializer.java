@@ -30,7 +30,7 @@ public class WebAppInitializer implements WebApplicationInitializer {
 
 
 
-//		setUpFilterMapping(servletContext);
+		setUpFilterMapping(servletContext);
 		setUpSecurityMapping(servletContext);
 
 

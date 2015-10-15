@@ -1,5 +1,8 @@
 package click.rmx.threads;
 
+import java.time.Duration;
+import java.time.Instant;
+
 /**
  * Created by bilbowm on 14/10/2015.
  */
@@ -35,7 +38,9 @@ public class RMXThreadGroup extends ThreadGroup {
 
     public static RMXThread runOnNewThread(Runnable runnable, Exceptional failAction, ThreadCompletionHandler completionHandler) {
         RMXThread thread = thread = newThread(() -> {
+            ThreadData threadData = new ThreadData();
             boolean success = false;
+            Instant start = Instant.now();
             try {
                 runnable.run();
                 success = true;
@@ -47,8 +52,10 @@ public class RMXThreadGroup extends ThreadGroup {
                     System.exit(1);
                 }
             } finally {
-                if (completionHandler != null )
-                    completionHandler.run(Thread.currentThread(),true);
+                if (completionHandler != null) {
+
+                    completionHandler.run(threadData.end(success));
+                }
             }
         });
 
@@ -64,8 +71,34 @@ public class RMXThreadGroup extends ThreadGroup {
         void run(Exception e);
     }
 
+    public static class ThreadData {
+        public final Thread thread;
+        private Duration duration;
+        public final Instant startTime;
+        private boolean success;
+
+        public ThreadData()
+        {
+            thread = Thread.currentThread();
+            startTime = Instant.now();
+        }
+        public Duration getDuration() {
+            return duration;
+        }
+
+        public ThreadData end(boolean success)
+        {
+            this.success = success;
+            duration = Duration.between(startTime,Instant.now());
+            return this;
+        }
+
+        public boolean isSuccess() {
+            return success;
+        }
+    }
     public interface ThreadCompletionHandler {
-        void run(Thread thread, boolean success);
+        void run(ThreadData threadData);
     }
 
 }
