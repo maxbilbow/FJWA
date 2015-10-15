@@ -81,6 +81,10 @@
         <a class="btn btn-primary" href="getGoals.html">
           getGoals
         </a>
+        <br/>
+        <a class="btn btn-primary" href="goAway.html">
+          Go Away!
+        </a>
       </div>
       <div>
       </div>

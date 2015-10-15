@@ -8,6 +8,7 @@
     </JAVADOC>
     <SOURCES>
       <root url="jar://$MAVEN_REPOSITORY$/org/apache/tomcat/tomcat-servlet-api/8.0.26/tomcat-servlet-api-8.0.26-sources.jar!/" />
+      <root url="jar://$USER_HOME$/.ideaLibSources/tomcat-servlet-api-8.0.26-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

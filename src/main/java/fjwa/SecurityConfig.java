@@ -8,11 +8,12 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -28,18 +29,43 @@ import java.util.Properties;
 @EnableWebSecurity
 //@EnableAutoConfiguration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    private static final boolean USE_REMOTE_DATABASE = true;
+
+    enum DB {
+        LOCAL("jdbc:mysql://localhost:3306/fjwa",
+                "root", "password"),
+        MAX_BILBOW("jdbc:mysql://devsql.maxbilbow.com/spring_mvc_dev",
+                "maxbilbow", "Purple22"),
+        AMAZON("jdbc:mysql://rmxdb-test.c8kzyhurz6of.us-west-2.rds.amazonaws.com:3306/fjwa",
+                "root", "password");
+
+        public final String url, username, password;
+
+        DB(String url, String username, String password) {
+            this.url = url;
+            this.username = username;
+            this.password = password;
+        }
+    }
+    private final DB db = DB.AMAZON;
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/assets/**");
+    }
 
     @Override //TODO should not be overridden?
     protected void configure(HttpSecurity http) throws Exception {
-        super.configure(http);
+//        super.configure(http);
         http //TODO:   <http auto-config="true" use-expressions="true" > (might not be needed)
 
                 .authorizeRequests()
                     .antMatchers("/login.html", "/login.html?error=bad_credentials", "/loginFailed.html", "/logout.html", "/403.html").permitAll()
-                    .antMatchers("/admin/**").hasRole("ADMIN")//"hasRole('ADMIN'),hasRole('USER')")
-                    .antMatchers("/**").hasAnyRole("USER","ADMIN")//hasRole('USER')")// and hasRole('DBA')")
-                    .anyRequest().authenticated()
+                    .antMatchers("/admin/**", "/goAway.html").hasRole("ADMIN")
+                .antMatchers("/bad.html").not().hasRole("BAD")
+                .anyRequest().authenticated()
+
+
+//                    .accessDecisionManager(accessDecisionManager())
                     .and()
                 .formLogin()
                     .loginPage("/login.html").failureUrl("/login.html?error=bad_credentials").permitAll() //("/loginFailed.html").permitAll()
@@ -50,18 +76,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                     .logoutUrl("/logout.html").permitAll()
                     .logoutRequestMatcher(new AntPathRequestMatcher("/logout.html", "GET"))
+//                    .deleteCookies()
                     .and()
-                .rememberMe()
-                    .tokenValiditySeconds(1209600)
-                .and()
-                .exceptionHandling()
-                .accessDeniedPage("/403.html")
-                    ;
-//                .csrf().disable();
+//                .rememberMe()
+//                .tokenValiditySeconds(1209600)
+//                    .and()
+                .exceptionHandling()//.accessDeniedHandler(new MyAccessDeniedHandler())
+                .accessDeniedPage("/403.html");//.and().csrf().disable();
 
 
 
     }
+
 
 //    @Bean
 //    public DefaultWebInvocationPrivilegeEvaluator webInvocationPrivilegeEvaluator()
@@ -85,7 +111,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        super.configure(auth);
+//        super.configure(auth);
         auth
 //                .ldapAuthentication()
 //                        .groupSearchFilter("member={0}").groupSearchBase("ou=groups")
@@ -94,7 +120,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 //DB Usage
               .jdbcAuthentication()
-                    .dataSource(dataSource)
+                    .dataSource(dataSource)//.authoritiesByUsernameQuery()
                 .passwordEncoder(new BCryptPasswordEncoder());
                 //Optional Defauly setup
 //                    .withDefaultSchema()
@@ -108,19 +134,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     }
 
-//    @Bean //For use with auth.inMemoryAuthentication()
-//    @Override
-//    public AuthenticationManager authenticationManagerBean() throws Exception {
-//        return super.authenticationManagerBean();
-//    }
+    @Bean //For use with auth.inMemoryAuthentication()
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
 
 
     // Expose the UserDetailsService as a Bean
-    @Bean
-    @Override
-    public UserDetailsService userDetailsServiceBean() throws Exception {
-        return super.userDetailsServiceBean();
-    }
+//    @Bean
+//    @Override
+//    public UserDetailsService userDetailsServiceBean() throws Exception {
+//        return super.userDetailsServiceBean();
+//    }
 
 
 //Data
@@ -145,23 +171,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return hibernateProperties;
     }
 
-    enum DB {
-        LOCAL("jdbc:mysql://localhost:3306/fjwa",
-                "root", "password"),
-        MAX_BILBOW("jdbc:mysql://devsql.maxbilbow.com/spring_mvc_dev",
-                "maxbilbow", "Purple22"),
-        AMAZON("jdbc:mysql://rmxdb-test.c8kzyhurz6of.us-west-2.rds.amazonaws.com:3306/fjwa",
-                "root", "password");
 
-        public final String url, username, password;
-
-        DB(String url, String username, String password) {
-            this.url = url;
-            this.username = username;
-            this.password = password;
-        }
-    }
-    private final DB db = DB.LOCAL;
     @Bean
     public DriverManagerDataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();

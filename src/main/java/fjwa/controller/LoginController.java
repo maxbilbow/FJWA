@@ -36,4 +36,15 @@ public class LoginController {
         return "403";
     }
 
+    @RequestMapping(value = "/goAway", method = RequestMethod.GET)
+    public String goAway()
+    {
+        return "goAway";
+    }
+
+    @RequestMapping(value = "/bad", method = RequestMethod.GET)
+    public String bad()
+    {
+        return "goAway";
+    }
 }

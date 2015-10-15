@@ -28,7 +28,9 @@ public class WebAppInitializer implements WebApplicationInitializer {
         dispatcher.addMapping("*.js");
 		dispatcher.addMapping("*.css");
 
-		setUpFilterMapping(servletContext);
+
+
+//		setUpFilterMapping(servletContext);
 		setUpSecurityMapping(servletContext);
 
 
@@ -43,17 +45,15 @@ public class WebAppInitializer implements WebApplicationInitializer {
 
 	private void setUpSecurityMapping(ServletContext servletContext) {
 
-		servletContext.addFilter("securityFilter", new DelegatingFilterProxy("springSecurityFilterChain"))
+		servletContext.addFilter("securityFilter",
+				new DelegatingFilterProxy("springSecurityFilterChain"))
 				.addMappingForUrlPatterns(null, false, "/*");
-//		FilterRegistration.Dynamic encodingFilter = servletContext.addFilter("springSecurityFilterChain", DelegatingFilterProxy.class);
-//		encodingFilter.setInitParameter("springSecurityFilterChain", "/*");
-//		encodingFilter.addMappingForUrlPatterns(null,false,"/*");
+
 	}
 
 	private AnnotationConfigWebApplicationContext getContext() {
 		AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
-		context.setConfigLocations("fjwa.WebConfig", "fjwa.SecurityConfig");
-
+		context.register(WebConfig.class,SecurityConfig.class);
 		return context;
 	}
 
