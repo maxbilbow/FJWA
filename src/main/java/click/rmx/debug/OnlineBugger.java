@@ -73,6 +73,10 @@ public class OnlineBugger {
     }
 
     public void addException(Exception e, Thread t) {
-        this.addException(RMXException.unexpected(e,"FAILED WITH THREAD: " + t.getName()));
+        this.addException(RMXException.unexpected(e, "FAILED WITH THREAD: " + t.getName()));
+    }
+
+    public void addFunException(String message) {
+        this.addException(RMXException.newInstance(message, RMXError.JustForFun));
     }
 }

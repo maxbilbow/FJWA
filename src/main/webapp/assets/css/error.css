@@ -11,24 +11,32 @@
     margin: 16px;
 }
 
-div.rmx-error-log {
-    font-size: 60%;
-    font-family: "Courier New";
-    display: block;
-    clear: both;
 
-}
-#fjwa-errors {
-    background-color: #ffEEEE;
-    border: 3px solid #ff0000;
+.rmx-error-log div{
+    font-size: 80% !important;
+    width: 100%;
+    font-family: "Courier New";
     padding: 8px;
     display: block;
     float: left;
+    /*clear: right;*/
+    min-height: 100px;
+    /*overflow-y: auto;*/
+    overflow-x: auto;
+}
+
+#fjwa-errors {
+    background-color: #ffEEEE;
+    border: 3px solid #ff0000;
 }
 
 #fjwa-log {
-    float: left;
-    width: 50%;
-    display: block;
+    background-color: #d3ffff;
+    border: 3px solid #3189ff;
+    padding: 8px;
+
+    /*width: 50%;*/
+    /*line-height: 50%;*/
+    
     /*display: inline-block;*/
 }

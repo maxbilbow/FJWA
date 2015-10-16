@@ -38,12 +38,20 @@
       <primary-key name="PRIMARY" columns="GOAL_ID"/>
       <exported-key name="FK_nhoy5bn476l26ronf7okohtnn" table="exercise" schema="" catalog="fjwa" columns="goal_GOAL_ID"/>
     </table>
+    <table name="permissions" schema="" catalog="fjwa" type="TABLE">
+      <column name="username" sqlType="VARCHAR" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="target" sqlType="VARCHAR" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="permission" sqlType="VARCHAR" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <foreign-key name="fk_permissions_users" columns="username" ref-table="users" ref-schema="" ref-catalog="fjwa" ref-columns="username" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="ix_perm_username" unique="true" columns="username,target,permission"/>
+    </table>
     <table name="users" schema="" catalog="fjwa" type="TABLE">
       <column name="username" sqlType="VARCHAR" precision="50" scale="0" nullable="false" jdbcType="12"/>
       <column name="password" sqlType="VARCHAR" precision="60" scale="0" nullable="true" jdbcType="12"/>
       <column name="enabled" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
       <primary-key name="PRIMARY" columns="username"/>
       <exported-key name="fk_authorities_users" table="authorities" schema="" catalog="fjwa" columns="username"/>
+      <exported-key name="fk_permissions_users" table="permissions" schema="" catalog="fjwa" columns="username"/>
     </table>
   </data-source>
   <data-source name="devsql.maxbilbow.com - @dreamhost" uuid="617e89a4-e339-43e3-a4df-4f912f53f7ca">

@@ -65,6 +65,7 @@ public class BoomController {
 
 
 
+//	@PreAuthorize("hasRole('ADMIN') and hasPermission(#bomb, 'removeAll')") TODO make this work
 	@RequestMapping(value = "/removeAll.json", method = RequestMethod.GET)
 	public @ResponseBody List<Bomb> removeAll(){
 		List<Bomb> bombs = bombService.removeIf(bomb -> {

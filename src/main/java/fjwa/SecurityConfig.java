@@ -1,10 +1,14 @@
 package fjwa;
 
+import click.rmx.debug.OnlineBugger;
+import fjwa.security.FitnessPermissionEvaluator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -19,10 +23,18 @@ import javax.sql.DataSource;
  */
 @Configuration
 @EnableWebSecurity
-//@EnableAutoConfiguration
+@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    private OnlineBugger debug;
 
+    @Bean
+    public DefaultMethodSecurityExpressionHandler defaultMethodSecurityExpressionHandler() {
+        DefaultMethodSecurityExpressionHandler permissionHandler = new DefaultMethodSecurityExpressionHandler();
+        permissionHandler.setPermissionEvaluator(new FitnessPermissionEvaluator(dataSource,debug));
+        return permissionHandler;
+    }
 
     @Override
     public void configure(WebSecurity web) throws Exception {

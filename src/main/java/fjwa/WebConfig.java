@@ -1,8 +1,7 @@
 package fjwa;
 
 
-import click.rmx.core.RMXSpringConfig;
-import fjwa.security.FitnessPermissionEvaluator;
+import click.rmx.spring.RMXSpringConfig;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -11,7 +10,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.MediaType;
-import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.*;
@@ -21,7 +19,6 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import java.util.Locale;
 
-//import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
 @Configuration
 @EnableWebMvc
@@ -148,12 +145,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 //    </property>
 //    </bean>
 
-    @Bean
-    public DefaultMethodSecurityExpressionHandler defaultMethodSecurityExpressionHandler() {
-        DefaultMethodSecurityExpressionHandler permissionHandler = new DefaultMethodSecurityExpressionHandler();
-        permissionHandler.setPermissionEvaluator(new FitnessPermissionEvaluator());
-        return permissionHandler;
-    }
+
 
 
 

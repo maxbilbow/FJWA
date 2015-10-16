@@ -19,6 +19,7 @@ import java.util.Properties;
  */
 @Configuration
 public class DBConfig implements TransactionManagementConfigurer {
+
     @Override
     public PlatformTransactionManager annotationDrivenTransactionManager() {
         return transactionManager(entityManagerFactory);

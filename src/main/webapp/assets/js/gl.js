@@ -141,9 +141,9 @@ function glrun(mode, local) {
         rmx.local = local;
     }
     rmx.canvas = document.querySelector("canvas");
-    var leftPanel = document.querySelector("div#left_panel");
-//    if (window.screen.width >= 1200 * window.devicePixelRatio) {
-     rmx.canvas.width = leftPanel.offsetWidth * 0.9;// * window.devicePixelRatio / 2;
+    //var leftPanel = document.querySelector("div#left_panel");
+    //if (window.screen.width >= 1200 * ) {
+     rmx.canvas.width = 800 * window.devicePixelRatio;//leftPanel.offsetWidth * 0.9;// * window.devicePixelRatio / 2;
      rmx.canvas.height = 400 * window.devicePixelRatio;
 //    }
    
@@ -188,7 +188,7 @@ function loadAssets() {
         return new String((req.status === 200) ? req.responseText : '');
     };
 
-    var localDir = rmx.local ? fjwa.root + '/assets/shaders/' : 'https://raw.githubusercontent.com/maxbilbow/rmx-js/master/webgl/modelViewProjection/shaders/';
+    var localDir = 'assets/shaders/';// : 'https://raw.githubusercontent.com/maxbilbow/rmx-js/master/webgl/modelViewProjection/shaders/';
     rmx.V_SHADER = getSourceSynch(localDir + 'Shader.vsh');
 
     rmx.F_SHADER = getSourceSynch(localDir + 'Shader.fsh');

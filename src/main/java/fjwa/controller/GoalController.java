@@ -39,7 +39,7 @@ public class GoalController {
 		return "addGoal";
 	}
 
-    @PreAuthorize("hasRole('ROLE_ADMIN') and hasPermission(#goal, 'createGoal')")
+    @PreAuthorize("hasRole('ADMIN') and hasPermission(#goal, 'createGoal')")
 	@RequestMapping(value = "addGoal", method = RequestMethod.POST)
 	public String updateGoal(@Valid @ModelAttribute("goal") Goal goal,
 							 BindingResult result) {

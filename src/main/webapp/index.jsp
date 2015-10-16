@@ -26,6 +26,7 @@
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
+    <link href="assets/css/error.css" rel="stylesheet">
     <style>
     </style>
   </head>
@@ -65,15 +66,9 @@
         <a class="btn btn-primary" href="addMinutes.html">
           Add Exercise Minutes
         </a>
-        
-        <a class="btn btn-warning" href="logout.html">
-        	Logout >>
-        </a>
 
-        <br/>
-        <a class="btn btn-primary" href="boom.html">
-          BOOM!
-        </a>
+
+
 
         <a class="btn btn-primary" href="getGoalReports.html">
           getGoalReports
@@ -81,15 +76,29 @@
         <a class="btn btn-primary" href="getGoals.html">
           getGoals
         </a>
-        <br/>
-        <a class="btn btn-primary" href="goAway.html">
-          Go Away!
+
+        <a class="btn btn-warning" href="logout.html">
+          Logout >>
         </a>
       </div>
       <div>
+        <div class="hero-unit">
+          <a class="btn btn-primary" href="gl.html">
+            WebGL
+          </a>
+          <a class="btn btn-primary" href="boom.html">
+            BOOM!
+          </a>
+          <a class="btn btn-primary" href="security.html">
+            Security
+          </a>
+          <a class="btn btn-primary" href="goAway.html">
+            Go Away!
+          </a>
+          </div>
       </div>
-    </div>
-    <div class="rmx-error-log">
+      <div class="rmx-error-log">
+      </div>
     </div>
 
     <script src="js/jquery.js">
