@@ -1,11 +1,12 @@
 package fjwa;
 
-import click.rmx.debug.OnlineBugger;
+import click.rmx.debug.WebBugger;
 import fjwa.security.FitnessPermissionEvaluator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
+import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -27,34 +28,43 @@ import javax.sql.DataSource;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private OnlineBugger debug;
+    private WebBugger debug;
+
+//    @Autowired
+//    PermissionEvaluator permissionEvaluator;
+
+
 
     @Bean
-    public DefaultMethodSecurityExpressionHandler defaultMethodSecurityExpressionHandler() {
+    public MethodSecurityExpressionHandler defaultMethodSecurityExpressionHandler() {
         DefaultMethodSecurityExpressionHandler permissionHandler = new DefaultMethodSecurityExpressionHandler();
         permissionHandler.setPermissionEvaluator(new FitnessPermissionEvaluator(dataSource,debug));
         return permissionHandler;
     }
+
+//    @Bean
+//    public PermissionEvaluator permissionEvaluator()
+//    {
+//        return new FitnessPermissionEvaluator(dataSource,debug);
+//    }
 
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/assets/**");
     }
 
-    @Override //TODO should not be overridden?
+    @Override
     protected void configure(HttpSecurity http) throws Exception {
 //        super.configure(http);
-        http //TODO:   <http auto-config="true" use-expressions="true" > (might not be needed)
+        http
 
                 .authorizeRequests()
-                    .antMatchers("/login.html", "/login.html?error=bad_credentials", "/loginFailed.html", "/logout.html", "/403.html").permitAll()
-                    .antMatchers("/admin/**", "/goAway.html").hasRole("ADMIN")
+                .antMatchers("/login.html", "/login.html?error=bad_credentials", "/loginFailed.html", "/logout.html", "/403.html").permitAll()
+                .antMatchers("/admin/**", "/goAway.html").hasRole("ADMIN")
                 .antMatchers("/bad.html").not().hasRole("BAD")
                 .anyRequest().authenticated()
-
-
 //                    .accessDecisionManager(accessDecisionManager())
-                    .and()
+                .and()
                 .formLogin()
                     .loginPage("/login.html").failureUrl("/login.html?error=bad_credentials").permitAll() //("/loginFailed.html").permitAll()
                     .defaultSuccessUrl("/", false)
@@ -66,9 +76,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .logoutRequestMatcher(new AntPathRequestMatcher("/logout.html", "GET"))
 //                    .deleteCookies()
                     .and()
-//                .rememberMe()
-//                .tokenValiditySeconds(1209600)
-//                    .and()
+                .rememberMe()
+                .tokenValiditySeconds(1209600)
+                    .and()
                 .exceptionHandling()//.accessDeniedHandler(new MyAccessDeniedHandler())
                 .accessDeniedPage("/403.html");//.and().csrf().disable();
 
@@ -76,18 +86,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     }
 
-
-//    @Bean
-//    public DefaultWebInvocationPrivilegeEvaluator webInvocationPrivilegeEvaluator()
-//    {
-//        DefaultWebInvocationPrivilegeEvaluator webInvocationPrivilegeEvaluator =
-//                new DefaultWebInvocationPrivilegeEvaluator(filterSecurityInterceptor());
-//        return webInvocationPrivilegeEvaluator;
-//    }
-//
-//    private FilterSecurityInterceptor filterSecurityInterceptor() {
-//        return null;
-//    }
 
 
 //    @Autowired
@@ -99,27 +97,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        super.configure(auth);
         auth
-//                .ldapAuthentication()
-//                        .groupSearchFilter("member={0}").groupSearchBase("ou=groups")
-//                .userSearchBase("ou=people").userSearchFilter("uid={0}")
-//                // enable in memory based authentication with a user named
-
                 //DB Usage
               .jdbcAuthentication()
                     .dataSource(dataSource)//.authoritiesByUsernameQuery()
                 .passwordEncoder(new BCryptPasswordEncoder());
-                //Optional Defauly setup
-//                    .withDefaultSchema()
-//                    .withUser("user").password("password").roles("USER").and()
-//                    .withUser("admin").password("password").roles("USER", "ADMIN");
-
-                //In Memory usage
-//                .inMemoryAuthentication()
-//                    .withUser("user").password("password").roles("USER").and()
-//                    .withUser("admin").password("secret").roles("USER", "ADMIN");
-
     }
 
     @Bean //For use with auth.inMemoryAuthentication()
@@ -127,36 +109,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
-
-
-    // Expose the UserDetailsService as a Bean
-//    @Bean
-//    @Override
-//    public UserDetailsService userDetailsServiceBean() throws Exception {
-//        return super.userDetailsServiceBean();
-//    }
-
-
-
-
-
-
-
-//    @Bean
-//    public AuthenticationProvider authenticationProvider() {
-//        return new AuthenticationProvider() {
-//            @Override
-//            public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-//                System.err.println(authentication.getCredentials());
-//                return authentication;
-//            }
-//
-//            @Override
-//            public boolean supports(Class<?> authentication) {
-//                System.err.println("AuthenticationProvider::supports(Class<?> authentication)");
-//                return (UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication));
-//            }
-//        };
-//    }
 
 }

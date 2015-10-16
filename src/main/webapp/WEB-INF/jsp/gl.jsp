@@ -92,7 +92,7 @@
   function update() {
     checkForErrors();
 
-    window.requestAnimationFrame(updateBombs);
+    window.requestAnimationFrame(update);
 
   }
 </script>

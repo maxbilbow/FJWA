@@ -1,6 +1,6 @@
 package click.rmx.spring;
 
-import click.rmx.debug.OnlineBugger;
+import click.rmx.debug.WebBugger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,8 +13,8 @@ public class RMXSpringConfig
 {
     @Bean
     @Autowired
-    public OnlineBugger debug()
+    public WebBugger debug()
     {
-        return OnlineBugger.getInstance();
+        return WebBugger.getInstance();
     }
 }

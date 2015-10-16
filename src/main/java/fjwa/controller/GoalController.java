@@ -1,7 +1,7 @@
 package fjwa.controller;
 
-import click.rmx.debug.OnlineBugger;
 import click.rmx.debug.RMXException;
+import click.rmx.debug.WebBugger;
 import fjwa.model.Goal;
 import fjwa.model.GoalReport;
 import fjwa.service.GoalService;
@@ -17,6 +17,8 @@ import javax.validation.Valid;
 import java.util.Collection;
 import java.util.List;
 
+import static click.rmx.debug.Tests.note;
+
 @Controller
 @SessionAttributes("goal")
 public class GoalController {
@@ -26,7 +28,7 @@ public class GoalController {
 
 	@RequestMapping(value = "addGoal", method = RequestMethod.GET)
 	public String addGoal(Model model, HttpSession session) {
-		//Goal goal = new Goal();
+		note();
 		Goal goal = (Goal) session.getAttribute("goal");
 
 		if (goal == null) {
@@ -39,14 +41,15 @@ public class GoalController {
 		return "addGoal";
 	}
 
-    @PreAuthorize("hasRole('ADMIN') and hasPermission(#goal, 'createGoal')")
+	//TODO: Fix PreAuth below
+    @PreAuthorize("hasRole('ROLE_ADMIN') and hasPermission(#goal, 'createGoal')")
 	@RequestMapping(value = "addGoal", method = RequestMethod.POST)
 	public String updateGoal(@Valid @ModelAttribute("goal") Goal goal,
 							 BindingResult result) {
 		
-		System.out.println("result has errors: " + result.hasErrors());
-		
-		System.out.println("Goal set: " + goal.getMinutes());
+		note("result has errors: " + result.hasErrors());
+
+		note("Goal set: " + goal.getMinutes());
 		
 		if(result.hasErrors()) {
 			return "addGoal";
@@ -59,10 +62,11 @@ public class GoalController {
 	
 	@RequestMapping(value = "getGoals", method = RequestMethod.GET)
 	public String getGoals(Model model) {
+		note();
 		try {
 			goalService.pullData().join();
 		} catch (InterruptedException e) {
-			OnlineBugger.getInstance().addException(RMXException.unexpected(e));
+			WebBugger.getInstance().addException(RMXException.unexpected(e));
 		}
 		Collection<Goal> goals = goalService.getEntities();
 		model.addAttribute("goals", goals);
@@ -71,6 +75,7 @@ public class GoalController {
 	
 	@RequestMapping(value = "getGoalReports", method = RequestMethod.GET)
 	public String getGoalReports(Model model) {
+		note();
 		List<GoalReport> goalReports = goalService.findAllGoalReports();
 		model.addAttribute("goalReports", goalReports);
 		return "getGoalReports";
@@ -79,6 +84,7 @@ public class GoalController {
 
 	@RequestMapping(value = "/GoalReports", method = RequestMethod.GET)
 	public @ResponseBody List<GoalReport> GoalReports() {
+		note();
 		return goalService.findAllGoalReports();
 	}
 

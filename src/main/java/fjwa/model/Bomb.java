@@ -9,10 +9,12 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-import click.rmx.debug.OnlineBugger;
 import click.rmx.debug.RMXError;
 import click.rmx.debug.RMXException;
+import click.rmx.debug.WebBugger;
 import org.hibernate.validator.constraints.Range;
+
+import static click.rmx.debug.Tests.note;
 
 @Entity
 @Table(name = "bomb_table")
@@ -58,7 +60,7 @@ public class Bomb implements IEntity {
 
 	@Override
 	protected void finalize() throws Throwable {
-		System.out.println(getName() + " Was DELETED by the GC!");
+		note(getName() + " Was DELETED by the GC!");
 		super.finalize();
 	}
 
@@ -109,7 +111,7 @@ public class Bomb implements IEntity {
 //		this.startTime = Instant.now();
 			this.live = live;
 		} else {
-			OnlineBugger
+			WebBugger
 					.getInstance()
 					.addException(RMXException
 									.newInstance("Bomb cannot be diffused. Run!", RMXError.JustForFun)

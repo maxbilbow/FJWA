@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static click.rmx.debug.Tests.note;
+
 /**
  * Created by bilbowm on 15/10/2015.
  */
@@ -37,10 +39,13 @@ public class MyAccessDeniedHandler extends AccessDeniedHandlerImpl implements Ac
                        AccessDeniedException accessDeniedException)
             throws IOException, ServletException {
 
+        note();
         //do some business logic, then redirect to errorPage url
         response.sendRedirect(errorPage);
 
     }
+
+
 
 
 }

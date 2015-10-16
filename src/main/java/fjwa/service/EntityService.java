@@ -1,9 +1,9 @@
 package fjwa.service;
 
-import click.rmx.debug.OnlineBugger;
 import click.rmx.debug.RMXException;
+import click.rmx.debug.WebBugger;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import javax.validation.constraints.Null;
 import java.time.Duration;
 import java.time.Instant;
@@ -29,12 +29,12 @@ public interface EntityService<E> {
 	boolean removeOne(E entity);
 
 	default String getErrors() {
-		return OnlineBugger.getInstance().getErrorHtml();
+		return WebBugger.getInstance().getErrorHtml();
 	}
 
 	default RMXException addError(RMXException e) {
 		if (e != null)
-			OnlineBugger.getInstance().addException(e);
+			WebBugger.getInstance().addException(e);
 		return e;
 	}
 

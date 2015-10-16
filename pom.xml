@@ -5,26 +5,29 @@
   <artifactId>FJWA</artifactId>
   <version>0.0.1-SNAPSHOT</version>
 	<properties>
-		<spring.version>4.2.1.RELEASE</spring.version>
-        <spring-security.version>4.0.2.RELEASE</spring-security.version>
-		<!--<hibernate.version>5.2.1.Final</hibernate.version>-->
-        <hibernate.version>4.3.2.Final</hibernate.version>
+		<!--<spring.version>4.2.2.RELEASE</spring.version>-->
+        <!--<spring-security.version>4.0.2.RELEASE</spring-security.version>-->
+		<!--<hibernate.version>5.0.2.Final</hibernate.version>-->
+
         <hibernate-jpa.version>1.0.0.Final</hibernate-jpa.version>
-        <hibernate-validator.version>${hibernate.version}</hibernate-validator.version>
+        <!--<hibernate-entitymanager>${hibernate.version}</hibernate-entitymanager>-->
+        <!--<hibernate-validator.version>${hibernate.version}</hibernate-validator.version>-->
 		<!--<junit.version>4.12</junit.version>-->
 		<spring-data-jpa.version>1.9.0.RELEASE</spring-data-jpa.version>
-		<!--<javax-validation.version>1.1.0.Final</javax-validation.version>-->
+        <spring-data-commons.version>1.11.0.RELEASE</spring-data-commons.version>
         <mysql.version>5.1.36</mysql.version>
         <tomcat.version>8.0.26</tomcat.version>
         <commons-logging.version>1.2</commons-logging.version>
+
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<start-class>fjwa.Application</start-class>
 		<java.version>1.8</java.version>
+        <rmx.version>v0.0.2-SNAPSHOT</rmx.version>
 	</properties>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.0.2.RELEASE</version>
+		<version>1.2.6.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
@@ -36,17 +39,6 @@
         </dependency>
 
 
-
-        <dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
 
 
 
@@ -74,11 +66,7 @@
 			<version>${spring.version}</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-orm</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
+
 
 
         <!-- Data -->
@@ -97,7 +85,7 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
-            <version>${hibernate.version}</version>
+            <version>${hibernate-entitymanager.version}</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -116,8 +104,20 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-commons</artifactId>
+            <version>${spring-data-commons.version}</version>
+        </dependency>
 
-		<dependency>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-mongodb</artifactId>
+            <version>1.8.0.RELEASE</version>
+        </dependency>
+
+
+        <dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>${mysql.version}</version>
@@ -150,6 +150,18 @@
             <version>${commons-logging.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+
 
         <!-- Misc Frontend -->
         <dependency>
@@ -158,6 +170,44 @@
             <version>1.2</version>
         </dependency>
 
+        <!-- rmx setup -->
+        <dependency>
+            <groupId>click.rmx.debug</groupId>
+            <artifactId>rmx-debug</artifactId>
+            <version>${rmx.version}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>click.rmx.core</groupId>
+            <artifactId>rmx-core</artifactId>
+            <version>${rmx.version}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>click.rmx.multithread</groupId>
+            <artifactId>rmx-multithread-toolkit</artifactId>
+            <version>${rmx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
 
     </dependencies>
 

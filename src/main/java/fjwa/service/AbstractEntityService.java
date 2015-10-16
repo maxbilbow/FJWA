@@ -1,8 +1,8 @@
 package fjwa.service;
 
-import click.rmx.debug.OnlineBugger;
 import click.rmx.debug.RMXException;
-import click.rmx.threads.RMXThreadMap;
+import click.rmx.debug.WebBugger;
+import click.rmx.multithread.RMXThreadMap;
 import fjwa.model.IEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,7 +18,7 @@ public abstract class AbstractEntityService<E extends IEntity> implements Entity
     private List<E> entities = new ArrayList<>();
 
     @Autowired
-    private OnlineBugger debug;// = OnlineBugger.getInstance();
+    private WebBugger debug;// = OnlineBugger.getInstance();
 
     protected RMXThreadMap<Integer> threads =
             new RMXThreadMap<>(null, (d) -> debug.addLog(d.toString()));

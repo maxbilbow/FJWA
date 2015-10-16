@@ -1,6 +1,6 @@
 package fjwa.security;
 
-import click.rmx.debug.OnlineBugger;
+import click.rmx.debug.WebBugger;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.core.Authentication;
@@ -8,6 +8,8 @@ import org.springframework.security.core.userdetails.User;
 
 import javax.sql.DataSource;
 import java.io.Serializable;
+
+import static click.rmx.debug.Tests.note;
 
 /**
  * Created by bilbowm on 29/09/2015.
@@ -17,13 +19,13 @@ public class FitnessPermissionEvaluator implements PermissionEvaluator {
 
     private final DataSource datasource;
 
-    private final OnlineBugger debug;
+    private final WebBugger debug;
 
     public DataSource getDatasource() {
         return datasource;
     }
 
-    public FitnessPermissionEvaluator(DataSource datasource, OnlineBugger debug)
+    public FitnessPermissionEvaluator(DataSource datasource, WebBugger debug)
     {
         this.datasource = datasource;
         this.debug = debug;
@@ -33,7 +35,7 @@ public class FitnessPermissionEvaluator implements PermissionEvaluator {
 //    }
 
     public boolean hasPermission(Authentication auth, Object targetDomainObject, Object permission) {
-        System.err.println("FitnessPermissionEvaluator::hasPermission(1)");
+        note("FitnessPermissionEvaluator::hasPermission(1)");
 //        debug.addLog("FitnessPermissionEvaluator::hasPermission(1)");
         JdbcTemplate template = new JdbcTemplate(datasource);
 
@@ -57,7 +59,7 @@ public class FitnessPermissionEvaluator implements PermissionEvaluator {
     public boolean hasPermission(Authentication arg0, Serializable id,
                                  String type, Object permission) {
 
-        System.err.println("FitnessPermissionEvaluator::hasPermission(2)");
+        note("FitnessPermissionEvaluator::hasPermission(2)");
         debug.addFunException("FitnessPermissionEvaluator::hasPermission(2)");
         return false;
     }

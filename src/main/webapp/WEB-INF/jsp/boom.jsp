@@ -75,7 +75,7 @@
             <a class="btn btn-primary" id="show_expired" href="#" onclick="toggleBombs(true)">
                 Hide Expired
             </a>
-<sec:authorize access="hasRole('ADMIN')">
+<sec:authorize access="hasRole('ROLE_ADMIN')">
             <a class="btn btn-primary" href="#" onclick="removeAll()">
                 Remove All
             </a>
@@ -186,7 +186,7 @@
                             var len = data.length;
                             for (var i = 0; i < len; i++) {
                                 if (fjwa.showAll || ( data[i].live && !data[i].outOfTime ) )
-                                    html += '<br/>' + data[i].description;//.toString
+                                    html += '<br/><span id="bomb_'+data[i].id+'">' + data[i].description + '</span>';//.toString
                             }
                         } else {
                             html += "<br/>NULL";

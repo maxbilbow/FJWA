@@ -1,8 +1,8 @@
 package fjwa.controller;
 
-import click.rmx.debug.OnlineBugger;
 import click.rmx.debug.RMXError;
 import click.rmx.debug.RMXException;
+import click.rmx.debug.WebBugger;
 import fjwa.model.Bomb;
 import fjwa.service.BombService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ public class BoomController {
 	private BombService bombService;
 
 	@Autowired
-	private OnlineBugger debug;
+	private WebBugger debug;
 
 	@RequestMapping(value = "/boom.html", method = RequestMethod.GET) //The page name (.whatever - i.e. html)
 	public String sayBoom(
@@ -64,8 +64,8 @@ public class BoomController {
 	}
 
 
-
-//	@PreAuthorize("hasRole('ADMIN') and hasPermission(#bomb, 'removeAll')") TODO make this work
+	// TODO make this work
+//	@PreAuthorize("hasPermission(#bomb, 'removeAll')")
 	@RequestMapping(value = "/removeAll.json", method = RequestMethod.GET)
 	public @ResponseBody List<Bomb> removeAll(){
 		List<Bomb> bombs = bombService.removeIf(bomb -> {

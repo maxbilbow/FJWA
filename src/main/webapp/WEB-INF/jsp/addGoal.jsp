@@ -2,7 +2,7 @@
     pageEncoding="ISO-8859-1"%>
 
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -57,15 +57,17 @@
           &nbsp;
         </p>
       </div>
-      
-      <form:form commandName="goal">
+      <c:url var="loginUrl" value="/login.html"/>
+      <form:form  commandName="goal">
 		<form:errors path="*" cssClass="errorblock" element="div" />
 			<label for="textinput1">
 	          Enter Minutes:
 	        </label>	
 			<form:input path="minutes" cssErrorClass="error" />
 			<form:errors path="minutes" cssClass="error" />
-			<br/>
+			<br/><input type="hidden"
+                        name="${_csrf.parameterName}"
+                        value="${_csrf.token}"/>
 			<input type="submit" class="btn" value="Enter Goal Minutes"/>
 	  </form:form>
      

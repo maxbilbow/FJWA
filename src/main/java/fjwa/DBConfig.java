@@ -4,11 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.TransactionManagementConfigurer;
 
 import javax.persistence.EntityManagerFactory;
@@ -18,6 +20,8 @@ import java.util.Properties;
  * Created by bilbowm on 15/10/2015.
  */
 @Configuration
+@EnableTransactionManagement
+@EnableJpaRepositories("fjwa.repository")
 public class DBConfig implements TransactionManagementConfigurer {
 
     @Override
@@ -42,6 +46,7 @@ public class DBConfig implements TransactionManagementConfigurer {
         }
     }
     private final DB db = DB.LOCAL;
+
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
@@ -81,7 +86,7 @@ public class DBConfig implements TransactionManagementConfigurer {
     @Bean
     public PlatformTransactionManager transactionManager(final EntityManagerFactory emf) {
         final JpaTransactionManager transactionManager = new JpaTransactionManager();
-        transactionManager.setEntityManagerFactory(emf);
+        transactionManager.setEntityManagerFactory(entityManagerFactory = emf);
         return transactionManager;
     }
 
