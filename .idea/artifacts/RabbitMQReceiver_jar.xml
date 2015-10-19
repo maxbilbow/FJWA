@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="RabbitMQReceiver:jar">
+    <output-path>$PROJECT_DIR$/RabbitMQReceiver/target</output-path>
+    <root id="archive" name="RabbitMQReceiver_jar.jar">
+      <element id="artifact" artifact-name="RabbitMQReceiver:war exploded" />
+    </root>
+  </artifact>
+</component>

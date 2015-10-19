@@ -1,10 +1,10 @@
 <component name="ArtifactManager">
-  <artifact type="exploded-war" name="FJWA:war exploded">
-    <output-path>$PROJECT_DIR$/target/FJWA-0.0.1-SNAPSHOT</output-path>
+  <artifact type="exploded-war" name="RabbitMQReceiver:war exploded">
+    <output-path>$PROJECT_DIR$/RabbitMQReceiver/target/RabitMQReceiver-0.0.1-SNAPSHOT</output-path>
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
-          <element id="module-output" name="FJWA" />
+          <element id="module-output" name="RabbitMQReceiver" />
         </element>
         <element id="directory" name="lib">
           <element id="library" level="project" name="Maven: org.apache.tomcat:tomcat-catalina:8.0.26" />
@@ -64,9 +64,7 @@
           <element id="library" level="project" name="Maven: log4j:log4j:1.2.17" />
           <element id="library" level="project" name="Maven: jstl:jstl:1.2" />
           <element id="library" level="project" name="Maven: click.rmx.debug:rmx-debug:v0.0.2-SNAPSHOT" />
-          <element id="archive" name="rmx-core-v0.0.2-SNAPSHOT.jar">
-            <element id="module-output" name="RabbitMQReceiver" />
-          </element>
+          <element id="library" level="project" name="Maven: click.rmx.core:rmx-core:v0.0.2-SNAPSHOT" />
           <element id="library" level="project" name="Maven: click.rmx.multithread:rmx-multithread-toolkit:v0.0.2-SNAPSHOT" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.4.6" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.4.6" />
@@ -79,9 +77,9 @@
         </element>
       </element>
       <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/target/FJWA-0.0.1-SNAPSHOT/META-INF/MANIFEST.MF" />
+        <element id="file-copy" path="$PROJECT_DIR$/RabbitMQReceiver/target/RabitMQReceiver-0.0.1-SNAPSHOT/META-INF/MANIFEST.MF" />
       </element>
-      <element id="javaee-facet-resources" facet="FJWA/web/Web" />
+      <element id="javaee-facet-resources" facet="RabbitMQReceiver/web/Web" />
     </root>
   </artifact>
 </component>
