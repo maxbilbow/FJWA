@@ -98,6 +98,11 @@
           </a>
           </div>
       </div>
+      <div class="hero-unit">
+        <a class="btn btn-primary" href="rabbit.html">
+          Rabbit Send...
+        </a>
+        </div>
       <div class="rmx-error-log">
       </div>
     </div>

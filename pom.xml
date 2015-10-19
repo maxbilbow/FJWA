@@ -13,6 +13,7 @@
         <!--<hibernate-entitymanager>${hibernate.version}</hibernate-entitymanager>-->
         <!--<hibernate-validator.version>${hibernate.version}</hibernate-validator.version>-->
 		<!--<junit.version>4.12</junit.version>-->
+        <!--<rabbit-mq.version>1.5.1.RELEASE</rabbit-mq.version>-->
 		<spring-data-jpa.version>1.9.0.RELEASE</spring-data-jpa.version>
         <spring-data-commons.version>1.11.0.RELEASE</spring-data-commons.version>
         <mysql.version>5.1.36</mysql.version>
@@ -207,6 +208,12 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>${jackson.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.amqp</groupId>
+            <artifactId>spring-rabbit</artifactId>
+            <version>${spring-amqp.version}</version>
         </dependency>
 
     </dependencies>
