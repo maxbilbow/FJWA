@@ -5,6 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import rabbit.tut2.NewTask;
 import rabbit.tut2.Worker;
 
+import java.io.IOException;
+
 import static click.rmx.debug.Bugger.print;
 
 /**
@@ -22,14 +24,38 @@ public class Application {
         for (String msg :args) {
             print("arg: " + msg);
             if (msg.contains("-Rabbit:send")) {
-                NewTask.send(args);
+                send(args);
                 break;
             }
             if (msg.contains("-Rabbit:receive")) {
-                Worker.receive(args);
+                receive(args);
                 break;
             }
         }
 
     }
+
+    private static void send(String[] args) throws IOException {
+        String prefix = "-Rabbit:tut";
+        for (String msg :args) {
+            if (msg.contains(prefix + "2"))
+                NewTask.send(args);
+            if (msg.contains(prefix + "3"))
+                NewTask.send(args);
+
+        }
+    }
+
+    private static void receive(String[] args) throws Exception {
+        String prefix = "-Rabbit:tut";
+        for (String msg :args) {
+            if (msg.contains(prefix + "2"))
+                Worker.receive(args);;
+            if (msg.contains(prefix + "3"))
+                Worker.receive(args);
+
+        }
+
+    }
 }
+
