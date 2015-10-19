@@ -9,14 +9,14 @@ import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 
 import static click.rmx.debug.Bugger.print;
-
+import static rabbit.Application.QUEUE_NAME;
+import static rabbit.Application.TASK_QUEUE_NAME;
+import static rabbit.Application.DEBUG_QUEUE;
 /**
  * Created by bilbowm on 19/10/2015.
  */
+@Deprecated
 public class Receiver {
-
-    private static final String QUEUE_NAME = "hello";
-    private static final String DEBUG_QUEUE = "WebBugger";
 
     public static void main(String[] argv)
             throws java.io.IOException,
@@ -52,7 +52,7 @@ public class Receiver {
             channel = connection.createChannel();
             channel.queueDeclare(queue, false, false, false, null);
             channel.basicPublish("", queue, null, message.getBytes());
-            print("RabbitMQ::SEND [" + timestamp() + "] '"+message+"'");
+            print("RabbitMQ::SEND [" + timestamp() + "] '" + message + "'");
 
         } catch (IOException e) {
             print(RMXException.unexpected(e, "RabbitMQ::SEND [" + timestamp() + "] Message FAILED").toString(), true);
