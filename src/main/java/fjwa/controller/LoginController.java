@@ -13,8 +13,7 @@ public class LoginController {
 
     @RequestMapping(value="/login", method= RequestMethod.GET)
     public String login(ModelMap model) {
-        System.err.println("In the login method");
-
+        //TODO stop json requests repeatedly accessing here.
         return "login";
     }
 

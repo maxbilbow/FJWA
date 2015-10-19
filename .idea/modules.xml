@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/FJWA.iml" filepath="$PROJECT_DIR$/FJWA.iml" />
+      <module fileurl="file://$PROJECT_DIR$/RabbitMQReceiver/RabbitMQReceiver.iml" filepath="$PROJECT_DIR$/RabbitMQReceiver/RabbitMQReceiver.iml" />
     </modules>
   </component>
 </project>
