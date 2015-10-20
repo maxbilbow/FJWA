@@ -5,9 +5,9 @@ var output;
 var uri;
 var wss = false;
 
-var getMessage = function() {
+function getMessage() {
     return $('textarea#sendMessage').html();
-};
+}
 
 var wsUri = function () {
     return (wss ? "wss://" : "ws://") + uri;
