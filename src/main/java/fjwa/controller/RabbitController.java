@@ -28,7 +28,7 @@ public class RabbitController {
         if (aMessage == null) {
             aMessage = new Message();
             aMessage.setMessage("Hello, rabbit.");
-            aMessage.setTopic("");
+            aMessage.setTopic("debug.log");
         }
 
 
@@ -47,7 +47,7 @@ public class RabbitController {
 //    }
 
     String[] topics = {
-        "debug.log", "debug.error"
+        "--select--", "debug.log", "debug.error"
     };
 
     @RequestMapping(method = RequestMethod.POST)

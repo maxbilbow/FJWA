@@ -66,7 +66,7 @@
         <label for="textinput1">
           Message
         </label>
-        <input type="text" name="message" value="${aMessage.message}" />
+        <form:input path="message" value="${aMessage.message}" />
       </div>
 
       <div class="control-group">
