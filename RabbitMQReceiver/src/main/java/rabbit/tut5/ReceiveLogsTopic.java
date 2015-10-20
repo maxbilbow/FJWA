@@ -1,5 +1,6 @@
 package rabbit.tut5;
 
+import click.rmx.debug.WebBugger;
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Consumer;
 import com.rabbitmq.client.DefaultConsumer;
@@ -9,12 +10,14 @@ import com.rabbitmq.client.*;
 
 import java.io.IOException;
 
+import static click.rmx.debug.Bugger.print;
+
 /**
  * Created by bilbowm on 19/10/2015.
  */
 public class ReceiveLogsTopic {
     private static final String EXCHANGE_NAME = Application.EXCHANGE_TOPICS;
-    public static void receive(String[] argv) throws Exception {
+    public static void receive(String... argv) throws Exception {
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost("localhost");
         Connection connection = factory.newConnection();
@@ -39,7 +42,11 @@ public class ReceiveLogsTopic {
             public void handleDelivery(String consumerTag, Envelope envelope,
                                        AMQP.BasicProperties properties, byte[] body) throws IOException {
                 String message = new String(body, "UTF-8");
-                System.out.println(" [x] Received '" + envelope.getRoutingKey() + "':'" + message + "'");
+                String log = " [x] Received '" +
+                        envelope.getRoutingKey() +
+                        "':'" + message + "'";
+                print(log);
+                WebBugger.getInstance().addLog(log);
             }
         };
         channel.basicConsume(queueName, true, consumer);

@@ -1,5 +1,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,7 +32,7 @@
   <style>
   </style>
 </head>
-<body onload="update()">
+<body onload="startUpdates()">
 <div class="navbar navbar-fixed-top navbar-inverse">
   <div class="navbar-inner">
     <div class="container">
@@ -53,26 +55,33 @@
       </p>
     </div>
 
-  <div class="hero-unit">
-    <form action="#" class="form" name="f" method="post">
+    <form:form commandName="aMessage">
       <c:if test="${param.error != null}">
         <div class="errorblock">
-         Whoa, there! <br />
-          Caused: ${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message } <br/>
+          Whoops! <br />
+          Caused: ${param.error} <br/>
         </div>
       </c:if>
-      <div class="form-group">
-        <label>Message</label>
-      <input type="text" class="form-control" name="message" value="${message}">
-        </div>
+      <div class="control-group">
+        <label for="textinput1">
+          Message
+        </label>
+        <input type="text" name="message" value="${aMessage.message}" />
+      </div>
+
+      <div class="control-group">
+        <label for="selectinput1">
+          Topic
+        </label>
+        <form:select id="topics" path="topic" items="${topics}" />
+      </div>
       <input type="hidden"
              name="${_csrf.parameterName}"
              value="${_csrf.token}"/>
-      <div class="form-group">
-    <input type="submit" name="Submit" value="Send" class="btn btn-primary">
-        </div>
-    </input>
-    </form>
+      <input type="submit" class="btn btn-primary" value="Send >> " />
+
+    </form:form>
+
   </div>
   <div class="rmx-error-log">
   </div>
@@ -82,10 +91,33 @@
   <script type="text/javascript">
     function update() {
       checkForErrors();
-
       window.requestAnimationFrame(update);
 
     }
+
+    function startRabbitServer() {
+      var amqp = require('amqplib/callback_api');
+      amqp.connect('amqp://localhost', function(err, conn) {
+
+        conn.createChannel(function(err, ch) {
+          var q = 'hello';
+
+          ch.assertQueue(q, {durable: false});
+        });
+      });
+      console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", q);
+      ch.consume(q, function(msg) {
+        console.log(" [x] Received %s", msg.content.toString());
+      }, {noAck: true});
+    }
+
+
+    function startUpdates() {
+
+//      startRabbitServer();
+      update();
+    }
+
   </script>
 <script src="js/jquery.js">
 </script>

@@ -14,9 +14,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 
-import java.io.IOException;
 
-import static rabbit.Rabbit.startDebugReceiver;
 
 public class WebAppInitializer implements WebApplicationInitializer {
 
@@ -37,9 +35,10 @@ public class WebAppInitializer implements WebApplicationInitializer {
 		setUpSecurityMapping(servletContext);
 
 		try {
-			startDebugReceiver();
-		} catch (IOException e) {
-			WebBugger.getInstance().addException(e);
+			WebBugger.getInstance().startDebugQueue();
+			//ReceiveLogsTopic.receive("#.log.#", "#.error.#");
+		} catch (Exception e) {
+			WebBugger.getInstance().addException(e, "Rabbit Topic server failed.");
 		}
 
 	}

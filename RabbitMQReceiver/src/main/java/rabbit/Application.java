@@ -27,7 +27,7 @@ public class Application {
             DEBUG_QUEUE = "debug_log",
             EXCHANGE_LOGS = "logs",
             EXCHANGE_DIRECT_LOGS = "direct_logs",
-            EXCHANGE_TOPICS = "topic_logs",
+            EXCHANGE_TOPICS = "debug_topic_exchange",
             RPC_QUEUE_NAME = "rpc_queue";
 
     public static void main(String[] args) throws Exception {

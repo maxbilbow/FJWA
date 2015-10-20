@@ -20,10 +20,11 @@ import java.util.Locale;
 
 @Configuration
 @EnableWebMvc
-@Import({DBConfig.class, RMXSpringConfig.class})
+@Import({DBConfig.class, RMXSpringConfig.class, FreemarkerConfig.class})
 //@EnableAspectJAutoProxy(proxyTargetClass = true)
 @ComponentScan(basePackages = "fjwa")
 public class WebConfig extends WebMvcConfigurerAdapter {
+
 
 
     //Normal setup

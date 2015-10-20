@@ -33,6 +33,6 @@ public class EmitLogTopic extends Sender {
 
     private static String getRouting(String[] args)
     {
-        return "this.is.a.topic";
+        return "debug.log";
     }
 }

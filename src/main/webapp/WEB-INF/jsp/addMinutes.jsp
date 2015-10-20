@@ -80,7 +80,9 @@
           <label for="selectinput1">
             <spring:message code="minutes.activity" />
           </label>
-          <form:select id="activities" path="activity" />
+          <form:select id="activities" path="activity" >
+            <form:
+          </form:select>
         </div>
 
 		<input type="submit" class="btn" value="Do a thing" />

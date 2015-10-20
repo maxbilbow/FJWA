@@ -1,107 +1,92 @@
 package rabbit;
 
-import click.rmx.debug.RMXException;
+import click.rmx.debug.Bugger;
 import click.rmx.debug.WebBugger;
 import com.rabbitmq.client.*;
+import fjwa.model.Message;
 
 import java.io.IOException;
-import java.time.Instant;
-import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+
+import static click.rmx.debug.Bugger.timestamp;
+
 
 /**
  * Created by bilbowm on 19/10/2015.
  */
 public class Rabbit {
     public final static String QUEUE_NAME = "hello";
-    public final static String DEBUG_QUEUE = "WebBugger";
-    public static String timestamp()
-    {
-        return DateTimeFormatter.ISO_INSTANT
-                .format(Instant.now()).split("T")[1];//.split(".")[0];
-    }
-    public static void startDebugReceiver() throws IOException {
-        ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost("localhost");
-        Connection connection = factory.newConnection();
-        Channel channel = connection.createChannel();
+    private final static String EXCHANGE_NAME = WebBugger.DEBUG_EXCHANGE_NAME;
 
-        channel.queueDeclare(DEBUG_QUEUE, false, false, false, null);
-        Consumer consumer = new DefaultConsumer(channel) {
-            @Override
-            public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body)
-                    throws IOException {
-                String message = new String(body, "UTF-8");
-                String response = "<span style=\"color: red;\">" +
-                        "RabbitMQ::RECV: [" +
-                        timestamp() +
-                        "] </span>'" + message + "'";
-                System.out.println(response);
-               WebBugger.getInstance().addLog(response);
-            }
-        };
-        channel.basicConsume(DEBUG_QUEUE, true, consumer);
-    }
 
-    public static void main(String[] argv)
-            throws java.io.IOException,
-            java.lang.InterruptedException {
+
+    public static void sendMessageWithTopic(Message msg, Object sender)
+            throws Exception {
 
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost("localhost");
         Connection connection = factory.newConnection();
         Channel channel = connection.createChannel();
 
-        channel.queueDeclare(QUEUE_NAME, false, false, false, null);
-        System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
-        Consumer consumer = new DefaultConsumer(channel) {
-            @Override
-            public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body)
-                    throws IOException {
-                String message = new String(body, "UTF-8");
-                System.out.println(" ["+timestamp()+"] Received '" + message + "'");
-//                System.out.println("  --FROM: " + consumerTag);
-                try {
-                    sendMessage(message, DEBUG_QUEUE);
-                }catch (Exception e) {
-                    System.err.println("Failed to send receipt confirmation");
-                    throw e;
-                }
-            }
-        };
-        channel.basicConsume(QUEUE_NAME, true, consumer);
+        channel.exchangeDeclare(EXCHANGE_NAME, "topic");
+
+        String routingKey = msg.getTopic();
+        String message = msg.getMessage();
+
+
+        channel.basicPublish(EXCHANGE_NAME, routingKey, null, message.getBytes());
+        WebBugger.getInstance().addLog("[" + timestamp() + "] "+sender.getClass().getSimpleName()+" Sent '" + routingKey + "':'" + message + "'");
+
+        connection.close();
     }
 
-    public static void sendMessage(String message, String queue) {
-        Connection connection = null;
-        Channel channel = null;
-        try {
-            ConnectionFactory factory = new ConnectionFactory();
-            factory.setHost("localhost");
-            connection = factory.newConnection();
-            channel = connection.createChannel();
-            channel.queueDeclare(queue, false, false, false, null);
-            channel.basicPublish("", queue, null, message.getBytes());
-            WebBugger.getInstance().addLog("RabbitMQ::SEND [" + timestamp() + "] '"+message+"'");
+    @Deprecated
+    public static void startDebugQueue(String... topics) throws IOException {
+        List argv = Arrays.asList(new String[]{"debug.#", "#.log", "#.error", "#.exception"});
+        String[] factory = topics;
+        int queueName = topics.length;
 
-        } catch (IOException e) {
-           WebBugger.getInstance().addException(
-                   RMXException.unexpected(e, "RabbitMQ::SEND [" + timestamp() + "] Message FAILED")
-           );
-        } finally {
-            try {
-                channel.close();
-            } catch (IOException e) {
-                WebBugger.getInstance().addException(
-                        RMXException.unexpected(e, "RabbitMQ::SEND [" + timestamp() + "] Message FAILED")
-                );
-            }
-            try {
-                connection.close();
-            } catch (IOException e) {
-                WebBugger.getInstance().addException(
-                        RMXException.unexpected(e, "RabbitMQ::SEND [" + timestamp() + "] Message FAILED")
-                );
-            }
+        String bindingKey;
+        for(int consumer = 0; consumer < queueName; ++consumer) {
+            bindingKey = factory[consumer];
+            argv.add(bindingKey);
         }
+
+        ConnectionFactory var7 = new ConnectionFactory();
+        var7.setHost("localhost");
+        Connection connection = var7.newConnection();
+        Channel channel = connection.createChannel();
+        channel.exchangeDeclare(EXCHANGE_NAME, "topic");
+        String var8 = channel.queueDeclare().getQueue();
+        if(argv.size() < 1) {
+            System.err.println("Usage: ReceiveLogsTopic [binding_key]...");
+            System.exit(1);
+        }
+
+        Iterator var9 = argv.iterator();
+
+        while(var9.hasNext()) {
+            bindingKey = (String)var9.next();
+            channel.queueBind(var8, "debug_topic_exchange", bindingKey);
+        }
+
+        Bugger.print(" [WebBugger] Waiting for messages. To exit press CTRL+C");
+        DefaultConsumer var10 = new DefaultConsumer(channel) {
+            public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
+                String message = new String(body, "UTF-8");
+                String topic = envelope.getRoutingKey().toLowerCase();
+                String log = "[" + timestamp() + "] WebBugger received \'" + topic + "\':\'" + message + "\'";
+                Bugger.print(log);
+                if(!topic.contains("error") && !topic.contains("exception")) {
+                    WebBugger.getInstance().addLog(log);
+                } else {
+                    WebBugger.getInstance().addException(log);
+                }
+
+            }
+        };
+        channel.basicConsume(var8, true, var10);
     }
 }
