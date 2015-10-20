@@ -64,9 +64,7 @@
           <element id="library" level="project" name="Maven: log4j:log4j:1.2.17" />
           <element id="library" level="project" name="Maven: jstl:jstl:1.2" />
           <element id="library" level="project" name="Maven: click.rmx.debug:rmx-debug:v0.0.2-SNAPSHOT" />
-          <element id="archive" name="rmx-core-v0.0.2-SNAPSHOT.jar">
-            <element id="module-output" name="RabbitMQReceiver" />
-          </element>
+          <element id="library" level="project" name="Maven: click.rmx.core:rmx-core:v0.0.2-SNAPSHOT" />
           <element id="library" level="project" name="Maven: click.rmx.multithread:rmx-multithread-toolkit:v0.0.2-SNAPSHOT" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.4.6" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.4.6" />
@@ -76,6 +74,18 @@
           <element id="library" level="project" name="Maven: org.springframework.retry:spring-retry:1.1.2.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework.amqp:spring-amqp:1.4.5.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-messaging:4.1.7.RELEASE" />
+          <element id="library" level="project" name="Maven: org.eclipse.jetty.websocket:websocket-server:9.2.13.v20150730" />
+          <element id="library" level="project" name="Maven: org.eclipse.jetty.websocket:websocket-common:9.2.13.v20150730" />
+          <element id="library" level="project" name="Maven: org.eclipse.jetty.websocket:websocket-api:9.2.13.v20150730" />
+          <element id="library" level="project" name="Maven: org.eclipse.jetty:jetty-util:9.2.13.v20150730" />
+          <element id="library" level="project" name="Maven: org.eclipse.jetty:jetty-io:9.2.13.v20150730" />
+          <element id="library" level="project" name="Maven: org.eclipse.jetty.websocket:websocket-client:9.2.13.v20150730" />
+          <element id="library" level="project" name="Maven: org.eclipse.jetty.websocket:websocket-servlet:9.2.13.v20150730" />
+          <element id="library" level="project" name="Maven: javax.servlet:javax.servlet-api:3.1.0" />
+          <element id="library" level="project" name="Maven: org.eclipse.jetty:jetty-servlet:9.2.13.v20150730" />
+          <element id="library" level="project" name="Maven: org.eclipse.jetty:jetty-security:9.2.13.v20150730" />
+          <element id="library" level="project" name="Maven: org.eclipse.jetty:jetty-server:9.2.13.v20150730" />
+          <element id="library" level="project" name="Maven: org.eclipse.jetty:jetty-http:9.2.13.v20150730" />
         </element>
       </element>
       <element id="directory" name="META-INF">

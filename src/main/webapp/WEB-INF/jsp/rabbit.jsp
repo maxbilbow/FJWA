@@ -51,7 +51,7 @@
         Welcome to RabbitMQ Testing page, <sec:authentication property="name"/>!
       </h2>
       <p>
-        send a message
+        Known bug: shutting down artifact does not terminate receiver.
       </p>
     </div>
 

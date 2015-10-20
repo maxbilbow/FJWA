@@ -100,7 +100,10 @@
       </div>
       <div class="hero-unit">
         <a class="btn btn-primary" href="rabbit.html">
-          Rabbit Send...
+          Rabbit Tester
+        </a>
+        <a class="btn btn-primary" href="webSockets.html">
+          Web Sockets Tester
         </a>
         </div>
       <div class="rmx-error-log">
