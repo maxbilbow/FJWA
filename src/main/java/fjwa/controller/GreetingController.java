@@ -3,6 +3,7 @@ package fjwa.controller;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import websockets.Greeting;
 import websockets.HelloMessage;
@@ -12,8 +13,9 @@ public class GreetingController {
 
 
     @RequestMapping("/socketsExample.html")
-    public String get()
+    public String get(ModelMap model)
     {
+        model.addAttribute("fjwa_root","/FJWA");
         return "socketsExample";
     }
 

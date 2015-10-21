@@ -17,9 +17,9 @@
 		<spring-data-jpa.version>1.9.0.RELEASE</spring-data-jpa.version>
         <spring-data-commons.version>1.11.0.RELEASE</spring-data-commons.version>
         <mysql.version>5.1.36</mysql.version>
-        <tomcat.version>8.0.26</tomcat.version>
+        <!--<tomcat.version>8.0.26</tomcat.version>-->
         <commons-logging.version>1.2</commons-logging.version>
-
+        <jetty-websocket.version>8.1.18.v20150929</jetty-websocket.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<start-class>fjwa.Application</start-class>
 		<java.version>1.8</java.version>
@@ -216,11 +216,23 @@
             <artifactId>spring-rabbit</artifactId>
             <version>${spring-amqp.version}</version>
         </dependency>
+
+        <!--<dependency>-->
+            <!--<groupId>org.eclipse.jetty</groupId>-->
+            <!--<artifactId>websocket-server</artifactId>-->
+            <!--<version>${jetty.version}</version>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>org.eclipse.jetty.websocket</groupId>
             <artifactId>websocket-server</artifactId>
             <version>${jetty.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-websocket</artifactId>
+            <version>${jetty-websocket.version}</version>
+        </dependency>
+
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -232,6 +244,34 @@
             <artifactId>spring-messaging</artifactId>
             <version>${spring.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <!--<dependency>-->
+            <!--<groupId>org.springframework</groupId>-->
+            <!--<artifactId>spring-aspects</artifactId>-->
+            <!--<version>${spring.version}</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.aspectj</groupId>-->
+            <!--<artifactId>aspectjrt</artifactId>-->
+            <!--<version>${aspectj.version}</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.aspectj</groupId>-->
+            <!--<artifactId>aspectjweaver</artifactId>-->
+            <!--<version>${aspectj.version}</version>-->
+        <!--</dependency>-->
+
     </dependencies>
 
 

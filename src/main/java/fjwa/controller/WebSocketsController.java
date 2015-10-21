@@ -30,7 +30,8 @@ public class WebSocketsController {
 
     String[] sockets = {
             defaultSocket,
-            "localhost:8081/FJWA/topic"
+            "localhost:8081/FJWA/hello",
+            "localhost:8081/FJWA/hello/info"
     };
 
 
