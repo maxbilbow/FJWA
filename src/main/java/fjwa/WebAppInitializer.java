@@ -1,6 +1,8 @@
 package fjwa;
 
 import click.rmx.debug.WebBugger;
+import fjwa.config.SecurityConfig;
+import fjwa.config.WebConfig;
 import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;

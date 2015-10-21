@@ -6,26 +6,28 @@ package fjwa.model;
 public class WebSocketDesc {
     private final String uri;
 
+    private boolean secure = false;
+
     public WebSocketDesc(String uri) {
         if (uri.startsWith("ws://"))
             uri = uri.substring(5);
         if (uri.startsWith("wss://"))
             uri = uri.substring(6);
         if (uri.endsWith("/"))
-            this.uri = uri;
+            this.uri = uri.substring(0,uri.length() - 1);
         else
-            this.uri = uri + "/";
-    }
-
-    public String getWsUri() {
-        return "ws://" + uri;
-    }
-
-    public String getWssUri() {
-        return "wss://"+uri;
+            this.uri = uri;
     }
 
     public String getUri() {
-        return uri;
+        return (secure ? "wss://" : "ws://") + uri;
+    }
+
+    public boolean isSecure() {
+        return secure;
+    }
+
+    public void setSecure(boolean secure) {
+        this.secure = secure;
     }
 }

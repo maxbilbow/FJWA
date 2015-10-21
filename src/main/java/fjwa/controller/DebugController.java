@@ -15,7 +15,7 @@ import java.util.List;
  * Created by bilbowm on 13/10/2015.
  */
 @Controller
-public class WebBuggerController {
+public class DebugController {
 
     @Autowired
     private WebBugger debug;// = WebBugger.getInstance();

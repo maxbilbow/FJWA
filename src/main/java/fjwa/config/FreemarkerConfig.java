@@ -1,4 +1,4 @@
-package fjwa;
+package fjwa.config;
 
 import org.springframework.context.annotation.Configuration;
 

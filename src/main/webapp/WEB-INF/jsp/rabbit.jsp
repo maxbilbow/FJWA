@@ -100,7 +100,7 @@
       amqp.connect('amqp://localhost', function(err, conn) {
 
         conn.createChannel(function(err, ch) {
-          var q = 'hello';
+          var q = 'websockets';
 
           ch.assertQueue(q, {durable: false});
         });

@@ -10,7 +10,7 @@ import java.io.IOException;
  */
 public class Send {
 
-    private final static String QUEUE_NAME = "hello";
+    private final static String QUEUE_NAME = "websockets";
 
     public static void main(String [] args)
     {

@@ -1,4 +1,4 @@
-package fjwa;
+package fjwa.config;
 
 
 import click.rmx.spring.RMXSpringConfig;
@@ -20,7 +20,12 @@ import java.util.Locale;
 
 @Configuration
 @EnableWebMvc
-@Import({DBConfig.class, RMXSpringConfig.class, FreemarkerConfig.class})
+@Import({
+		DBConfig.class,
+		RMXSpringConfig.class,
+		FreemarkerConfig.class
+//		WebSocketConfig.class
+})
 //@EnableAspectJAutoProxy(proxyTargetClass = true)
 @ComponentScan(basePackages = "fjwa")
 public class WebConfig extends WebMvcConfigurerAdapter {

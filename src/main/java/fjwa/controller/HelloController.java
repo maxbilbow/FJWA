@@ -13,7 +13,7 @@ public class HelloController {
 		
 		model.addAttribute("greeting", "Hello World");
 		
-		return "hello";
+		return "websockets";
 	}
 	
 }

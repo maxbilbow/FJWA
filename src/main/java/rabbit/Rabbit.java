@@ -17,7 +17,7 @@ import static click.rmx.debug.Bugger.timestamp;
  * Created by bilbowm on 19/10/2015.
  */
 public class Rabbit {
-    public final static String QUEUE_NAME = "hello";
+    public final static String QUEUE_NAME = "websockets";
     private final static String EXCHANGE_NAME = WebBugger.DEBUG_EXCHANGE_NAME;
 
 

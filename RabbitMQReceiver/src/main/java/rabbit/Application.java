@@ -22,7 +22,7 @@ import static click.rmx.debug.Bugger.print;
 @EnableAutoConfiguration
 public class Application {
     public static final String
-            QUEUE_NAME = "hello",
+            QUEUE_NAME = "websockets",
             TASK_QUEUE_NAME = "task_queue",
             DEBUG_QUEUE = "debug_log",
             EXCHANGE_LOGS = "logs",

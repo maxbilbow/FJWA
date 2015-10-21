@@ -13,7 +13,6 @@
         <property name="characterSetResults" value="utf8" />
         <property name="yearIsDateType" value="false" />
       </driver-properties>
-      <libraries />
     </data-source>
     <data-source source="LOCAL" name="devsql.maxbilbow.com - @dreamhost" uuid="617e89a4-e339-43e3-a4df-4f912f53f7ca">
       <driver-ref>mysql</driver-ref>
@@ -27,7 +26,6 @@
         <property name="characterSetResults" value="utf8" />
         <property name="yearIsDateType" value="false" />
       </driver-properties>
-      <libraries />
     </data-source>
     <data-source source="LOCAL" name="rmxdb-tes @ amazonaws.com" uuid="ca2ed240-52af-466c-8d40-259ef42177fc">
       <driver-ref>mysql</driver-ref>
@@ -41,7 +39,6 @@
         <property name="characterSetResults" value="utf8" />
         <property name="yearIsDateType" value="false" />
       </driver-properties>
-      <libraries />
     </data-source>
   </component>
 </project>

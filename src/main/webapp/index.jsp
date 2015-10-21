@@ -105,6 +105,9 @@
         <a class="btn btn-primary" href="webSockets.html">
           Web Sockets Tester
         </a>
+        <a class="btn btn-primary" href="socketsExample.html">
+          Web Sockets Tester
+        </a>
         </div>
       <div class="rmx-error-log">
       </div>

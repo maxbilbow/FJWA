@@ -19,13 +19,13 @@
       </profile>
       <profile default="false" name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-        <module name="FJWA" />
+        <module name="WebSocket" />
       </profile>
       <profile default="false" name="Annotation profile for RabbitMQReceiver" enabled="true">
-        <sourceOutputDir name="target\generated-sources\annotations" />
+        <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
@@ -35,6 +35,7 @@
     <bytecodeTargetLevel target="1.8">
       <module name="FJWA" target="1.8" />
       <module name="RabbitMQReceiver" target="1.8" />
+      <module name="WebSocket" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

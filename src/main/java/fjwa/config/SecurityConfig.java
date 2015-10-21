@@ -1,4 +1,4 @@
-package fjwa;
+package fjwa.config;
 
 import click.rmx.debug.WebBugger;
 import fjwa.security.FitnessPermissionEvaluator;

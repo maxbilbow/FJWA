@@ -52,7 +52,7 @@
                             <select id="toSocket" onchange="updateUri()">
                                 <option> --none--  </option>
                                 <c:forEach items="${sockets}" var="socket">
-                                    <option>${socket.uri}</option>
+                                    <option>${socket}</option>
                                 </c:forEach>
                             </select>
                         </div>

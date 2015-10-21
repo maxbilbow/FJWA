@@ -1,7 +1,6 @@
 package fjwa.controller;
 
 import click.rmx.debug.WebBugger;
-import fjwa.model.WebSocketDesc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -18,7 +17,7 @@ public class WebSocketsController {
     @Autowired
     WebBugger debug;
 
-    WebSocketDesc defaultSocket = new WebSocketDesc("echo.websocket.org");
+    String defaultSocket = "echo.websocket.org";
 
     @RequestMapping(method = RequestMethod.GET)
     public String get(ModelMap model)
@@ -29,8 +28,9 @@ public class WebSocketsController {
     }
 
 
-    WebSocketDesc[] sockets = {
-            defaultSocket
+    String[] sockets = {
+            defaultSocket,
+            "localhost:8081/FJWA/topic"
     };
 
 

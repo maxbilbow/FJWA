@@ -4,7 +4,7 @@
   <groupId>FJWA</groupId>
   <artifactId>FJWA</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-	<properties>
+       <properties>
 		<!--<spring.version>4.2.2.RELEASE</spring.version>-->
         <!--<spring-security.version>4.0.2.RELEASE</spring-security.version>-->
 		<!--<hibernate.version>5.0.2.Final</hibernate.version>-->
@@ -24,6 +24,7 @@
 		<start-class>fjwa.Application</start-class>
 		<java.version>1.8</java.version>
         <rmx.version>v0.0.2-SNAPSHOT</rmx.version>
+
 	</properties>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -221,6 +222,16 @@
             <version>${jetty.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+            <version>${spring-boot.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-messaging</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
     </dependencies>
 
 
@@ -235,5 +246,5 @@
 	</build>
   <name>First Java Web App</name>
   <url>http://maxbilbow.com</url>
-  <packaging>war</packaging>
+  <packaging>pom</packaging>
 </project>
