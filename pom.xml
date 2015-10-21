@@ -8,7 +8,7 @@
 		<!--<spring.version>4.2.2.RELEASE</spring.version>-->
         <!--<spring-security.version>4.0.2.RELEASE</spring-security.version>-->
 		<!--<hibernate.version>5.0.2.Final</hibernate.version>-->
-
+<javax-servlet.version>3.1.0</javax-servlet.version>
         <hibernate-jpa.version>1.0.0.Final</hibernate-jpa.version>
         <!--<hibernate-entitymanager>${hibernate.version}</hibernate-entitymanager>-->
         <!--<hibernate-validator.version>${hibernate.version}</hibernate-validator.version>-->
@@ -232,6 +232,11 @@
             <artifactId>jetty-websocket</artifactId>
             <version>${jetty-websocket.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty.websocket</groupId>
+            <artifactId>javax-websocket-server-impl</artifactId>
+            <version>${jetty.version}</version>
+        </dependency>
 
 
         <dependency>
@@ -256,22 +261,40 @@
             <version>${spring.version}</version>
         </dependency>
 
-        <!--<dependency>-->
-            <!--<groupId>org.springframework</groupId>-->
-            <!--<artifactId>spring-aspects</artifactId>-->
-            <!--<version>${spring.version}</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.aspectj</groupId>-->
-            <!--<artifactId>aspectjrt</artifactId>-->
-            <!--<version>${aspectj.version}</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.aspectj</groupId>-->
-            <!--<artifactId>aspectjweaver</artifactId>-->
-            <!--<version>${aspectj.version}</version>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-websocket</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
 
+        <!-- Provided Websocket API, because tomcat has its own implementation -->
+        <dependency>
+            <groupId>javax.websocket</groupId>
+            <artifactId>javax.websocket-api</artifactId>
+            <version>1.1</version>
+            <scope>provided</scope>
+        </dependency>
+
+
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>${javax-servlet.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.jaxrs</groupId>
+            <artifactId>jackson-jaxrs-json-provider</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
     </dependencies>
 
 

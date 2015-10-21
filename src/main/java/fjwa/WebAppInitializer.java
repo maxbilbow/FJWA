@@ -3,19 +3,18 @@ package fjwa;
 import click.rmx.debug.WebBugger;
 import fjwa.config.SecurityConfig;
 import fjwa.config.WebConfig;
+import fjwa.config.WebSocketConfig;
 import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
+import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.DispatcherServlet;
 
-import javax.servlet.FilterRegistration;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRegistration;
-
+import javax.servlet.*;
+import java.nio.charset.StandardCharsets;
 
 
 public class WebAppInitializer implements WebApplicationInitializer {
@@ -49,6 +48,7 @@ public class WebAppInitializer implements WebApplicationInitializer {
 		FilterRegistration.Dynamic encodingFilter = servletContext.addFilter("SpringOpenEntityManagerInViewFilter", OpenEntityManagerInViewFilter.class);
 		encodingFilter.setInitParameter("SpringOpenEntityManagerInViewFilter", "/*");
 		encodingFilter.addMappingForUrlPatterns(null,false,"/*");
+		servletContext.addFilter("characterEncodingFilter", characterEncodingFilter());
 	}
 
 
@@ -57,15 +57,27 @@ public class WebAppInitializer implements WebApplicationInitializer {
 		servletContext.addFilter("securityFilter",
 				new DelegatingFilterProxy("springSecurityFilterChain"))
 				.addMappingForUrlPatterns(null, false, "/*");
-
 	}
 
 	private AnnotationConfigWebApplicationContext getContext() {
 		AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
-		context.register(WebConfig.class,SecurityConfig.class);//, WebSocketConfig.class);
+		context.register(WebConfig.class,SecurityConfig.class, WebSocketConfig.class);
 		return context;
 	}
 
+	//TODO
+	protected void customizeRegistration(ServletRegistration.Dynamic registration) {
+		registration.setInitParameter("dispatchOptionsRequest", "true");
+		registration.setAsyncSupported(true);
+	}
+
+
+	//TODO
+	private CharacterEncodingFilter characterEncodingFilter() {
+		CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
+		characterEncodingFilter.setEncoding(StandardCharsets.UTF_8.name());
+		return  characterEncodingFilter;
+	}
 
 
 }

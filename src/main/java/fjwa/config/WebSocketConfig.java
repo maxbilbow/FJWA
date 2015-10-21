@@ -6,19 +6,15 @@ import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBr
 
 @Configuration
 @EnableWebSocketMessageBroker
-public class WebSocketConfig {//extends AbstractWebSocketMessageBrokerConfigurer {
-
-//    @Override
+public class WebSocketConfig {//} extends AbstractWebSocketMessageBrokerConfigurer {
+   // @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
         config.enableSimpleBroker("/topic");
         config.setApplicationDestinationPrefixes("/app");
     }
-//
-////    @Override TODO: THis is the problem...
+
+//    @Override
 //    public void registerStompEndpoints(StompEndpointRegistry registry) {
-//        registry.addEndpoint("/hello").withSockJS();
+//        registry.addEndpoint("/chat").withSockJS();
 //    }
-
-
-
 }

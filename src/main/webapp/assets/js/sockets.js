@@ -5,23 +5,55 @@ var output;
 var uri;
 var wss = false;
 
-function getMessage() {
-    return $('textarea#sendMessage').html();
+function setConnected(connected) {
+    if (connected == true) {
+        $('input#customSocket').attr('disabled','disabled');
+        $('#wss').attr('disabled','disabled');
+        $('select#toSocket').attr('disabled','disabled');
+        $('div#openSocket').attr('disabled','disabled');
+        $('div#closeSocket').removeAttr('disabled');
+        $('div#sendButton').removeAttr('disabled');
+        console.log('CONNECTED >>> ');
+    } else {
+        $('input#customSocket').removeAttr('disabled');
+        $('#wss').removeAttr('disabled');
+        $('select#toSocket').removeAttr('disabled');
+        $('div#openSocket').removeAttr('disabled');
+        $('div#closeSocket').attr('disabled','dissabled');
+        $('div#sendButton').attr('disabled','disabled');
+        console.log('DISCONNECTED <<<');
+    }
+    updateUri();
+    updateWss();
 }
 
-var wsUri = function () {
-    return (wss ? "wss://" : "ws://") + uri;
+function getMessage() {
+    return $('textarea#sendMessage').val();
+}
+
+function wsUri() {
+    if ($('input#customSocket').prop('disabled'))
+        return (wss ? "wss://" : "ws://") + uri;
+    else
+        return uri;
 };
 
 function init() {
-    updateUri();
-    updateWss();
+    setConnected(false);
     console.log("uri: '" + wsUri() + "'");
     output = document.getElementById("output");
 }
 
 function updateUri() {
     uri = $('select#toSocket  option:selected').text();
+    if (uri.indexOf('--custom--') > -1) {
+        uri = $('input#customSocket').val();
+        $('#wss').attr('disabled','disabled');
+        $('input#customSocket').removeAttr('disabled');//.prop('disabled', false);//.disabled(false);
+    } else {
+        $('#wss').removeAttr('disabled');
+        $('input#customSocket').attr('disabled', 'disabled');
+    }
     console.log("uri: '" + wsUri() + "'");
 }
 
@@ -50,19 +82,26 @@ function disconnect() {
 function connect() {
     if (window.websocket)
         websocket.close();
-    websocket = new WebSocket(wsUri());
-    websocket.onopen = function (evt) {
-        onOpen(evt)
-    };
-    websocket.onclose = function (evt) {
-        onClose(evt)
-    };
-    websocket.onmessage = function (evt) {
-        onMessage(evt)
-    };
-    websocket.onerror = function (evt) {
-        onError(evt)
-    };
+    try {
+        websocket = new WebSocket(wsUri());
+        websocket.onopen = function (evt) {
+            onOpen(evt);
+            setConnected(true);
+        };
+        websocket.onclose = function (evt) {
+            onClose(evt)
+            setConnected(false);
+        };
+        websocket.onmessage = function (evt) {
+            onMessage(evt)
+        };
+        websocket.onerror = function (evt) {
+            onError(evt);
+
+        };
+    } catch (e) {
+        writeErrToScreen(e);
+    }
 }
 
 
@@ -74,18 +113,30 @@ function onClose(evt) {
     writeToScreen("DISCONNECTED");
 }
 function onMessage(evt) {
-    writeToScreen('<span style="color: blue;">RESPONSE: ' + evt.data + '</span>');
+    writeToScreen('<span style="color: rgba(0, 255, 248, 1);">RESPONSE: ' + evt.data + '</span>');
     //websocket.close();
 }
 function onError(evt) {
-    writeToScreen('<span style="color: red;">ERROR:</span> ' + evt.data);
+    writeToScreen('<span style="color: rgba(255, 170, 167, 1);">ERROR:</span> ' + evt.data);
+}
+
+function writeErrToScreen(err) {
+    writeToScreen('<span style="color: rgba(255, 170, 167, 1);">ERROR:</span> ' + err);
 }
 
 function writeToScreen(message) {
+
     var pre = document.createElement("p");
     pre.style.wordWrap = "break-word";
     pre.innerHTML = message;
     output.appendChild(pre);
-}
-window.addEventListener("load", init, false);
 
+    try {
+        output.scrollTop = output.scrollHeight;
+    } catch (e){
+        console.log(e);
+    }
+}
+
+
+window.addEventListener("load", init, false);

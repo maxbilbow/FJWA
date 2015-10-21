@@ -1,7 +1,7 @@
 package fjwa.controller;
 
 import click.rmx.debug.WebBugger;
-import fjwa.model.Message;
+import fjwa.messages.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;

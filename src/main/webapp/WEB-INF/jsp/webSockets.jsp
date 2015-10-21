@@ -11,6 +11,15 @@
     </title>
 
    <jsp:include page="header.jsp"/>
+    <style>
+        #output {
+            height: 200px;
+            overflow-y: scroll;
+            background-color: #000000;
+            color: #ffffff;
+            padding: 5px;
+        }
+    </style>
 </head>
 <body onload="startUpdates()">
 <div class="navbar navbar-fixed-top navbar-inverse">
@@ -50,11 +59,12 @@
                                 To Socket
                             </label>
                             <select id="toSocket" onchange="updateUri()">
-                                <option> --none--  </option>
+                                <option> --custom--  </option>
                                 <c:forEach items="${sockets}" var="socket">
                                     <option>${socket}</option>
                                 </c:forEach>
                             </select>
+                            <input id="customSocket" type="text" value="ws://" onchange="updateUri()" disabled="true">
                         </div>
                     <div class="form-group">
                         <label>Secure</label>
@@ -63,9 +73,9 @@
                         <input type="hidden"
                                name="${_csrf.parameterName}"
                                value="${_csrf.token}"/>
-                    <div class="btn btn-primary" onclick="connect()">Open Socket</div>
-                    <div class="btn btn-primary" onclick="sendMessage()">Send</div>
-                    <div class="btn btn-primary" onclick="disconnect()">Disconnect</div>
+                    <div id="openSocket" class="btn btn-primary" onclick="connect()">Open Socket</div>
+                    <div id="sendButton" class="btn btn-primary" onclick="sendMessage()">Send</div>
+                    <div id="closeSocket" class="btn btn-primary" onclick="disconnect()">Disconnect</div>
                 </div>
                 <div class="col-md-6">
 

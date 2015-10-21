@@ -24,7 +24,7 @@
         }
 
         function connect() {
-            var socket = new SockJS('${fjwa_root}/hello');
+            var socket = new SockJS('${fjwa_root}');//'/hello');
             stompClient = Stomp.over(socket);
             stompClient.connect({}, function(frame) {
                 setConnected(true);

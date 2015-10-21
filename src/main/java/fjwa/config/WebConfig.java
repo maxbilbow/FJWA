@@ -23,7 +23,7 @@ import java.util.Locale;
 @Import({
 		DBConfig.class,
 		RMXSpringConfig.class,
-		FreemarkerConfig.class, WebSocketConfig.class
+		FreemarkerConfig.class//, WebSocketConfig.class
 })
 //@EnableAspectJAutoProxy(proxyTargetClass = true)
 @ComponentScan(basePackages = "fjwa")

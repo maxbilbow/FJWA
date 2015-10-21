@@ -1,17 +1,21 @@
-package fjwa.model;
-
-import javax.validation.constraints.NotNull;
+package fjwa.messages;
 
 /**
  * Created by bilbowm on 20/10/2015.
  */
 public class Message {
 
-    @NotNull
-    private String message = "";
+    private String message, topic;
+    private int id;
 
-    @NotNull
-    private String topic = "";
+    public Message() {
+
+    }
+
+    public Message(int id, String message) {
+        this.id = id;
+        this.message = message;
+    }
 
     public String getMessage() {
         return message;
@@ -19,6 +23,14 @@ public class Message {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTopic() {

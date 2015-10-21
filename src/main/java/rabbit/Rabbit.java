@@ -3,7 +3,7 @@ package rabbit;
 import click.rmx.debug.Bugger;
 import click.rmx.debug.WebBugger;
 import com.rabbitmq.client.*;
-import fjwa.model.Message;
+import fjwa.messages.Message;
 
 import java.io.IOException;
 import java.util.Arrays;

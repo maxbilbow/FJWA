@@ -1,4 +1,4 @@
-package fjwa.model;
+package fjwa.messages;
 
 /**
  * Created by bilbowm on 20/10/2015.

@@ -1,6 +1,7 @@
 package fjwa.model;
 
 import click.rmx.debug.Tests;
+import fjwa.messages.WebSocketDesc;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
