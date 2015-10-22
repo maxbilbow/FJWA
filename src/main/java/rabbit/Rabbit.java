@@ -85,7 +85,6 @@ public class Rabbit {
                 } else {
                     WebBugger.getInstance().addException(log);
                 }
-
             }
         };
         channel.basicConsume(var8, true, var10);

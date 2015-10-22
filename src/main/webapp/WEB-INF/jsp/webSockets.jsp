@@ -60,7 +60,7 @@
                     <label>Send On:</label>
                     <input type="text" id="chatTopic" value="/app/chat"/>
                     <label>Listen To:</label>
-                    <input type="text" id="chatBroker" value="/topic/message"/>
+                    <input type="text" id="chatBroker" value="/topic/**"/>
                 </div>
 
 
