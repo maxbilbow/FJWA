@@ -31,7 +31,6 @@ public class WebSocketsController {
     String[] sockets = {
             defaultSocket,
             "localhost:8079/spring-ng-chat/chat",
-            "localhost:8081/FJWA/hello",
             "localhost:15674/stomp"
     };
 

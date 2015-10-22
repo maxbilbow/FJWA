@@ -4,32 +4,39 @@
 var output;
 var uri;
 var wss = false;
+var stompClient;
 var socketLibs = {
-    socketIo : 'socket.io',
-    sockJs : 'SockJS'
+    socketIo: 'socket.io',
+    sockJs: 'SockJS'
 }
+
+
+var messageIds = [];
+
 function useLibrary(lib) {
     var opt = $('select#socketLibrary option:selected').text();
     return lib != null ? opt === lib : opt;
 }
 function setConnected(connected) {
     if (connected == true) {
-        $('input#customSocket').attr('disabled','disabled');
-        $('#wss').attr('disabled','disabled');
-        $('select#toSocket').attr('disabled','disabled');
-        $('div#openSocket').attr('disabled','disabled');
+        $('input#customSocket').attr('disabled', 'disabled');
+        $('#wss').attr('disabled', 'disabled');
+        $('select#toSocket').attr('disabled', 'disabled');
+        $('div#openSocket').attr('disabled', 'disabled');
         $('div#closeSocket').removeAttr('disabled');
         $('div#sendButton').removeAttr('disabled');
-        $('select#socketLibrary').attr('disabled','disabled');
+        $('select#socketLibrary').attr('disabled', 'disabled');
+        $('input#chatBroker').attr('disabled', 'disabled');
         console.log('CONNECTED >>> ');
     } else {
         $('input#customSocket').removeAttr('disabled');
         $('#wss').removeAttr('disabled');
         $('select#toSocket').removeAttr('disabled');
         $('div#openSocket').removeAttr('disabled');
-        $('div#closeSocket').attr('disabled','dissabled');
-        $('div#sendButton').attr('disabled','disabled');
+        $('div#closeSocket').attr('disabled', 'dissabled');
+        $('div#sendButton').attr('disabled', 'disabled');
         $('select#socketLibrary').removeAttr('disabled');
+        $('input#chatBroker').removeAttr('disabled');
         console.log('DISCONNECTED <<<');
     }
     updateUri();
@@ -42,7 +49,10 @@ function getMessage() {
 
 function wsUri() {
     if ($('input#customSocket').prop('disabled'))
-        return (wss ? "wss://" : "ws://") + uri;
+        if (useLibrary(socketLibs.socketIo))
+            return (wss ? "wss://" : "ws://") + uri;
+        else
+            return (wss ? "https://" : "http://") + uri;
     else
         return uri;
 };
@@ -57,7 +67,7 @@ function updateUri() {
     uri = $('select#toSocket  option:selected').text();
     if (uri.indexOf('--custom--') > -1) {
         uri = $('input#customSocket').val();
-        $('#wss').attr('disabled','disabled');
+        $('#wss').attr('disabled', 'disabled');
         $('input#customSocket').removeAttr('disabled');//.prop('disabled', false);//.disabled(false);
     } else {
         $('#wss').removeAttr('disabled');
@@ -73,33 +83,71 @@ function updateWss() {
 
 function sendMessage() {
     var message = getMessage();
-    console.log("sending: '" + message + "', to: " + wsUri());
-    if (useLibrary("socket.io")) {
-        if (window.websocket) {
-            writeToScreen("SENT: " + message);
-            websocket.send(message);
-        } else {
-            console.log("NO CONNECTION!");
+
+    console.log("sending: '" + message + "', to: " + wsUri() + ', on topic...' + chatTopic());
+    try {
+        switch (useLibrary()) {
+            case socketLibs.socketIo:
+                if (window.websocket) {
+                    writeToScreen("SENT: " + message);
+                    websocket.send(message);
+                } else {
+                    console.log("NO CONNECTION!");
+                }
+                break;
+            case socketLibs.sockJs:
+                var id = Math.floor(Math.random() * 1000000);
+                stompClient.send(chatTopic(), {
+                    priority: 9
+                }, JSON.stringify({
+                    message: message,
+                    id: id
+                }));
+                messageIds.push(id);
+                break;
         }
-    } else if (useLibrary("SockJS")) {
-        writeErrToScreen("SockJS Not implemented");
+    } catch (e) {
+        writeErrToScreen(e);
     }
-    //testWebSocket();
+}
+function chatBroker() {
+    return $('input#chatBroker').val();
 }
 
+function chatTopic() {
+    return $('input#chatTopic').val();
+}
 function disconnect() {
     if (window.websocket)
         websocket.close();
+    if (stompClient) {
+        stompClient.disconnect();
+        writeToScreen("DISCONNECTED");
+        setConnected(false);
+    }
 }
+
+
 function connect() {
-    switch (useLibrary()) {
-        case socketLibs.sockJs:
-            writeErrToScreen("SockJS Not implemented");
-            return;
-        case socketLibs.socketIo:
-            if (window.websocket)
-                websocket.close();
-            try {
+    try {
+        disconnect();
+        switch (useLibrary()) {
+            case socketLibs.sockJs:
+                var uri = wsUri();
+                window.websocket = new SockJS(uri);//'/hello');
+                var socket = window.websocket;
+                stompClient = Stomp.over(socket);
+                stompClient.connect({}, function (frame) {
+                    setConnected(true);
+                    writeToScreen('Connected: ' + frame);
+                    stompClient.subscribe(chatBroker(), function(data) {
+                        writeToScreen(data);
+                    });
+                });
+
+                break;
+            case socketLibs.socketIo:
+
                 window.websocket = new WebSocket(wsUri());
                 websocket.onopen = function (evt) {
                     onOpen(evt);
@@ -116,9 +164,10 @@ function connect() {
                     onError(evt);
 
                 };
-            } catch (e) {
-                writeErrToScreen(e);
-            }
+                break;
+        }
+    } catch (e) {
+        writeErrToScreen(e);
     }
 }
 
@@ -142,16 +191,39 @@ function writeErrToScreen(err) {
     writeToScreen('<span style="color: rgba(255, 170, 167, 1);">ERROR:</span> ' + err);
 }
 
-function writeToScreen(message) {
+function tryParse(data) {
+    if (data.body) {
+        var parsed = '';
+        try {
+            var json = JSON.parse(data.body);
+            var message = json.message, time = json.time;
+            if (time)
+                var time = new Date(time),
+                    h = time.getHours(), // 0-24 format
+                    m = time.getMinutes();
+            parsed += h +':' + m + " >> ";
 
+            if (message)
+                parsed += message;
+        } catch (e) {
+            writeErrToScreen(e);
+        }
+        return parsed.length > 0 ? parsed : 'UN-PARSED: ' + json;
+    } else {
+        console.log('Could not parse as JSON: ' + data);
+        return data;
+    }
+}
+
+function writeToScreen(message) {
     var pre = document.createElement("p");
     pre.style.wordWrap = "break-word";
-    pre.innerHTML = message;
+    pre.innerHTML = tryParse(message);
     output.appendChild(pre);
-
+    console.log(message);
     try {
         output.scrollTop = output.scrollHeight;
-    } catch (e){
+    } catch (e) {
         console.log(e);
     }
 }

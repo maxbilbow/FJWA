@@ -8,6 +8,10 @@
     };
 
 
+    function listenForErrors() {
+
+    }
+
     function checkForErrors(root) {
         var path;
         if (root == null)

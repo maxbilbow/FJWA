@@ -10,7 +10,7 @@ angular.module("chatApp.services").service("ChatService", function($q, $timeout)
     }, messageIds = [];
 
     service.RECONNECT_TIMEOUT = 30000;
-    service.SOCKET_URL = "/FJWA/chat";
+    service.SOCKET_URL = "http://localhost:8079/spring-ng-chat/chat";
     service.CHAT_TOPIC = "/topic/message";
     service.CHAT_BROKER = "/app/chat";
 
@@ -52,8 +52,8 @@ angular.module("chatApp.services").service("ChatService", function($q, $timeout)
         });
     };
 
-    var initialize = function() {
-        socket.client = new SockJS(service.SOCKET_URL);
+    var initialize = function(socketUrl) {
+        socket.client = new SockJS(socketUrl);
         socket.stomp = Stomp.over(socket.client);
         socket.stomp.connect({}, startListener);
         socket.stomp.onclose = reconnect;
