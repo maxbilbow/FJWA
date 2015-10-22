@@ -18,6 +18,8 @@ function useLibrary(lib) {
     return lib != null ? opt === lib : opt;
 }
 function setConnected(connected) {
+    updateUri();
+    updateWss();
     if (connected == true) {
         $('input#customSocket').attr('disabled', 'disabled');
         $('#wss').attr('disabled', 'disabled');
@@ -39,8 +41,7 @@ function setConnected(connected) {
         $('input#chatBroker').removeAttr('disabled');
         console.log('DISCONNECTED <<<');
     }
-    updateUri();
-    updateWss();
+
 }
 
 function getMessage() {
