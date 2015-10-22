@@ -1,7 +1,8 @@
 package fjwa.config;
 
 
-import click.rmx.spring.RMXSpringConfig;
+import click.rmx.debug.WebBugger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -13,6 +14,7 @@ import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
+import org.springframework.web.servlet.mvc.WebContentInterceptor;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import java.util.Locale;
@@ -22,13 +24,18 @@ import java.util.Locale;
 @EnableWebMvc
 @Import({
 		DBConfig.class,
-		RMXSpringConfig.class,
-		FreemarkerConfig.class//, WebSocketConfig.class
+		FreemarkerConfig.class, WebSocketConfig.class,
 })
 //@EnableAspectJAutoProxy(proxyTargetClass = true)
 @ComponentScan(basePackages = "fjwa")
 public class WebConfig extends WebMvcConfigurerAdapter {
 
+	@Bean
+	@Autowired
+	public WebBugger debug()
+	{
+		return WebBugger.getInstance();
+	}
 
     //Normal setup
 	@Bean
@@ -50,8 +57,25 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 		LocaleChangeInterceptor changeInterceptor = new LocaleChangeInterceptor();
 		changeInterceptor.setParamName("language");
 		registry.addInterceptor(changeInterceptor);
+		//Websockets
+		registry.addInterceptor(webContentInterceptor());
 	}
 
+	@Override //Websockets
+	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+		configurer.enable();
+	}
+
+	@Bean //Websockets
+	public WebContentInterceptor webContentInterceptor() {
+		WebContentInterceptor interceptor = new WebContentInterceptor();
+		interceptor.setCacheSeconds(0);
+		interceptor.setUseExpiresHeader(true);
+		interceptor.setUseCacheControlHeader(true);
+		interceptor.setUseCacheControlNoStore(true);
+
+		return interceptor;
+	}
     /**
      * Setup a simple strategy: use all the defaults and return XML by default when not sure.
      */
@@ -76,6 +100,8 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/assets/**").addResourceLocations("/assets/");
+//		registry.addResourceHandler("/libs/**").addResourceLocations("/libs/");
+//		registry.addResourceHandler("/app/**").addResourceLocations("/app/");
 		registry.addResourceHandler("/pdfs/**").addResourceLocations("/assets/pdf/");
 		registry.addResourceHandler("/css/**").addResourceLocations("/assets/css/");
 		registry.addResourceHandler("/img/**").addResourceLocations("/assets/img/");

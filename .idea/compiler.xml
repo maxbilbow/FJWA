@@ -35,7 +35,6 @@
     <bytecodeTargetLevel target="1.8">
       <module name="FJWA" target="1.8" />
       <module name="RabbitMQReceiver" target="1.8" />
-      <module name="WebSocket" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

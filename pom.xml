@@ -1,39 +1,33 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>FJWA</groupId>
-  <artifactId>FJWA</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-       <properties>
-		<!--<spring.version>4.2.2.RELEASE</spring.version>-->
-        <!--<spring-security.version>4.0.2.RELEASE</spring-security.version>-->
-		<!--<hibernate.version>5.0.2.Final</hibernate.version>-->
-<javax-servlet.version>3.1.0</javax-servlet.version>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>FJWA</groupId>
+    <artifactId>FJWA</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.2.6.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <properties>
+        <javax-servlet.version>3.1.0</javax-servlet.version>
         <hibernate-jpa.version>1.0.0.Final</hibernate-jpa.version>
-        <!--<hibernate-entitymanager>${hibernate.version}</hibernate-entitymanager>-->
-        <!--<hibernate-validator.version>${hibernate.version}</hibernate-validator.version>-->
-		<!--<junit.version>4.12</junit.version>-->
-        <!--<rabbit-mq.version>1.5.1.RELEASE</rabbit-mq.version>-->
-		<spring-data-jpa.version>1.9.0.RELEASE</spring-data-jpa.version>
+        <spring-data-jpa.version>1.9.0.RELEASE</spring-data-jpa.version>
+        <spring-data-mongodb.version>1.8.0.RELEASE</spring-data-mongodb.version>
         <spring-data-commons.version>1.11.0.RELEASE</spring-data-commons.version>
-        <mysql.version>5.1.36</mysql.version>
-        <!--<tomcat.version>8.0.26</tomcat.version>-->
         <commons-logging.version>1.2</commons-logging.version>
-        <jetty-websocket.version>8.1.18.v20150929</jetty-websocket.version>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<start-class>fjwa.Application</start-class>
-		<java.version>1.8</java.version>
+        <!--<jetty-websocket.version>8.1.18.v20150929</jetty-websocket.version>-->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <start-class>fjwa.Application</start-class>
+        <java.version>1.8</java.version>
         <rmx.version>v0.0.2-SNAPSHOT</rmx.version>
 
-	</properties>
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.2.6.RELEASE</version>
-		<relativePath/> <!-- lookup parent from repository -->
-	</parent>
+    </properties>
 
-	<dependencies>
+
+    <dependencies>
         <dependency>
             <groupId>org.apache.tomcat</groupId>
             <artifactId>tomcat-catalina</artifactId>
@@ -41,34 +35,28 @@
         </dependency>
 
 
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
 
 
-
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-orm</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context-support</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-
-
-
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-webmvc</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-oxm</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-
-
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-oxm</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
 
 
         <!-- Data -->
@@ -115,15 +103,15 @@
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-mongodb</artifactId>
-            <version>1.8.0.RELEASE</version>
+            <version>${spring-data-mongodb.version}</version>
         </dependency>
 
 
         <dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>${mysql.version}</version>
-		</dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql.version}</version>
+        </dependency>
 
         <!-- SECURITY -->
         <dependency>
@@ -131,11 +119,11 @@
             <artifactId>spring-security-taglibs</artifactId>
             <version>${spring-security.version}</version>
         </dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-core</artifactId>
-			<version>${spring-security.version}</version>
-		</dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+            <version>${spring-security.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>
@@ -169,7 +157,7 @@
         <dependency>
             <groupId>jstl</groupId>
             <artifactId>jstl</artifactId>
-            <version>1.2</version>
+            <version>${jstl.version}</version>
         </dependency>
 
         <!-- rmx setup -->
@@ -217,26 +205,23 @@
             <version>${spring-amqp.version}</version>
         </dependency>
 
+
         <!--<dependency>-->
-            <!--<groupId>org.eclipse.jetty</groupId>-->
+            <!--<groupId>org.eclipse.jetty.websocket</groupId>-->
+            <!--<artifactId>javax-websocket-server-impl</artifactId>-->
+            <!--<version>${jetty.version}</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.eclipse.jetty.websocket</groupId>-->
             <!--<artifactId>websocket-server</artifactId>-->
             <!--<version>${jetty.version}</version>-->
         <!--</dependency>-->
-        <dependency>
-            <groupId>org.eclipse.jetty.websocket</groupId>
-            <artifactId>websocket-server</artifactId>
-            <version>${jetty.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-websocket</artifactId>
-            <version>${jetty-websocket.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.jetty.websocket</groupId>
-            <artifactId>javax-websocket-server-impl</artifactId>
-            <version>${jetty.version}</version>
-        </dependency>
+      <!---->
+        <!--<dependency>-->
+            <!--<groupId>org.eclipse.jetty.websocket</groupId>-->
+            <!--<artifactId>javax-websocket-server-impl</artifactId>-->
+            <!--<version>${jetty.version}</version>-->
+        <!--</dependency>-->
 
 
         <dependency>
@@ -276,7 +261,6 @@
         </dependency>
 
 
-
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
@@ -295,19 +279,24 @@
             <artifactId>jackson-jaxrs-json-provider</artifactId>
             <version>${jackson.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+            <version>${freemarker.version}</version>
+        </dependency>
     </dependencies>
 
 
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
-  <name>First Java Web App</name>
-  <url>http://maxbilbow.com</url>
-  <packaging>pom</packaging>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+    <name>First Java Web App</name>
+    <url>http://maxbilbow.com</url>
+    <packaging>pom</packaging>
 </project>

@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 
 import static click.rmx.debug.Bugger.timestamp;
 
@@ -43,7 +44,7 @@ public class Rabbit {
     }
 
     @Deprecated
-    public static void startDebugQueue(String... topics) throws IOException {
+    public static void startDebugQueue(String... topics) throws IOException, TimeoutException {
         List argv = Arrays.asList(new String[]{"debug.#", "#.log", "#.error", "#.exception"});
         String[] factory = topics;
         int queueName = topics.length;

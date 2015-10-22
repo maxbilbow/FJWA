@@ -3,7 +3,6 @@ package fjwa;
 import click.rmx.debug.WebBugger;
 import fjwa.config.SecurityConfig;
 import fjwa.config.WebConfig;
-import fjwa.config.WebSocketConfig;
 import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
@@ -13,11 +12,14 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.DispatcherServlet;
 
-import javax.servlet.*;
+import javax.servlet.FilterRegistration;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRegistration;
 import java.nio.charset.StandardCharsets;
 
 
-public class WebAppInitializer implements WebApplicationInitializer {
+public class WebAppInitializer  implements WebApplicationInitializer {
 
 	@Override
 	public void onStartup(ServletContext servletContext) throws ServletException {
@@ -25,16 +27,16 @@ public class WebAppInitializer implements WebApplicationInitializer {
 		servletContext.addListener(new ContextLoaderListener(context)); //ContextLoadListener is here
 		ServletRegistration.Dynamic dispatcher = servletContext.addServlet("DispatcherServlet", new DispatcherServlet(context));
 		dispatcher.setLoadOnStartup(1);
-		dispatcher.addMapping("*.html");
-		dispatcher.addMapping("*.pdf");
-		dispatcher.addMapping("*.json");
-		dispatcher.addMapping("*.xml");
-        dispatcher.addMapping("*.js");
-		dispatcher.addMapping("*.css");
+
+		addMappings(dispatcher);
 
 		setUpFilterMapping(servletContext);
-		setUpSecurityMapping(servletContext);
 
+		//for webSockets
+		dispatcher.setInitParameter("dispatchOptionsRequest", "true");
+		dispatcher.setAsyncSupported(true);
+
+		//Start rabbitMQ Debug log receiver
 		try {
 			WebBugger.getInstance().startDebugQueue();
 			//ReceiveLogsTopic.receive("#.log.#", "#.error.#");
@@ -44,32 +46,35 @@ public class WebAppInitializer implements WebApplicationInitializer {
 
 	}
 
+	private void addMappings(ServletRegistration.Dynamic dispatcher) {
+		dispatcher.addMapping("*.html");
+		dispatcher.addMapping("*.pdf");
+		dispatcher.addMapping("*.json");
+		dispatcher.addMapping("*.xml");
+		dispatcher.addMapping("*.js");
+		dispatcher.addMapping("*.css");
+	}
+
 	private void setUpFilterMapping(ServletContext servletContext) {
 		FilterRegistration.Dynamic encodingFilter = servletContext.addFilter("SpringOpenEntityManagerInViewFilter", OpenEntityManagerInViewFilter.class);
 		encodingFilter.setInitParameter("SpringOpenEntityManagerInViewFilter", "/*");
 		encodingFilter.addMappingForUrlPatterns(null,false,"/*");
-		servletContext.addFilter("characterEncodingFilter", characterEncodingFilter());
-	}
 
-
-	private void setUpSecurityMapping(ServletContext servletContext) {
-
+		//For Security
 		servletContext.addFilter("securityFilter",
 				new DelegatingFilterProxy("springSecurityFilterChain"))
 				.addMappingForUrlPatterns(null, false, "/*");
+
+		//For Sockets?
+		servletContext.addFilter("characterEncodingFilter", characterEncodingFilter());
 	}
 
 	private AnnotationConfigWebApplicationContext getContext() {
 		AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
-		context.register(WebConfig.class,SecurityConfig.class, WebSocketConfig.class);
+		context.register(WebConfig.class, SecurityConfig.class);
 		return context;
 	}
 
-	//TODO
-	protected void customizeRegistration(ServletRegistration.Dynamic registration) {
-		registration.setInitParameter("dispatchOptionsRequest", "true");
-		registration.setAsyncSupported(true);
-	}
 
 
 	//TODO

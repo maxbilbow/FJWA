@@ -4,7 +4,14 @@
 var output;
 var uri;
 var wss = false;
-
+var socketLibs = {
+    socketIo : 'socket.io',
+    sockJs : 'SockJS'
+}
+function useLibrary(lib) {
+    var opt = $('select#socketLibrary option:selected').text();
+    return lib != null ? opt === lib : opt;
+}
 function setConnected(connected) {
     if (connected == true) {
         $('input#customSocket').attr('disabled','disabled');
@@ -13,6 +20,7 @@ function setConnected(connected) {
         $('div#openSocket').attr('disabled','disabled');
         $('div#closeSocket').removeAttr('disabled');
         $('div#sendButton').removeAttr('disabled');
+        $('select#socketLibrary').attr('disabled','disabled');
         console.log('CONNECTED >>> ');
     } else {
         $('input#customSocket').removeAttr('disabled');
@@ -21,6 +29,7 @@ function setConnected(connected) {
         $('div#openSocket').removeAttr('disabled');
         $('div#closeSocket').attr('disabled','dissabled');
         $('div#sendButton').attr('disabled','disabled');
+        $('select#socketLibrary').removeAttr('disabled');
         console.log('DISCONNECTED <<<');
     }
     updateUri();
@@ -65,12 +74,15 @@ function updateWss() {
 function sendMessage() {
     var message = getMessage();
     console.log("sending: '" + message + "', to: " + wsUri());
-
-    if (window.websocket) {
-        writeToScreen("SENT: " + message);
-        websocket.send(message);
-    } else {
-        console.log("NO CONNECTION!");
+    if (useLibrary("socket.io")) {
+        if (window.websocket) {
+            writeToScreen("SENT: " + message);
+            websocket.send(message);
+        } else {
+            console.log("NO CONNECTION!");
+        }
+    } else if (useLibrary("SockJS")) {
+        writeErrToScreen("SockJS Not implemented");
     }
     //testWebSocket();
 }
@@ -80,27 +92,33 @@ function disconnect() {
         websocket.close();
 }
 function connect() {
-    if (window.websocket)
-        websocket.close();
-    try {
-        websocket = new WebSocket(wsUri());
-        websocket.onopen = function (evt) {
-            onOpen(evt);
-            setConnected(true);
-        };
-        websocket.onclose = function (evt) {
-            onClose(evt)
-            setConnected(false);
-        };
-        websocket.onmessage = function (evt) {
-            onMessage(evt)
-        };
-        websocket.onerror = function (evt) {
-            onError(evt);
+    switch (useLibrary()) {
+        case socketLibs.sockJs:
+            writeErrToScreen("SockJS Not implemented");
+            return;
+        case socketLibs.socketIo:
+            if (window.websocket)
+                websocket.close();
+            try {
+                window.websocket = new WebSocket(wsUri());
+                websocket.onopen = function (evt) {
+                    onOpen(evt);
+                    setConnected(true);
+                };
+                websocket.onclose = function (evt) {
+                    onClose(evt)
+                    setConnected(false);
+                };
+                websocket.onmessage = function (evt) {
+                    onMessage(evt)
+                };
+                websocket.onerror = function (evt) {
+                    onError(evt);
 
-        };
-    } catch (e) {
-        writeErrToScreen(e);
+                };
+            } catch (e) {
+                writeErrToScreen(e);
+            }
     }
 }
 

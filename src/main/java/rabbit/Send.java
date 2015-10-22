@@ -21,12 +21,12 @@ public class Send {
             factory.setHost("localhost");
             connection = factory.newConnection();
             channel = connection.createChannel();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             try {
                 channel.close();
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             try {

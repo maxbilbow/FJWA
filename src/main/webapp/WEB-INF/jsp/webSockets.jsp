@@ -67,6 +67,15 @@
                             <input id="customSocket" type="text" value="ws://" onchange="updateUri()" disabled="true">
                         </div>
                     <div class="form-group">
+                        <label>
+                           Using
+                        </label>
+                        <select id="socketLibrary">
+                            <option>socket.io</option>
+                            <option>SockJS</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label>Secure</label>
                         <input type="checkbox" id="wss" value="false" onclick="updateWss()"/>
                     </div>
@@ -108,7 +117,13 @@
 
 </script>
 <script src="https://cdn.socket.io/socket.io-1.3.7.js"></script>
-
+<script src="libs/sockjs/sockjs.min.js" type="text/javascript"></script>
+<script src="libs/stomp-websocket/lib/stomp.min.js" type="text/javascript"></script>
+<script src="libs/angular/angular.min.js"></script>
+<script src="libs/lodash/dist/lodash.min.js"></script>
+<script src="app/app.js" type="text/javascript"></script>
+<script src="app/controllers.js" type="text/javascript"></script>
+<script src="app/services.js" type="text/javascript"></script>
 
 <%--<script src="assets/js/bootstrap.js"></script> --%>
 </body>

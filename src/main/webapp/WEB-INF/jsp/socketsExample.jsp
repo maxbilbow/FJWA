@@ -10,9 +10,13 @@
 <html>
 <head>
     <title>Hello WebSocket</title>
-    <script src="//cdn.jsdelivr.net/sockjs/1.0.0/sockjs.min.js"></script>
-    <%--<script src="https://cdn.socket.io/socket.io-1.3.7.js"></script>--%>
-    <script src="js/stomp.js"></script>
+    <script src="libs/sockjs/sockjs.min.js" type="text/javascript"></script>
+    <script src="libs/stomp-websocket/lib/stomp.min.js" type="text/javascript"></script>
+    <script src="libs/angular/angular.min.js"></script>
+    <script src="libs/lodash/dist/lodash.min.js"></script>
+    <script src="app/app.js" type="text/javascript"></script>
+    <script src="app/controllers.js" type="text/javascript"></script>
+    <script src="app/services.js" type="text/javascript"></script>
     <script type="text/javascript">
         var stompClient = null;
 
