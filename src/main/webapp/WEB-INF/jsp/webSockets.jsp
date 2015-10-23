@@ -49,9 +49,10 @@
             <p>
                 Some known channels on localhost:8080/spring-ng-chat/:
                 <ul>
-            <li>'/app/chat' (replies to '/topic/messages')</li>
-            <li>'/app/debug/logs' (replies to '/topic/debug/logs')</li>
-            <li>'/app/debug/errors' (replies to '/topic/debug/errors')</li>
+            <c:forEach items="${feeds}" var="feed">
+                <li>${feed}</li>
+            </c:forEach>
+
         </ul>
             </p>
         </div>
@@ -66,9 +67,10 @@
                 </div>
                 <div class="form-group">
                     <label>Send On:</label>
-                    <input type="text" id="chatTopic" value="/app/chat"/>
+                    <input type="text" id="chatTopic" value="/exchange/debug_topic_exchange/debug.log"/>
+                    <br/>
                     <label>Listen To:</label>
-                    <input type="text" id="chatBroker" value="/topic/**"/>
+                    <input type="text" id="chatBroker" value="/exchange/debug_topic_exchange/debug.*"/>
                 </div>
 
 
@@ -82,21 +84,23 @@
                             <option>${socket}</option>
                         </c:forEach>
                     </select>
-                    <input id="customSocket" type="text" value="ws://" onchange="updateUri()" disabled="true">
+                    <input id="customSocket" type="text" value="ws://" onchange="updateUri()" hidden="true">
                 </div>
                 <div class="form-group">
                     <label>
-                        Using
+                        Username
                     </label>
-                    <select id="socketLibrary">
-                        <option>socket.io</option>
-                        <option>SockJS</option>
-                    </select>
+                    <input id="username" value="root"/>
+                    <br/>
+                    <label>
+                        Password
+                    </label>
+                    <input id="password" value="password"/>
                 </div>
-                <div class="form-group">
-                    <label>Secure</label>
-                    <input type="checkbox" id="wss" value="false" onclick="updateWss()"/>
-                </div>
+                <%--<div class="form-group">--%>
+                    <%--<label>Stay Connected</label>--%>
+                    <%--<input type="checkbox" id="stayConnected" value="true" />--%>
+                <%--</div>--%>
                 <input type="hidden"
                        name="${_csrf.parameterName}"
                        value="${_csrf.token}"/>

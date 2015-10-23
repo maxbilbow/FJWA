@@ -14,44 +14,30 @@ var socketLibs = {
 var messageIds = [];
 
 function useLibrary(lib) {
-    var opt = wsUri();//$('select#socketLibrary option:selected').text();
-    if (opt.indexOf("ws://") > -1 || opt.indexOf("wss://") > -1)
-        opt = socketLibs.socketIo;
-    else if (opt.indexOf("http://") > -1 || opt.indexOf("https://") > -1)
-        opt = socketLibs.sockJs;
+    var opt = $('select#socketLibrary option:selected').text();
     return lib != null ? opt === lib : opt;
 }
-
-//function stayConnected(val) {
-//    if (val)
-//        $('#stayConnected').prop('checked', val);
-//    else
-//        return $('#stayConnected').prop('checked');
-//}
-
 function setConnected(connected) {
     updateUri();
     updateWss();
     if (connected == true) {
         $('input#customSocket').attr('disabled', 'disabled');
-        $('input#customSocket').attr('hidden');
-        //$('#wss').attr('disabled', 'disabled');
+        $('#wss').attr('disabled', 'disabled');
         $('select#toSocket').attr('disabled', 'disabled');
         $('div#openSocket').attr('disabled', 'disabled');
         $('div#closeSocket').removeAttr('disabled');
         $('div#sendButton').removeAttr('disabled');
-        //$('select#socketLibrary').attr('disabled', 'disabled');
+        $('select#socketLibrary').attr('disabled', 'disabled');
         $('input#chatBroker').attr('disabled', 'disabled');
         console.log('CONNECTED >>> ');
     } else {
         $('input#customSocket').removeAttr('disabled');
-        $('input#customSocket').removeAttr('hidden');
-        //$('#wss').removeAttr('disabled');
+        $('#wss').removeAttr('disabled');
         $('select#toSocket').removeAttr('disabled');
         $('div#openSocket').removeAttr('disabled');
         $('div#closeSocket').attr('disabled', 'dissabled');
         $('div#sendButton').attr('disabled', 'disabled');
-        //$('select#socketLibrary').removeAttr('disabled');
+        $('select#socketLibrary').removeAttr('disabled');
         $('input#chatBroker').removeAttr('disabled');
         console.log('DISCONNECTED <<<');
     }
@@ -63,8 +49,13 @@ function getMessage() {
 }
 
 function wsUri() {
-    updateUri();
-    return uri;
+    if ($('input#customSocket').prop('disabled'))
+        if (useLibrary(socketLibs.socketIo))
+            return (wss ? "wss://" : "ws://") + uri;
+        else
+            return (wss ? "https://" : "http://") + uri;
+    else
+        return uri;
 };
 
 function init() {
@@ -78,18 +69,16 @@ function updateUri() {
     if (uri.indexOf('--custom--') > -1) {
         uri = $('input#customSocket').val();
         $('#wss').attr('disabled', 'disabled');
-        $('input#customSocket').removeAttr('disabled');
-        $('input#customSocket').removeAttr('hidden');//.prop('disabled', false);//.disabled(false);
+        $('input#customSocket').removeAttr('disabled');//.prop('disabled', false);//.disabled(false);
     } else {
         $('#wss').removeAttr('disabled');
-        $('input#customSocket').attr('disabled','disabled');
-        $('input#customSocket').attr('hidden','hidden');
+        $('input#customSocket').attr('disabled', 'disabled');
     }
-    console.log("uri: '" + uri + "'");
+    console.log("uri: '" + wsUri() + "'");
 }
 
 function updateWss() {
-    //wss = $('#wss').prop('checked');
+    wss = $('#wss').prop('checked');
     console.log("uri: '" + wsUri() + "'");
 }
 
@@ -130,7 +119,6 @@ function chatTopic() {
     return $('input#chatTopic').val();
 }
 function disconnect() {
-
     if (window.websocket)
         websocket.close();
     if (stompClient) {
@@ -140,15 +128,8 @@ function disconnect() {
     }
 }
 
-function getUsername() {
-    return $('input#username').val();
-}
 
-function getPassword() {
-    return $('input#password').val();
-}
-
-function connect(quietly) {
+function connect() {
     try {
         disconnect();
         switch (useLibrary()) {
@@ -157,24 +138,12 @@ function connect(quietly) {
                 window.websocket = new SockJS(uri);//'/hello');
                 var socket = window.websocket;
                 stompClient = Stomp.over(socket);
-                var headers = getUsername().length > 0 ? {
-                    login: getUsername(),
-                    passcode: getPassword(),
-                    persistent:true,
-                    // additional header
-                    'client-id': 'fjwa',
-                    'heart-beat':'30000,30000'
-                } : {};
-                stompClient.connect(headers, function (frame) {
-                        writeToScreen('Connected: ' + frame);
+                stompClient.connect({}, function (frame) {
                     setConnected(true);
+                    writeToScreen('Connected: ' + frame);
                     stompClient.subscribe(chatBroker(), function(data) {
                         writeToScreen(data);
                     });
-                    stompClient.onclose = function () {
-                        setConnected(false);
-                    };
-                    stompClient.heartbeat.outgoing = 10000;
                 });
 
                 break;
@@ -183,9 +152,11 @@ function connect(quietly) {
                 window.websocket = new WebSocket(wsUri());
                 websocket.onopen = function (evt) {
                     onOpen(evt);
+                    setConnected(true);
                 };
                 websocket.onclose = function (evt) {
                     onClose(evt)
+                    setConnected(false);
                 };
                 websocket.onmessage = function (evt) {
                     onMessage(evt)
@@ -204,12 +175,10 @@ function connect(quietly) {
 
 function onOpen(evt) {
     writeToScreen("CONNECTED");
-    setConnected(true);
+    //doSend(message);
 }
 function onClose(evt) {
-
     writeToScreen("DISCONNECTED");
-    setConnected(false);
 }
 function onMessage(evt) {
     writeToScreen('<span style="color: rgba(0, 255, 248, 1);">RESPONSE: ' + evt.data + '</span>');
@@ -238,8 +207,7 @@ function tryParse(data) {
             if (message)
                 parsed += message;
         } catch (e) {
-            console.log(e);
-            return "As String >> " + data.body;
+            writeErrToScreen(e);
         }
         return parsed.length > 0 ? parsed : 'UN-PARSED: ' + json;
     } else {

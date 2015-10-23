@@ -13,6 +13,7 @@
         <option value="$PROJECT_DIR$/RabbitMQReceiver/pom.xml" />
         <option value="$PROJECT_DIR$/WebSocketsExample/pom.xml" />
         <option value="$PROJECT_DIR$/cmd-tool/pom.xml" />
+        <option value="$PROJECT_DIR$/debug-server/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

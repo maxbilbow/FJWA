@@ -4,6 +4,7 @@
     <groupId>FJWA</groupId>
     <artifactId>FJWA</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+  
 
     <parent>
         <groupId>org.springframework.boot</groupId>

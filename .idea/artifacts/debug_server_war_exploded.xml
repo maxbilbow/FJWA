@@ -1,10 +1,10 @@
 <component name="ArtifactManager">
-  <artifact type="exploded-war" name="spring-ng-chat:war exploded">
-    <output-path>$PROJECT_DIR$/WebSocketsExample/target/spring-ng-chat-0.0.1-SNAPSHOT</output-path>
+  <artifact type="exploded-war" name="debug-server:war exploded">
+    <output-path>$PROJECT_DIR$/debug-server/target/debug-server-0.0.1-SNAPSHOT</output-path>
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
-          <element id="module-output" name="spring-ng-chat" />
+          <element id="module-output" name="debug-server" />
         </element>
         <element id="directory" name="lib">
           <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot-starter:1.2.7.RELEASE" />
@@ -44,9 +44,9 @@
         </element>
       </element>
       <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/WebSocketsExample/target/spring-ng-chat-0.0.1-SNAPSHOT/META-INF/MANIFEST.MF" />
+        <element id="file-copy" path="$PROJECT_DIR$/debug-server/target/debug-server-0.0.1-SNAPSHOT/META-INF/MANIFEST.MF" />
       </element>
-      <element id="javaee-facet-resources" facet="spring-ng-chat/web/Web" />
+      <element id="javaee-facet-resources" facet="debug-server/web/Web" />
     </root>
   </artifact>
 </component>

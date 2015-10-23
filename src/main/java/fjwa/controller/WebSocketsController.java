@@ -17,22 +17,27 @@ public class WebSocketsController {
     @Autowired
     WebBugger debug;
 
-    String defaultSocket = "echo.websocket.org";
+    String defaultSocket = "";
 
     @RequestMapping(method = RequestMethod.GET)
     public String get(ModelMap model)
     {
         model.addAttribute("sockets", sockets);
-
+        model.addAttribute("feeds", feeds);
         return "webSockets";
     }
 
-
+    String [] feeds = {
+            "'/exchange/debug_topic_exchange/debug.log'",
+            "'/exchange/debug_topic_exchange/debug.error'",
+            "'/app/chat' (replies to '/topic/messages')",
+            "'/app/debug/logs' (replies to '/topic/debug/logs')",
+            "'/app/debug/errors' (replies to '/topic/debug/logs')"
+    };
     String[] sockets = {
-            defaultSocket,
-            "localhost:8080/spring-ng-chat/chat",
-            "localhost:8080/spring-ng-chat/debug",
-            "localhost:15674/stomp"
+            "wss://echo.websocket.org",
+            "http://localhost:8080/spring-ng-chat/chat",
+            "http://localhost:15674/stomp"
     };
 
 
