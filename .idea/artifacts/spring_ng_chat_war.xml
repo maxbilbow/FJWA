@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="spring-ng-chat:war">
+    <output-path>$PROJECT_DIR$/WebSocketsExample/target</output-path>
+    <root id="archive" name="spring-ng-chat-0.0.1-SNAPSHOT.war">
+      <element id="artifact" artifact-name="spring-ng-chat:war exploded" />
+    </root>
+  </artifact>
+</component>

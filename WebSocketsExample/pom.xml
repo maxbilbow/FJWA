@@ -83,15 +83,53 @@
 			<version>2.3.3</version>
 		</dependency>
 	</dependencies>
-	
+
 	<build>
+		<sourceDirectory>src/main/java</sourceDirectory>
+
+		<resources>
+		<resource>
+			<directory>src/main/resources</directory>
+		</resource>
+		</resources>
 		<plugins>
+
+				<plugin>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-maven-plugin</artifactId>
+					<configuration>
+						<mainClass>fjwasockets.WebAppInitializer</mainClass>
+
+					</configuration>
+
+					<!--<executions>-->
+						<!--<execution>-->
+							<!--<goals>-->
+								<!--<goal>repackage</goal>-->
+							<!--</goals>-->
+						<!--</execution>-->
+					<!--</executions>-->
+				</plugin>
 			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.3</version>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+
+					<warSourceDirectory>src/main/webapp</warSourceDirectory>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+				</configuration>
+
 			</plugin>
 		</plugins>
+
 	</build>
-	
 
 </project>

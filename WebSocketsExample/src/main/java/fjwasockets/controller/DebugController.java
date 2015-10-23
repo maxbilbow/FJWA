@@ -46,6 +46,7 @@ public class DebugController {
 
         }).start();
     }
+
     @MessageMapping("/debug/logs")
     @SendTo({"/topic/debug/logs"})
     public OutputMessage sendlog(Message message) {

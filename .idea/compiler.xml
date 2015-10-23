@@ -22,7 +22,6 @@
         <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-        <module name="spring-ng-chat" />
         <module name="WebSocket" />
       </profile>
       <profile default="false" name="Annotation profile for RabbitMQReceiver" enabled="true">
@@ -31,6 +30,13 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
         <module name="RabbitMQReceiver" />
+      </profile>
+      <profile default="false" name="Annotation profile for spring-ng-chat" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="spring-ng-chat" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="1.8">
