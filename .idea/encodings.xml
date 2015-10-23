@@ -4,6 +4,7 @@
     <file url="file://$PROJECT_DIR$" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/RabbitMQReceiver" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/WebSocketsExample" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/cmd-tool" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/fitnessTracker.sql" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/src/main/java/fjwa/WebAppInitializer.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/fjwa/config/WebConfig.java" charset="UTF-8" />

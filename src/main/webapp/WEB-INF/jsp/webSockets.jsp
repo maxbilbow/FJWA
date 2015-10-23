@@ -46,6 +46,14 @@
             <p>
                 Do things with sockets (a little bit plagerised from <a href="https://www.websocket.org/echo.html">here...</a>)
             </p>
+            <p>
+                Some known channels on localhost:8080/spring-ng-chat/:
+                <ul>
+            <li>'/app/chat' (replies to '/topic/messages')</li>
+            <li>'/app/debug/logs' (replies to '/topic/debug/logs')</li>
+            <li>'/app/debug/errors' (replies to '/topic/debug/errors')</li>
+        </ul>
+            </p>
         </div>
         <%--<div class="bs-docs-grid">--%>
         <div class="row">
