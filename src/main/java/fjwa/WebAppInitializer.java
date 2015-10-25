@@ -1,6 +1,5 @@
 package fjwa;
 
-import click.rmx.debug.WebBugger;
 import fjwa.config.SecurityConfig;
 import fjwa.config.WebConfig;
 import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
@@ -17,6 +16,8 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 import java.nio.charset.StandardCharsets;
+
+import static click.rmx.debug.Bugger.print;
 
 
 public class WebAppInitializer  implements WebApplicationInitializer {
@@ -36,13 +37,14 @@ public class WebAppInitializer  implements WebApplicationInitializer {
 		dispatcher.setInitParameter("dispatchOptionsRequest", "true");
 		dispatcher.setAsyncSupported(true);
 
+		print("Started");
 		//Start rabbitMQ Debug log receiver
-		try {
-			WebBugger.getInstance().startDebugQueue();
-			//ReceiveLogsTopic.receive("#.log.#", "#.error.#");
-		} catch (Exception e) {
-			WebBugger.getInstance().addException(e, "Rabbit Topic server failed.");
-		}
+//		try
+//			WebBugger.getInstance().startDebugQueue();
+//			//ReceiveLogsTopic.receive("#.log.#", "#.error.#");
+//		} catch (Exception e) {
+//			WebBugger.getInstance().addException(e, "Rabbit Topic server failed.");
+//		}
 
 	}
 
