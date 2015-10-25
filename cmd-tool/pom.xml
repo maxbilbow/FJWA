@@ -29,9 +29,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>click.rmx.debug</groupId>
+            <groupId>click.rmx</groupId>
             <artifactId>rmx-debug</artifactId>
-            <version>v0.0.2-SNAPSHOT</version>
+            <version>v0.0.3-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

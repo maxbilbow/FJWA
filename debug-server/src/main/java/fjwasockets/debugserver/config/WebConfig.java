@@ -3,6 +3,7 @@ package fjwasockets.debugserver.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.*;
@@ -17,6 +18,7 @@ import java.util.Locale;
  */
 @Configuration
 @EnableWebMvc
+@Import(DBConfig.class)
 @ComponentScan(basePackages = "fjwasockets.debugserver")
 public class WebConfig extends WebMvcConfigurerAdapter {
 

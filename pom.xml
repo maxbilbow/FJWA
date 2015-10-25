@@ -23,7 +23,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <java.version>1.8</java.version>
-        <rmx.version>v0.0.2-SNAPSHOT</rmx.version>
+        <rmx.version>v0.0.3-SNAPSHOT</rmx.version>
 
     </properties>
 
@@ -163,21 +163,21 @@
 
         <!-- rmx setup -->
         <dependency>
-            <groupId>click.rmx.debug</groupId>
+            <groupId>click.rmx</groupId>
             <artifactId>rmx-debug</artifactId>
             <version>${rmx.version}</version>
         </dependency>
 
 
         <dependency>
-            <groupId>click.rmx.core</groupId>
+            <groupId>click.rmx</groupId>
             <artifactId>rmx-core</artifactId>
             <version>${rmx.version}</version>
         </dependency>
 
 
         <dependency>
-            <groupId>click.rmx.multithread</groupId>
+            <groupId>click.rmx</groupId>
             <artifactId>rmx-multithread-toolkit</artifactId>
             <version>${rmx.version}</version>
         </dependency>
@@ -319,9 +319,9 @@
                 <version>2.6</version>
 
                 <configuration>
-                    <!--<excludes>-->
-                        <!--<exclude>**/log4j.properties</exclude>-->
-                    <!--</excludes>-->
+                    <excludes>
+                        <exclude>**/log4j.properties</exclude>
+                    </excludes>
                     <warSourceDirectory>src/main/webapp</warSourceDirectory>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>

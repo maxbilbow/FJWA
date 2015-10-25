@@ -1,34 +1,44 @@
 package fjwasockets.debugserver.control;
 
-import click.rmx.debug.WebBugger;
+import fjwasockets.debugserver.repository.LogRepository;
+import fjwasockets.debugserver.service.LogService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.annotation.Resource;
+
 /**
- * Created by bilbowm on 23/10/2015.
+ * Created by Max on 25/10/2015.
  */
 @Controller
-@RequestMapping("/version1")
-public class DebugController {
+@RequestMapping("/index")
+public class LogController {
 
-    private WebBugger debug = WebBugger.getInstance();
+
+    @Resource//(type = LogService.class)
+    private LogService service;
+
+    @Resource//(type = LogRepository.class)
+    private LogRepository repository;
 
     private boolean serverIsActive = false;
 
     @RequestMapping(method = RequestMethod.GET)
     public String get(ModelMap model)
     {
-        model.addAttribute("logs", debug.getLogs());
-        model.addAttribute("errors", debug.getErrors());
+
+        model.addAttribute("logs", repository.getMessages());
+        model.addAttribute("errors", repository.getErrors());
+        model.addAttribute("warnings", repository.getWarnings());
         model.addAttribute("status",
                 serverIsActive ?
                         "<span style=\"color: green\">SERVER IS ON</span>" :
                         "<span style=\"color: red\">SERVER IS OFF</span>"
         );
         model.addAttribute("connect", serverIsActive ? "Stop" : "Start");
-        return "version1";
+        return "version2";
     }
 
     @RequestMapping(method = RequestMethod.POST)
@@ -36,20 +46,22 @@ public class DebugController {
     {
         if (serverIsActive) {
             try {
-                serverIsActive = !debug.closeServer();
-                debug.addLog("Debug server was closed");
+                serverIsActive = !service.closeServer();
+                service.addLog("Debug server was closed");
             } catch (Exception e) {
-                debug.addException(e, "Server could not be closed!");
+                e.printStackTrace();
+                service.addException("Server could not be closed! >> " + e.toString());
                 serverIsActive = true;
             }
         } else {
             //Start rabbitMQ Debug log receiver
             try {
-                debug.startDebugQueue();
-                debug.addLog("RabbitMQ Topic Server Started");
+                service.startDebugQueue();
+                service.addLog("RabbitMQ Topic Server Started");
                 serverIsActive = true;
             } catch (Exception e) {
-                debug.addException(e, "Rabbit Topic server failed.");
+                e.printStackTrace();
+                service.addException("Rabbit Topic server failed." + e.toString());
                 serverIsActive = false;
             }
         }
