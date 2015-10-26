@@ -2,13 +2,12 @@ package fjwa.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
-import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 
 /**
  * Created by bilbowm on 22/10/2015.
  */
 @Configuration
-@EnableWebSocketMessageBroker
+//@EnableWebSocketMessageBroker
 //@ComponentScan(basePackages = "fjwa.controller")
 public class WebSocketConfig {//extends AbstractWebSocketMessageBrokerConfigurer {
 

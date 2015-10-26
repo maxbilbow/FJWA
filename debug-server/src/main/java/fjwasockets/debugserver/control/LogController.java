@@ -1,5 +1,6 @@
 package fjwasockets.debugserver.control;
 
+import click.rmx.debug.RMXException;
 import fjwasockets.debugserver.repository.LogRepository;
 import fjwasockets.debugserver.service.LogService;
 import org.springframework.stereotype.Controller;
@@ -23,8 +24,6 @@ public class LogController {
     @Resource//(type = LogRepository.class)
     private LogRepository repository;
 
-    private boolean serverIsActive = false;
-
     @RequestMapping(method = RequestMethod.GET)
     public String get(ModelMap model)
     {
@@ -33,36 +32,47 @@ public class LogController {
         model.addAttribute("errors", repository.getErrors());
         model.addAttribute("warnings", repository.getWarnings());
         model.addAttribute("status",
-                serverIsActive ?
+                service.isActive() ?
                         "<span style=\"color: green\">SERVER IS ON</span>" :
                         "<span style=\"color: red\">SERVER IS OFF</span>"
         );
-        model.addAttribute("connect", serverIsActive ? "Stop" : "Start");
+        model.addAttribute("connect", service.isActive() ? "Stop" : "Start");
         return "version2";
     }
 
     @RequestMapping(method = RequestMethod.POST)
     public String start(ModelMap model)
     {
-        if (serverIsActive) {
+        if (service.isActive()) {
             try {
-                serverIsActive = !service.closeServer();
-                service.addLog("Debug server was closed");
-            } catch (Exception e) {
-                e.printStackTrace();
-                service.addException("Server could not be closed! >> " + e.toString());
-                serverIsActive = true;
+                if(service.closeServer())
+                   repository.save(
+                           service.addLog("Server was closed")
+                   );
+                else
+                    repository.save(
+                            service.addWarning("Debug server may not have closed properly")
+                    );
+            } catch (RMXException e) {
+                repository.save(
+                        service.addException(e)//,"Server could not be closed! >> ")
+                        );
+
             }
         } else {
             //Start rabbitMQ Debug log receiver
             try {
                 service.startDebugQueue();
-                service.addLog("RabbitMQ Topic Server Started");
-                serverIsActive = true;
+                repository.save(
+                        service.addLog("RabbitMQ Topic Server Started")
+                );
             } catch (Exception e) {
                 e.printStackTrace();
-                service.addException("Rabbit Topic server failed." + e.toString());
-                serverIsActive = false;
+                repository.save(
+                        service.addException(
+                                RMXException.unexpected(e,"Rabbit Topic server failed.")
+                        )
+                );
             }
         }
         return get(model);

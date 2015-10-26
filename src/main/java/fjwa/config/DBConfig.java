@@ -30,7 +30,7 @@ public class DBConfig implements TransactionManagementConfigurer {
     }
 
     enum DB {
-        LOCAL("jdbc:mysql://localhost:3307/fjwa",
+        LOCAL("jdbc:mysql://localhost:3306/fjwa",
                 "root", "password"),
         MAX_BILBOW("jdbc:mysql://devsql.maxbilbow.com/spring_mvc_dev",
                 "maxbilbow", "Purple22"),

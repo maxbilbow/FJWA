@@ -58,7 +58,6 @@
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.module:jackson-module-jaxb-annotations:2.3.3" level="project" />
     <orderEntry type="library" name="Maven: click.rmx:rmx-debug:v0.0.3-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.amqp:spring-rabbit:1.4.6.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: com.rabbitmq:amqp-client:3.5.5" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.retry:spring-retry:1.1.2.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.amqp:spring-amqp:1.4.6.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.hibernate:hibernate-core:4.3.11.Final" level="project" />
@@ -104,6 +103,7 @@
     <orderEntry type="library" name="Maven: org.mongodb:mongo-java-driver:2.12.5" level="project" />
     <orderEntry type="library" name="Maven: mysql:mysql-connector-java:5.1.36" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-context:4.1.8.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: com.rabbitmq:amqp-client:3.5.5" level="project" />
   </component>
   <component name="org.twodividedbyzero.idea.findbugs">
     <option name="_basePreferences">

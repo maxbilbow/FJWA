@@ -24,6 +24,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Maven: click.rmx:rmx-debug:v0.0.3-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter:1.2.7.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot:1.2.7.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-autoconfigure:1.2.7.RELEASE" level="project" />
@@ -62,11 +63,6 @@
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.jaxrs:jackson-jaxrs-base:2.3.3" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.module:jackson-module-jaxb-annotations:2.3.3" level="project" />
     <orderEntry type="library" name="Maven: click.rmx:rmx-debug:v0.0.3-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework.amqp:spring-rabbit:1.4.6.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: com.rabbitmq:amqp-client:3.5.5" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework.retry:spring-retry:1.1.2.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework.amqp:spring-amqp:1.4.6.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-tx:4.1.8.RELEASE" level="project" />
   </component>
   <component name="org.twodividedbyzero.idea.findbugs">
     <option name="_basePreferences">

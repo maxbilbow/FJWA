@@ -28,58 +28,76 @@ import static click.rmx.debug.WebBugger.DEBUG_EXCHANGE_NAME;
 public class LogService {
     private Connection connection;
     private Channel channel;
-    private Consumer consumer;
 
     @Resource//(type = LogRepository.class)
     private LogRepository repository;
 
-    public boolean closeServer() throws IOException, TimeoutException {
+    public boolean isActive()
+    {
+        return channel != null && connection != null
+                && channel.isOpen() && connection.isOpen();
+    }
+
+    public boolean closeServer() throws RMXException {
         boolean chClosed = false, cnnClosed = false;
+        String errors = "";
         if (this.channel != null) {
-            this.channel.close();
-            this.channel = null;
-            chClosed = true;
+            try {
+                this.channel.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                errors += e.getMessage();
+            }
+            if (channel != null && !channel.isOpen()) {
+                this.channel = null;
+                chClosed = true;
+            }
         }
         if (this.connection != null) {
-            this.connection.close();
-            this.connection = null;
-            cnnClosed = true;
+            try {
+                this.connection.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+                errors += "\n" + e.getMessage();
+            }
+            if (connection != null && !connection.isOpen()) {
+                this.connection = null;
+                cnnClosed = true;
+            }
         }
-        this.consumer = null;
+        if (!errors.isEmpty())
+            throw RMXException.unexpected("Failed to close server with exceptions: \n" + errors);
         return chClosed && cnnClosed;
     }
 
-    @Transactional
-    public void addLog(String message) {
+    public Log addLog(String message) {
         Log log = new Log();
 //        log.setTimeStamp(Instant.now().toEpochMilli());
         log.setMessage(message);
         log.setLogType(LogType.Message);
-        repository.save(log);
+        return log;
     }
 
-    @Transactional
-    public void addException(String message)
+    public Log addException(String message)
     {
         Log log = new Log();
 //        log.setTimeStamp(Instant.now().toEpochMilli());
         log.setMessage(message);
         log.setLogType(LogType.Exception);
-        repository.save(log);
+        return log;
     }
 
-    @Transactional
-    public void addWarning(String message)
+    public Log addWarning(String message)
     {
         Log log = new Log();
 //        log.setTimeStamp(Instant.now().toEpochMilli());
         log.setMessage(message);
         log.setLogType(LogType.Warning);
-        repository.save(log);
+        return log;
     }
 
-    public void addException(RMXException e) {
-        this.addException(e.html());
+    public Log addException(RMXException e) {
+        return this.addException(e.html());
     }
 
     public static String toHtml(String string)
@@ -91,11 +109,11 @@ public class LogService {
     }
 
 
-    public void startDebugQueue(String... topics) throws IOException, TimeoutException {
+    public void startDebugQueue(String... topics) throws Exception {
         startDebugQueue(null, topics);
     }
 
-    public void startDebugQueue(final Consumer consumer, String... topics) throws IOException, TimeoutException {
+    public void startDebugQueue(Consumer consumer, String... topics) throws IOException, TimeoutException {
         List<String> argv = Arrays.asList("debug.#", "#.log", "#.error", "#.warning", "#.exception");
         for (String s : topics)
             argv.add(s);
@@ -119,8 +137,9 @@ public class LogService {
 
         print(" [WebBugger] Waiting for messages. To exit press CTRL+C");
 
-        this.consumer = consumer != null ? consumer : this.defaultConsumer();
-        channel.basicConsume(queueName, true, this.consumer);
+        if (consumer == null)
+            consumer = this.defaultConsumer();
+        channel.basicConsume(queueName, true, consumer);
         final LogService service = this;
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
@@ -128,9 +147,7 @@ public class LogService {
                 if (service != null) {
                     try {
                         service.closeServer();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (TimeoutException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
@@ -175,15 +192,25 @@ public class LogService {
 
 
                 print(log);
-                if (topic.contains("error") || topic.contains("exception"))
-                    thisInstance.addException(log);
-                else if (topic.contains("warning"))
-                    thisInstance.addWarning(log);
-                else
-                    thisInstance.addLog(log);
-                channel.basicAck(envelope.getDeliveryTag(),false);
+                try {
+                    if (topic.contains("error") || topic.contains("exception"))
+                        save(thisInstance.addException(log));
+                    else if (topic.contains("warning"))
+                        save(thisInstance.addWarning(log));
+                    else
+                        save(thisInstance.addLog(log));
+//                channel.basicAck(envelope.getDeliveryTag(),false);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         };
+    }
+
+    @Transactional
+    public void save(Log log)
+    {
+        repository.save(log);
     }
 
 }

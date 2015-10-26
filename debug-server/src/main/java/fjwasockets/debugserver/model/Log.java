@@ -1,8 +1,12 @@
 package fjwasockets.debugserver.model;
 
+import click.rmx.debug.Bugger;
+import click.rmx.debug.WebBugger;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 import java.util.Date;
 
 /**
@@ -23,10 +27,15 @@ public class Log {
 
     private Date timeStamp;
 
+    @Transient
+    private String html = null;
+
+    private String shortTime;
 
     public Log()
     {
         timeStamp = new Date();
+        shortTime = Bugger.timestamp();
     }
 
     public Date getTimeStamp() {
@@ -50,8 +59,8 @@ public class Log {
     }
 
     public void setLogType(LogType logType) {
-        this.setChannel(logType.channel);
         this.logType = logType;
+        this.channel = logType.channel;
     }
 
     public Long getId() {
@@ -71,4 +80,19 @@ public class Log {
     }
 
 
+    public String getHtml() {
+        return html == null? WebBugger.toHtml(message) : html;
+    }
+
+    public void setHtml(String html) {
+        this.html = html;
+    }
+
+    public String getShortTime() {
+        return shortTime != null ? shortTime : timeStamp.toString();
+    }
+
+    public void setShortTime(String shortTime) {
+        this.shortTime = shortTime;
+    }
 }

@@ -49,6 +49,9 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Maven: click.rmx:rmx-debug:v0.0.3-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: click.rmx:rmx-core:v0.0.3-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: click.rmx:rmx-multithread-toolkit:v0.0.3-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-catalina:8.0.28" level="project" />
     <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-servlet-api:8.0.28" level="project" />
     <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-jsp-api:8.0.28" level="project" />
