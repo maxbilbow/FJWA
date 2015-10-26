@@ -90,8 +90,8 @@
 
   <script type="text/javascript">
     function update() {
-      checkForErrors();
-      window.requestAnimationFrame(update);
+//      checkForErrors();
+//      window.requestAnimationFrame(update);
 
     }
 

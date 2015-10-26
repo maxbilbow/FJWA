@@ -149,7 +149,7 @@
     function updateBombs() {
         //updateClientSide();
 
-        checkForErrors();
+//        checkForErrors();
         updateBombsFromServer();
 
         window.requestAnimationFrame(updateBombs);

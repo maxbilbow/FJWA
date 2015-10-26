@@ -142,8 +142,8 @@
 <script type="text/javascript" src="js/sockets.js"></script>
 <script type="text/javascript">
     function update() {
-        checkForErrors();
-        window.requestAnimationFrame(update);
+//        checkForErrors();
+//        window.requestAnimationFrame(update);
 
     }
 
