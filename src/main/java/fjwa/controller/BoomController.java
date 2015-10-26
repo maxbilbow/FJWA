@@ -4,6 +4,7 @@ import click.rmx.debug.RMXError;
 import click.rmx.debug.RMXException;
 import click.rmx.debug.WebBugger;
 import fjwa.model.Bomb;
+import fjwa.repository.BombRepository;
 import fjwa.service.BombService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -101,4 +102,19 @@ public class BoomController {
 	}
 
 
+	private static BoomController instance;
+	public static BoomController getInstance()
+	{
+		return instance;
+	}
+
+	public BoomController()
+	{
+		instance = this;
+	}
+
+	public BombRepository getRepository()
+	{
+		return bombService.getRepository();
+	}
 }

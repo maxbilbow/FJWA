@@ -87,6 +87,7 @@
 			<artifactId>rmx-debug</artifactId>
 			<version>v0.0.3-SNAPSHOT</version>
 		</dependency>
+
 	</dependencies>
 
 	<build>

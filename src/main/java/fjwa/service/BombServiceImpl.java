@@ -34,11 +34,10 @@ public class BombServiceImpl extends AbstractEntityService<Bomb> implements Bomb
 		}).setName("diffuse()");
 	}
 
-
-
-
-
-
+	@Override
+	public BombRepository getRepository() {
+		return bombRepository;
+	}
 
 	//	@Override
 //	@Transactional

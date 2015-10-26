@@ -1,3 +1,7 @@
+/**
+ * Created by bilbowm on 26/10/2015.
+ */
+
 "use strict";
 
 var Echo = Echo || {};
@@ -28,7 +32,7 @@ Echo.connect = (function (host) {
     };
 
     Echo.socket.onmessage = function (message) {
-        console.log("response: " + message.data);
+        console.log('message: ' + message.data);
         $('#echoBack').text(message.data);
     };
 });

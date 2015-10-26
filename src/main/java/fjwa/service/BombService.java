@@ -1,6 +1,7 @@
 package fjwa.service;
 
 import fjwa.model.Bomb;
+import fjwa.repository.BombRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 public interface BombService extends EntityService<Bomb> {
@@ -9,7 +10,7 @@ public interface BombService extends EntityService<Bomb> {
 	
 	
 
-	
+	BombRepository getRepository();
 	
 	void defuse();
 

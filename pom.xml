@@ -21,7 +21,7 @@
         <commons-logging.version>1.2</commons-logging.version>
         <!--<jetty-websocket.version>8.1.18.v20150929</jetty-websocket.version>-->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
+        <javax.websocket-api.version>1.1</javax.websocket-api.version>
         <java.version>1.8</java.version>
         <rmx.version>v0.0.3-SNAPSHOT</rmx.version>
 
@@ -286,10 +286,17 @@
             <artifactId>freemarker</artifactId>
             <version>${freemarker.version}</version>
         </dependency>
+
+
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-            <version>4.1.8.RELEASE</version>
+            <groupId>javax.websocket</groupId>
+            <artifactId>javax.websocket-api</artifactId>
+            <version>${javax.websocket-api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.json</groupId>
+            <artifactId>javax.json-api</artifactId>
+            <version>1.0</version>
         </dependency>
     </dependencies>
 

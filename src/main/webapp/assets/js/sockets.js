@@ -212,7 +212,7 @@ function onClose(evt) {
     setConnected(false);
 }
 function onMessage(evt) {
-    writeToScreen('<span style="color: rgba(0, 255, 248, 1);">RESPONSE: ' + evt.data + '</span>');
+    writeToScreen(evt.data, '<span style="color: rgb(151, 253, 255);">RESPONSE:</span> ');
     //websocket.close();
 }
 function onError(evt) {
@@ -223,37 +223,63 @@ function writeErrToScreen(err) {
     writeToScreen('<span style="color: rgba(255, 170, 167, 1);">ERROR:</span> ' + err);
 }
 
-function tryParse(data) {
+function parseList(data) {
+    var result = 'RESULT::';
+    var json = JSON.parse(data);
+    for (var i=0;i<json.length;++i) {
+        result += '<br/>ENTRY ' + i + ': ' + json[i];
+        //var element = JSON.parse(data[i]);
+        $.each(json[i], function (k, v) {
+            //display the key and value pair
+            result += '<br/> --> ' + k + ': ' + v;
+        });
+    }
+    return result;
+}
+
+function tryParse(data, prefix) {
+    //if( Object.prototype.toString.call( data ) === '[object Array]' ) {
+
     if (data.body) {
         var parsed = '';
-        try {
-            var json = JSON.parse(data.body);
-            var message = json.message, time = json.time;
-            if (time)
-                var time = new Date(time),
-                    h = time.getHours(), // 0-24 format
-                    m = time.getMinutes();
-            parsed += h +':' + m + " >> ";
+            try {
+                var json = JSON.parse(data.body);
+                var message = json.message, time = json.time;
+                if (time)
+                    var time = new Date(time),
+                        h = time.getHours(), // 0-24 format
+                        m = time.getMinutes();
+                parsed += h + ':' + m + " >> ";
 
-            if (message)
-                parsed += message;
-        } catch (e) {
-            console.log(e);
-            return "As String >> " + data.body;
-        }
+                if (message)
+                    parsed += message;
+            } catch (e) {
+                console.log(e);
+                return "As String >> " + data.body;
+            }
+
         return parsed.length > 0 ? parsed : 'UN-PARSED: ' + json;
     } else {
-        console.log('Could not parse as JSON: ' + data);
-        return data;
+        try {
+            //var json = JSON.parse(data);
+            //console.log(json);
+            var parsed = parseList(data);
+            return parsed;
+        } catch (e) {
+            console.log('Could not parse as JSON: ' + data);
+            console.log(e);
+            return (prefix ? prefix : '') + data;
+        }
+
     }
 }
 
-function writeToScreen(message) {
+function writeToScreen(message, prefix) {
     var pre = document.createElement("p");
     pre.style.wordWrap = "break-word";
-    pre.innerHTML = tryParse(message);
+    pre.innerHTML = tryParse(message, prefix);
     output.appendChild(pre);
-    console.log(message);
+    //console.log(message);
     try {
         output.scrollTop = output.scrollHeight;
     } catch (e) {

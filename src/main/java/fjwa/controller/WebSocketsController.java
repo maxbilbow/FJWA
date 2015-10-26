@@ -32,12 +32,17 @@ public class WebSocketsController {
             "'/exchange/debug_topic_exchange/debug.error'",
             "'/app/chat' (replies to '/topic/messages')",
             "'/app/debug/logs' (replies to '/topic/debug/logs')",
-            "'/app/debug/errors' (replies to '/topic/debug/logs')"
+            "'/app/debug/errors' (replies to '/topic/debug/logs')",
+            " ",
+            "'ws://localhost:8080/ws-tut1/websocket/echo' -> simple echo server"
     };
     String[] sockets = {
             "wss://echo.websocket.org",
             "http://localhost:8080/spring-ng-chat/chat",
-            "http://localhost:15674/stomp"
+            "http://localhost:15674/stomp",
+            "ws://localhost:8080/ws-tut1/websocket/echo",
+            "ws://localhost:8081/FJWA/websocket/echo",
+            "ws://localhost:8081/FJWA/websocket/bombs"
     };
 
 

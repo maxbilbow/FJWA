@@ -91,11 +91,13 @@
           <element id="library" level="project" name="Maven: org.springframework:spring-web:4.1.8.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-context:4.1.8.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-websocket:4.1.8.RELEASE" />
+          <element id="library" level="project" name="Maven: javax.websocket:javax.websocket-api:1.1" />
           <element id="library" level="project" name="Maven: javax.servlet:jstl:1.2" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:2.4.6" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.jaxrs:jackson-jaxrs-base:2.4.6" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.module:jackson-module-jaxb-annotations:2.4.6" />
           <element id="library" level="project" name="Maven: org.freemarker:freemarker:2.3.23" />
+          <element id="library" level="project" name="Maven: javax.json:javax.json-api:1.0" />
         </element>
       </element>
       <element id="directory" name="META-INF">
