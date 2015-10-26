@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="tut1:war">
+    <output-path>$PROJECT_DIR$/pluralsight-websockets/tut1/target</output-path>
+    <root id="archive" name="websockets-tut1-0.0.1-SNAPSHOT.war">
+      <element id="artifact" artifact-name="tut1:war exploded" />
+    </root>
+  </artifact>
+</component>

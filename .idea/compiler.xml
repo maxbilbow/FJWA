@@ -66,14 +66,23 @@
         <processorPath useClasspath="true" />
         <module name="chat" />
       </profile>
+      <profile default="false" name="Annotation profile for tut1" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="tut1" />
+      </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="1.8">
       <module name="chat" target="1.8" />
       <module name="cmd-tool" target="1.8" />
       <module name="debug-server" target="1.8" />
       <module name="FJWA" target="1.8" />
+      <module name="pluralsight-websockets" target="1.8" />
       <module name="RabbitMQReceiver" target="1.8" />
       <module name="spring-ng-chat" target="1.8" />
+      <module name="tut1" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

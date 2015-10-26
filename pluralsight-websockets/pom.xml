@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.pluralsight</groupId>
+    <artifactId>pluralsight-websockets</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <properties>
+        <javax-servlet.version>3.1.0</javax-servlet.version>
+        <hibernate-jpa.version>1.0.0.Final</hibernate-jpa.version>
+        <spring-data-jpa.version>1.9.0.RELEASE</spring-data-jpa.version>
+        <spring-data-mongodb.version>1.8.0.RELEASE</spring-data-mongodb.version>
+        <spring-data-commons.version>1.11.0.RELEASE</spring-data-commons.version>
+        <commons-logging.version>1.2</commons-logging.version>
+        <!--<jetty-websocket.version>8.1.18.v20150929</jetty-websocket.version>-->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>1.8</java.version>
+        <!--<local-repository.url>~/.m2/repository</local-repository.url>-->
+        <windows.repository>C:\Users\bilbowm\.m2\repository</windows.repository>
+        <rmx.version>v0.0.3-SNAPSHOT</rmx.version>
+        <javax.websocket-api.version>1.1</javax.websocket-api.version>
+    </properties>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.2.7.RELEASE</version>
+        <!--<relativePath/> &lt;!&ndash; lookup parent from repository &ndash;&gt;-->
+    </parent>
+
+    <name>pluralsight-websockets</name>
+
+    <modules>
+
+        <!--<module>rmx-game-engine</module>-->
+    </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>javax.websocket</groupId>
+            <artifactId>javax.websocket-api</artifactId>
+            <version>${javax.websocket-api.version}</version>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <!-- Set a JDK compiler level -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.3</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+
+    </build>
+    <!--<repositories>-->
+        <!--<repository>-->
+            <!--<id>pluralsight</id>-->
+            <!--<name>RMXJavaKit</name>-->
+            <!--<layout>default</layout>-->
+            <!--<url>${windows.repository}</url>-->
+            <!--&lt;!&ndash;<url>${settings.localRepository}</url>&ndash;&gt;-->
+            <!--<snapshots>-->
+                <!--<enabled>false</enabled>-->
+            <!--</snapshots>-->
+        <!--</repository>-->
+    <!--</repositories>-->
+
+</project>
