@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="WEB-INF">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/ChatServer/out/artifacts/Chat_war_exploded/WEB-INF/jackson-annotations-2.4.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/ChatServer/out/artifacts/Chat_war_exploded/WEB-INF/jackson-core-2.4.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/ChatServer/out/artifacts/Chat_war_exploded/WEB-INF/jackson-databind-2.4.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/ChatServer/out/artifacts/Chat_war_exploded/WEB-INF/javax.json-1.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -59,8 +59,16 @@
         <processorPath useClasspath="true" />
         <module name="FJWA" />
       </profile>
+      <profile default="false" name="Annotation profile for chat" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="chat" />
+      </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="1.8">
+      <module name="chat" target="1.8" />
       <module name="cmd-tool" target="1.8" />
       <module name="debug-server" target="1.8" />
       <module name="FJWA" target="1.8" />

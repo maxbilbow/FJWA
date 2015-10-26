@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/FJWA.iml" filepath="$PROJECT_DIR$/FJWA.iml" />
       <module fileurl="file://$PROJECT_DIR$/RabbitMQReceiver/RabbitMQReceiver.iml" filepath="$PROJECT_DIR$/RabbitMQReceiver/RabbitMQReceiver.iml" />
+      <module fileurl="file://$PROJECT_DIR$/java-api-websockets-introduction-m5/Chat/chat.iml" filepath="$PROJECT_DIR$/java-api-websockets-introduction-m5/Chat/chat.iml" group="Pluralsight Tutorials" />
       <module fileurl="file://$PROJECT_DIR$/cmd-tool/cmd-tool.iml" filepath="$PROJECT_DIR$/cmd-tool/cmd-tool.iml" />
       <module fileurl="file://$PROJECT_DIR$/debug-server/debug-server.iml" filepath="$PROJECT_DIR$/debug-server/debug-server.iml" />
       <module fileurl="file://$PROJECT_DIR$/WebSocketsExample/spring-ng-chat.iml" filepath="$PROJECT_DIR$/WebSocketsExample/spring-ng-chat.iml" />

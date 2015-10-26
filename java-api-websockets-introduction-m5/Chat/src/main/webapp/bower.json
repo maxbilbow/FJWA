@@ -1,0 +1,25 @@
+{
+  "name": "java-chat-client",
+  "version": "0.1.0",
+  "authors": [
+    "kevinj <kevin@rocksolidknowledge.com>"
+  ],
+  "description": "A web socket chat client that works with the Java WebSocket API",
+  "main": "chat.js",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/bower",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.2.0",
+    "jquery": "~2.1.1",
+    "momentjs": "~2.8.2",
+    "json2": "*",
+    "knockoutjs": "~3.2.0"
+  }
+}
