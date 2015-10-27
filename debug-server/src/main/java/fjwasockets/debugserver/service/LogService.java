@@ -2,7 +2,6 @@ package fjwasockets.debugserver.service;
 
 import click.rmx.debug.RMXException;
 import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rabbitmq.client.*;
@@ -19,7 +18,6 @@ import java.util.*;
 import java.util.concurrent.TimeoutException;
 
 import static click.rmx.debug.Bugger.print;
-import static click.rmx.debug.Tests.todo;
 import static click.rmx.debug.WebBugger.DEBUG_EXCHANGE_NAME;
 
 /**
@@ -58,7 +56,9 @@ public class LogService {
         String message = "Message Failed to sent!";
         try {
             message = mapper.writeValueAsString(log);
-        } catch (JsonProcessingException e) {
+            notiftRabbitServer(message);
+        } catch (Exception e) {
+            save(this.addException(RMXException.unexpected(e)));
             e.printStackTrace();
         }
 
@@ -68,8 +68,8 @@ public class LogService {
                 try {
                     e.sendText(msg);
                 } catch (IOException e1) {
+                    save(this.addException(RMXException.unexpected(e1)));
                     e1.printStackTrace();
-                    print("removing subscriber: " + e);
                 }
             });
 
@@ -77,10 +77,21 @@ public class LogService {
 
     }
 
-    //TODO
-    private void notiftRabbitServer(Log log)
-    {
-        todo();
+
+    private void notiftRabbitServer(String message) throws IOException, TimeoutException {
+        ConnectionFactory factory = new ConnectionFactory();
+        factory.setHost("localhost");
+        Connection connection = factory.newConnection();
+        Channel channel = connection.createChannel();
+
+        channel.exchangeDeclare(DEBUG_EXCHANGE_NAME, "topic");
+
+        String routingKey = "updates";
+
+        channel.basicPublish(DEBUG_EXCHANGE_NAME, routingKey, null, message.getBytes());
+        System.out.println(" [x] Sent '" + routingKey + "':'" + message + "'");
+
+        connection.close();
     }
 
 
@@ -127,7 +138,7 @@ public class LogService {
     }
 
     public Log addLog(String message) {
-        Log log = new Log();
+        Log log = new Log("debug-server");
 //        log.setTimeStamp(Instant.now().toEpochMilli());
         log.setMessage(message);
         log.setLogType(LogType.Message);
@@ -136,7 +147,7 @@ public class LogService {
 
     public Log addException(String message)
     {
-        Log log = new Log();
+        Log log = new Log("debug-server");
 //        log.setTimeStamp(Instant.now().toEpochMilli());
         log.setMessage(message);
         log.setLogType(LogType.Exception);
@@ -145,7 +156,7 @@ public class LogService {
 
     public Log addWarning(String message)
     {
-        Log log = new Log();
+        Log log = new Log("debug-server");
 //        log.setTimeStamp(Instant.now().toEpochMilli());
         log.setMessage(message);
         log.setLogType(LogType.Warning);
@@ -165,11 +176,11 @@ public class LogService {
     }
 
 
-    public void startDebugQueue(String... topics) throws Exception {
-        startDebugQueue(null, topics);
+    public void startDebugExchange(String... topics) throws Exception {
+        startDebugExchange(null, topics);
     }
 
-    public void startDebugQueue(Consumer consumer, String... topics) throws IOException, TimeoutException {
+    public void startDebugExchange(Consumer consumer, String... topics) throws IOException, TimeoutException {
         List<String> argv = Arrays.asList("debug.#", "#.log", "#.error", "#.warning", "#.exception");
         for (String s : topics)
             argv.add(s);
@@ -178,6 +189,7 @@ public class LogService {
         factory.setHost("localhost");
         connection = factory.newConnection();
         channel = connection.createChannel();
+
 
         channel.exchangeDeclare(DEBUG_EXCHANGE_NAME, "topic");
         String queueName = channel.queueDeclare().getQueue();
@@ -267,7 +279,6 @@ public class LogService {
                 }
                 if (newLog != null) {
                     notifySubscribers(newLog);
-                    notiftRabbitServer(newLog);
                 }
             }
         };

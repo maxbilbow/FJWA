@@ -61,7 +61,7 @@ public class LogController {
         } else {
             //Start rabbitMQ Debug log receiver
             try {
-                service.startDebugQueue();
+                service.startDebugExchange();
                 repository.save(
                         service.addLog("RabbitMQ Topic Server Started")
                 );

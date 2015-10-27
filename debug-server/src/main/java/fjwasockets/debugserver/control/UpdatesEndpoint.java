@@ -46,6 +46,7 @@ public class UpdatesEndpoint {
     {
         error.printStackTrace();
         print(error);
+//        LogService.getInstance().removeSubscriber(session.getBasicRemote());
     }
 
 

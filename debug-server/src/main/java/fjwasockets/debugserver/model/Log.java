@@ -43,6 +43,13 @@ public class Log {
         sender = "UNKNOWN";
     }
 
+    public Log(String sender)
+    {
+        timeStamp = new Date();
+        shortTime = Bugger.timestamp();
+        this.setSender(sender);
+    }
+
     public Date getTimeStamp() {
         return timeStamp;
     }

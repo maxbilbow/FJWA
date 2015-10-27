@@ -247,18 +247,24 @@ function tryParse(data, prefix) {
     //if( Object.prototype.toString.call( data ) === '[object Array]' ) {
 
     if (data.body) {
-        var parsed = '';
+        var parsed = 'Response: ';
             try {
                 var json = JSON.parse(data.body);
                 var message = json.message, time = json.time;
-                if (time)
+                if (time) {
                     var time = new Date(time),
                         h = time.getHours(), // 0-24 format
                         m = time.getMinutes();
-                parsed += h + ':' + m + " >> ";
+                    parsed += h + ':' + m + " >> ";
 
-                if (message)
-                    parsed += message;
+                    if (message)
+                        parsed += message;
+                } else {
+                    $.each(json, function (k, v) {
+                        //display the key and value pair
+                        parsed += '<br/> --> ' + k + ': ' + v;
+                    });
+                }
             } catch (e) {
                 console.log(e);
                 return "As String >> " + data.body;
