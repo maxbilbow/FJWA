@@ -9,7 +9,8 @@ import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 
 import java.util.Locale;
 
@@ -73,18 +74,43 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         configurer.mediaType("xml", MediaType.APPLICATION_XML);
     }
 
+//    @Bean
+//    public InternalResourceViewResolver getInternalResourceViewResolver() {
+//        InternalResourceViewResolver resolver = new InternalResourceViewResolver();
+//        resolver.setPrefix("/WEB-INF/pages/");
+//        resolver.setSuffix(".ftl");
+//
+//
+//        return resolver;
+//    }
+
+
+
+    //configure freemarker
     @Bean
-    public InternalResourceViewResolver getInternalResourceViewResolver() {
-        InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-        resolver.setPrefix("/WEB-INF/pages/");
-        resolver.setSuffix(".jsp");
+    public FreeMarkerConfigurer freemarkerConfig() throws Exception
+    {
+        FreeMarkerConfigurer freeMarkerConfigurer = new FreeMarkerConfigurer();
+
+        freeMarkerConfigurer.setTemplateLoaderPath("/WEB-INF/pages/");
 
 
-        return resolver;
+        return freeMarkerConfigurer;
     }
 
+    @Bean
+    public FreeMarkerViewResolver viewResolver() {
+        FreeMarkerViewResolver freeMarkerViewResolver = new FreeMarkerViewResolver();
+        freeMarkerViewResolver.setCache(true);
+//        freeMarkerViewResolver
+        freeMarkerViewResolver.setPrefix("");
+        freeMarkerViewResolver.setSuffix(".ftl");
 
-    @Override
+
+        return freeMarkerViewResolver;
+    }
+
+        @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/assets/**").addResourceLocations("/assets/");
         registry.addResourceHandler("/css/**").addResourceLocations("/assets/css/");

@@ -74,7 +74,7 @@
         <module name="debug-client" />
       </profile>
       <profile default="false" name="Annotation profile for debug-server" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceOutputDir name="src/main/generated" />
         <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />

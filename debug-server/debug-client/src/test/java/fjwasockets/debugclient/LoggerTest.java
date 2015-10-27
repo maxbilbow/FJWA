@@ -29,6 +29,12 @@ public class LoggerTest {
     public void tearDown()
     {
         logger = null;
+        try {
+            Thread.sleep(1000); //Optional - useful when checking subscribing clients
+        } catch (InterruptedException _ignored) {
+            Thread.currentThread().interrupt();
+        }
+
     }
 
     static class AnObject {

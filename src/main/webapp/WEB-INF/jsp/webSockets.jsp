@@ -45,6 +45,7 @@
 
             <p>
                 Do things with sockets (a little bit plagerised from <a href="https://www.websocket.org/echo.html">here...</a>)
+                <br/>More info here: <a href="http://www.pluralsight.com/courses/java-api-websockets-introduction"> pluralsight tutorial</a>
             </p>
             <p>
                 Some known channels on localhost:8080/spring-ng-chat/:
