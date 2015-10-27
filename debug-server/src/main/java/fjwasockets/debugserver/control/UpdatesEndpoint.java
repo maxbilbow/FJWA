@@ -1,5 +1,6 @@
 package fjwasockets.debugserver.control;
 
+import click.rmx.debug.Bugger;
 import fjwasockets.debugserver.service.LogService;
 
 import javax.websocket.*;
@@ -54,7 +55,7 @@ public class UpdatesEndpoint {
     }
 
     public void broadcast(String message) throws IOException {
-        this.session.getBasicRemote().sendText(message);
+        this.session.getAsyncRemote().sendText(message, Bugger::print); //TODO: Check Async didnt break anything
     }
 
 

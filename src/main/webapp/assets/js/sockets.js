@@ -162,11 +162,14 @@ function connect(quietly) {
                     passcode: getPassword(),
                     persistent:true,
                     // additional header
-                    'client-id': 'fjwa',
-                    'heart-beat':'30000,30000'
+                    //'client-id': 'fjwa',
+                    //'heart-beat':'30000,30000'
                 } : {};
-                stompClient.connect(headers, function (frame) {
-                        writeToScreen('Connected: ' + frame);
+                stompClient.heartbeat.outgoing = 0;
+                stompClient.heartbeat.incoming = 0;
+
+                var on_connect = function (frame) {
+                    writeToScreen('Connected: ' + frame);
                     setConnected(true);
                     stompClient.subscribe(chatBroker(), function(data) {
                         writeToScreen(data);
@@ -174,8 +177,17 @@ function connect(quietly) {
                     stompClient.onclose = function () {
                         setConnected(false);
                     };
-                    stompClient.heartbeat.outgoing = 10000;
-                });
+
+                    //stompClient.debug = pipe('#second');
+                };
+
+                var on_error =  function() {
+                    console.log('error');
+                };
+                if (getUsername().length > 0 )
+                    stompClient.connect(getUsername(), getPassword(),on_connect, on_error, '/');
+                else
+                    stompClient.connect('', '',on_connect, on_error, '/');
 
                 break;
             case socketLibs.socketIo:

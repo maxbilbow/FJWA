@@ -11,12 +11,12 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+@SuppressWarnings("ALL")
 @ServerEndpoint(value="/websocket/chat/{room-name}",
                 decoders=MessageDecoder.class,
                 encoders=MessageEncoder.class)
