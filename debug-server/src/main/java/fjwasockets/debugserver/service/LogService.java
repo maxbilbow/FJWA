@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rabbitmq.client.*;
+import fjwasockets.debugserver.control.UpdatesEndpoint;
 import fjwasockets.debugserver.model.Log;
 import fjwasockets.debugserver.model.LogType;
 import fjwasockets.debugserver.repository.LogRepository;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import javax.websocket.RemoteEndpoint;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.TimeoutException;
@@ -34,20 +34,20 @@ public class LogService {
         instance = this;
     }
 
-    private Set<RemoteEndpoint.Basic> endpoints = new HashSet<>();
+    private Set<UpdatesEndpoint> endpoints = new HashSet<>();
 
     public static LogService getInstance() {
         return  instance;
     }
 
-    public void addSubscriber(RemoteEndpoint.Basic remoteEndpointBasic)
+    public void addClient(UpdatesEndpoint client)
     {
-        endpoints.add(remoteEndpointBasic);
+        endpoints.add(client);
     }
 
-    public void removeSubscriber(RemoteEndpoint.Basic remoteEndpointBasic)
+    public void removeClient(UpdatesEndpoint client)
     {
-        endpoints.remove(remoteEndpointBasic);
+        endpoints.remove(client);
     }
 
     private void notifySubscribers(Log log)
@@ -62,18 +62,18 @@ public class LogService {
             e.printStackTrace();
         }
 
-        List<RemoteEndpoint.Basic> toRemove = new ArrayList<>();
+        List<UpdatesEndpoint> toRemove = new ArrayList<>();
             final String msg = message;
             endpoints.stream().forEach(e -> {
                 try {
-                    e.sendText(msg);
+                    e.broadcast(msg);
                 } catch (IOException e1) {
                     save(this.addException(RMXException.unexpected(e1)));
                     e1.printStackTrace();
                 }
             });
 
-        toRemove.forEach(this::removeSubscriber);
+        toRemove.forEach(this::removeClient);
 
     }
 

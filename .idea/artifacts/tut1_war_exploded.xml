@@ -40,6 +40,13 @@
           <element id="library" level="project" name="Maven: org.apache.tomcat:tomcat-util:8.0.28" />
           <element id="library" level="project" name="Maven: org.apache.tomcat:tomcat-util-scan:8.0.28" />
           <element id="library" level="project" name="Maven: org.springframework:spring-context-support:4.1.8.RELEASE" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.3.3" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.3.3" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.4.6" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:2.3.3" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.jaxrs:jackson-jaxrs-base:2.3.3" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.module:jackson-module-jaxb-annotations:2.3.3" />
+          <element id="library" level="project" name="Maven: javax.json:javax.json-api:1.0" />
         </element>
       </element>
       <element id="directory" name="META-INF">

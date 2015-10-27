@@ -5,6 +5,8 @@ import fjwasockets.debugserver.service.LogService;
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 
+import java.io.IOException;
+
 import static click.rmx.debug.Bugger.print;
 
 /**
@@ -13,6 +15,8 @@ import static click.rmx.debug.Bugger.print;
 @ServerEndpoint(value = "/updates")
 public class UpdatesEndpoint {
 
+    private Session session;
+
     @OnOpen
     public void onOpen(Session session, EndpointConfig endpointConfig) {
         LogService service = LogService.getInstance();
@@ -20,11 +24,11 @@ public class UpdatesEndpoint {
            throw new NullPointerException("LogService Was Not initialized");
         }
 
+        this.session = session;
+
         print("CONNECTED");
-        RemoteEndpoint.Basic remoteEndpointBasic = session.getBasicRemote();
-        service.addSubscriber(remoteEndpointBasic);
-
-
+//        RemoteEndpoint.Basic remoteEndpointBasic = session.getBasicRemote();
+        service.addClient(this);
     }
 
     @OnMessage
@@ -36,8 +40,8 @@ public class UpdatesEndpoint {
     public void onClose(Session session, CloseReason closeReason)
     {
         print("DISCONNECTED");
-        RemoteEndpoint.Basic remoteEndpointBasic = session.getBasicRemote();
-        LogService.getInstance().removeSubscriber(remoteEndpointBasic);
+//        RemoteEndpoint.Basic remoteEndpointBasic = session.getBasicRemote();
+        LogService.getInstance().removeClient(this);
 
     }
 
@@ -47,6 +51,10 @@ public class UpdatesEndpoint {
         error.printStackTrace();
         print(error);
 //        LogService.getInstance().removeSubscriber(session.getBasicRemote());
+    }
+
+    public void broadcast(String message) throws IOException {
+        this.session.getBasicRemote().sendText(message);
     }
 
 
