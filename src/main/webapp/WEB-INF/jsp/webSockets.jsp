@@ -13,7 +13,8 @@
     <jsp:include page="header.jsp"/>
     <style>
         #output {
-            height: 200px;
+            min-height: 200px;
+            max-height: 300px;
             overflow-y: scroll;
             background-color: #000000;
             color: #ffffff;
