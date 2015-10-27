@@ -18,7 +18,9 @@ import java.util.Locale;
  */
 @Configuration
 @EnableWebMvc
-@Import(DBConfig.class)
+@Import({
+        DBConfig.class//, EndpointConfig.class
+})
 @ComponentScan(basePackages = "fjwasockets.debugserver")
 public class WebConfig extends WebMvcConfigurerAdapter {
 

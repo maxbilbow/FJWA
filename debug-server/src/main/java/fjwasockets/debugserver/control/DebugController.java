@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * Created by bilbowm on 23/10/2015.
  */
 @Controller
-@RequestMapping("/version1")
+@RequestMapping("/version1.html")
 public class DebugController {
 
     private WebBugger debug = WebBugger.getInstance();

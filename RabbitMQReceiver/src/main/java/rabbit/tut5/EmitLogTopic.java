@@ -11,7 +11,7 @@ public class EmitLogTopic extends Sender {
 
     private static final String EXCHANGE_NAME = Application.EXCHANGE_TOPICS;
 
-    public static void send(String[] argv)
+    public static void send(String... argv)
             throws Exception {
 
         ConnectionFactory factory = new ConnectionFactory();

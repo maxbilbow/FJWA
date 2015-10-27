@@ -73,7 +73,7 @@
         <div id="fjwa-log">
             <ul>
                 <c:forEach items="${logs}" var="log">
-                    <li><span id="log-message"> [${log.shortTime}] LOG >> </span>${log.html}</li>
+                    <li><span id="log-message"> [${log.shortTime}] LOG >> </span>${log.html} (Sender: ${log.sender})</li>
                 </c:forEach>
             </ul>
         </div>
@@ -82,7 +82,7 @@
         <div id="fjwa-log">
             <ul>
                 <c:forEach items="${warnings}" var="log">
-                    <li><span id="log-warning"> [${log.shortTime}] WARNING >> </span>${log.html}</li>
+                    <li><span id="log-warning"> [${log.shortTime}] WARNING >> </span>${log.html}(Sender: ${log.sender})</li>
                 </c:forEach>
             </ul>
         </div>
@@ -91,7 +91,7 @@
         <div id="fjwa-errors">
             <ul>
                 <c:forEach items="${errors}" var="log">
-                    <li><span id="log-error"> [${log.shortTime}] ERR >> </span>${log.html}</li>
+                    <li><span id="log-error"> [${log.shortTime}] ERR >> </span>${log.html} (Sender: ${log.sender})</li>
                 </c:forEach>
             </ul>
         </div>

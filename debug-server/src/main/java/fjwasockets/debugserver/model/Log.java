@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 /**
@@ -27,6 +28,9 @@ public class Log {
 
     private Date timeStamp;
 
+    @NotNull
+    private String sender;
+
     @Transient
     private String html = null;
 
@@ -36,6 +40,7 @@ public class Log {
     {
         timeStamp = new Date();
         shortTime = Bugger.timestamp();
+        sender = "UNKNOWN";
     }
 
     public Date getTimeStamp() {
@@ -94,5 +99,14 @@ public class Log {
 
     public void setShortTime(String shortTime) {
         this.shortTime = shortTime;
+    }
+
+
+    public String getSender() {
+        return sender == null ? "UNKNOWN" : sender;
+    }
+
+    public void setSender(String sender) {
+        this.sender = sender != null ? sender : "UNKNOWN";
     }
 }

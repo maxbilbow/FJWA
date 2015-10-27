@@ -38,7 +38,7 @@ Echo.connect = (function (host) {
 });
 
 Echo.initialize = function () {
-    var ep = '/websocket/echo';
+    var ep = '/websocket/echoa';
 
     if (window.location.protocol == 'http:') {
         Echo.connect('ws://' + window.location.host + ep);

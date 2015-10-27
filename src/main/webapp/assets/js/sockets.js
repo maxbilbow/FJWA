@@ -226,14 +226,20 @@ function writeErrToScreen(err) {
 function parseList(data) {
     var result = 'RESULT::';
     var json = JSON.parse(data);
-    for (var i=0;i<json.length;++i) {
-        result += '<br/>ENTRY ' + i + ': ' + json[i];
-        //var element = JSON.parse(data[i]);
-        $.each(json[i], function (k, v) {
+    if (Object.prototype.toString.call(json) === '[object Array]')
+        for (var i = 0; i < json.length; ++i) {
+            result += '<br/>ENTRY ' + i + ': ' + json[i];
+            //var element = JSON.parse(data[i]);
+            $.each(json[i], function (k, v) {
+                //display the key and value pair
+                result += '<br/> --> ' + k + ': ' + v;
+            });
+        }
+    else
+        $.each(json, function (k, v) {
             //display the key and value pair
             result += '<br/> --> ' + k + ': ' + v;
         });
-    }
     return result;
 }
 

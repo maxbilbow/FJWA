@@ -45,13 +45,6 @@
         <processorPath useClasspath="true" />
         <module name="cmd-tool" />
       </profile>
-      <profile default="false" name="Annotation profile for debug-server" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="true" />
-        <module name="debug-server" />
-      </profile>
       <profile default="false" name="Annotation profile for FJWA" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
@@ -73,10 +66,25 @@
         <processorPath useClasspath="true" />
         <module name="tut1" />
       </profile>
+      <profile default="false" name="Annotation profile for debug-client" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="debug-client" />
+      </profile>
+      <profile default="false" name="Annotation profile for debug-server" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="debug-server" />
+      </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="1.8">
       <module name="chat" target="1.8" />
       <module name="cmd-tool" target="1.8" />
+      <module name="debug-client" target="1.8" />
       <module name="debug-server" target="1.8" />
       <module name="FJWA" target="1.8" />
       <module name="pluralsight-websockets" target="1.8" />

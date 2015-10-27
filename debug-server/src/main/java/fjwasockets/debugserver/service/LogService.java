@@ -2,6 +2,7 @@ package fjwasockets.debugserver.service;
 
 import click.rmx.debug.RMXException;
 import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rabbitmq.client.*;
@@ -12,13 +13,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import javax.websocket.RemoteEndpoint;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeoutException;
 
 import static click.rmx.debug.Bugger.print;
+import static click.rmx.debug.Tests.todo;
 import static click.rmx.debug.WebBugger.DEBUG_EXCHANGE_NAME;
 
 /**
@@ -26,8 +27,63 @@ import static click.rmx.debug.WebBugger.DEBUG_EXCHANGE_NAME;
  */
 @Service
 public class LogService {
+    private static LogService instance;
     private Connection connection;
     private Channel channel;
+
+    public LogService()
+    {
+        instance = this;
+    }
+
+    private Set<RemoteEndpoint.Basic> endpoints = new HashSet<>();
+
+    public static LogService getInstance() {
+        return  instance;
+    }
+
+    public void addSubscriber(RemoteEndpoint.Basic remoteEndpointBasic)
+    {
+        endpoints.add(remoteEndpointBasic);
+    }
+
+    public void removeSubscriber(RemoteEndpoint.Basic remoteEndpointBasic)
+    {
+        endpoints.remove(remoteEndpointBasic);
+    }
+
+    private void notifySubscribers(Log log)
+    {
+        ObjectMapper mapper = new ObjectMapper();
+        String message = "Message Failed to sent!";
+        try {
+            message = mapper.writeValueAsString(log);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        List<RemoteEndpoint.Basic> toRemove = new ArrayList<>();
+            final String msg = message;
+            endpoints.stream().forEach(e -> {
+                try {
+                    e.sendText(msg);
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                    print("removing subscriber: " + e);
+                }
+            });
+
+        toRemove.forEach(this::removeSubscriber);
+
+    }
+
+    //TODO
+    private void notiftRabbitServer(Log log)
+    {
+        todo();
+    }
+
+
 
     @Resource//(type = LogRepository.class)
     private LogRepository repository;
@@ -181,27 +237,37 @@ public class LogService {
                             for (Object key : map.keySet()) {
                                 log += "\n   --> " + key + ": " + map.get(key);
                             }
-                        } else {
-                            log += message + " (via "+topic+")";
                         }
+//                        else {
+//                            log += message + " (via "+topic+")";
+//                        }
 
 
                     }
                 else
-                    log = message + " (via "+topic+")";
+                    log = message;// + " (via "+topic+")";
 
 
-                print(log);
+//                print(log);
+                Log newLog = null;
                 try {
+
                     if (topic.contains("error") || topic.contains("exception"))
-                        save(thisInstance.addException(log));
+                        newLog = thisInstance.addException(log);
                     else if (topic.contains("warning"))
-                        save(thisInstance.addWarning(log));
+                        newLog = thisInstance.addWarning(log);
                     else
-                        save(thisInstance.addLog(log));
+                        newLog = thisInstance.addLog(log);
+                    if (properties != null)
+                        newLog.setSender(properties.getAppId());
+                    save(newLog);
 //                channel.basicAck(envelope.getDeliveryTag(),false);
                 } catch (Exception e) {
                     e.printStackTrace();
+                }
+                if (newLog != null) {
+                    notifySubscribers(newLog);
+                    notiftRabbitServer(newLog);
                 }
             }
         };
@@ -212,5 +278,6 @@ public class LogService {
     {
         repository.save(log);
     }
+
 
 }

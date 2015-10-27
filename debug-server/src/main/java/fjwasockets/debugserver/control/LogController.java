@@ -14,11 +14,11 @@ import javax.annotation.Resource;
  * Created by Max on 25/10/2015.
  */
 @Controller
-@RequestMapping("/index")
+@RequestMapping("/index.html")
 public class LogController {
 
 
-    @Resource//(type = LogService.class)
+    @Resource
     private LogService service;
 
     @Resource//(type = LogRepository.class)
@@ -27,7 +27,6 @@ public class LogController {
     @RequestMapping(method = RequestMethod.GET)
     public String get(ModelMap model)
     {
-
         model.addAttribute("logs", repository.getMessages());
         model.addAttribute("errors", repository.getErrors());
         model.addAttribute("warnings", repository.getWarnings());

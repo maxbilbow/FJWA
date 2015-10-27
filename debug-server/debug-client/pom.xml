@@ -1,19 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>fjwasockets</groupId>
-    <artifactId>debug-server</artifactId>
-    <version>0.0.4-SNAPSHOT</version>
-    <!--<modules>-->
-        <!--<module>debug-client</module>-->
-    <!--</modules>-->
-    <packaging>war</packaging>
-
-
-    <name>debug-server</name>
-    <description>sockets example</description>
+    <artifactId>debug-client</artifactId>
+    <version>1.0</version>
+    <packaging>jar</packaging>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -31,7 +26,9 @@
         <commons-logging.version>1.2</commons-logging.version>
         <!--<jetty-websocket.version>8.1.18.v20150929</jetty-websocket.version>-->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <javax.websocket-api.version>1.1</javax.websocket-api.version>
+
+        <windows.repository>C:\Users\bilbowm\.m2\repository</windows.repository>
+
         <java.version>1.8</java.version>
 
         <rmx.version>v0.0.3-SNAPSHOT</rmx.version>
@@ -49,29 +46,33 @@
             <scope>test</scope>
         </dependency>
 
-
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>4.1.1.RELEASE</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-websocket</artifactId>
-            <version>${spring.version}</version>
+            <version>4.1.1.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-messaging</artifactId>
-            <version>${spring.version}</version>
+            <version>4.1.1.RELEASE</version>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>javax.websocket</groupId>-->
-            <!--<artifactId>javax.websocket-api</artifactId>-->
-            <!--<version>1.0</version>-->
-            <!--<scope>provided</scope>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>javax.servlet</groupId>-->
-            <!--<artifactId>javax.servlet-api</artifactId>-->
-            <!--<version>3.1.0</version>-->
-            <!--<scope>provided</scope>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>javax.websocket</groupId>
+            <artifactId>javax.websocket-api</artifactId>
+            <version>1.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>jstl</artifactId>
@@ -125,7 +126,11 @@
             <artifactId>tomcat-catalina</artifactId>
             <version>${tomcat.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
 
 
         <dependency>
@@ -144,10 +149,10 @@
             <artifactId>spring-data-jpa</artifactId>
             <version>${spring-data-jpa.version}</version>
             <!--<exclusions>-->
-                <!--<exclusion>-->
-                    <!--<groupId>org.springframework</groupId>-->
-                    <!--<artifactId>spring-aop</artifactId>-->
-                <!--</exclusion>-->
+            <!--<exclusion>-->
+            <!--<groupId>org.springframework</groupId>-->
+            <!--<artifactId>spring-aop</artifactId>-->
+            <!--</exclusion>-->
             <!--</exclusions>-->
         </dependency>
         <dependency>
@@ -183,67 +188,57 @@
             <version>3.5.5</version>
         </dependency>
 
-
-        <dependency>
-            <groupId>javax.websocket</groupId>
-            <artifactId>javax.websocket-api</artifactId>
-            <version>${javax.websocket-api.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-webmvc</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context-support</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
     </dependencies>
 
+    <repositories>
+        <repository>
+            <id>rmx</id>
+            <name>RMXJavaKit</name>
+            <layout>default</layout>
+            <url>${windows.repository}</url>
+            <!--<url>${settings.localRepository}</url>-->
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
     <build>
-        <sourceDirectory>src/main/java</sourceDirectory>
-
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-            </resource>
-        </resources>
+        <finalName>debug-logger</finalName>
         <plugins>
-
+            <!-- Set a JDK compiler level -->
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <mainClass>fjwasockets.debugserver.Application</mainClass>
-                </configuration>
-
-            </plugin>
-            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.3</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
+
                 </configuration>
             </plugin>
             <plugin>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>2.6</version>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
+            <!-- Make this jar executable -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
-
-                    <warSourceDirectory>src/main/webapp</warSourceDirectory>
-                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                    <!-- DO NOT include log4j.properties file in your Jar -->
+                    <excludes>
+                        <exclude>**/log4j.properties</exclude>
+                    </excludes>
+                    <archive>
+                        <manifest>
+                            <!-- Jar file entry point -->
+                            <mainClass>fjwasockets.debugclient.Logger</mainClass>
+                        </manifest>
+                    </archive>
                 </configuration>
-
             </plugin>
         </plugins>
 
     </build>
-
 </project>

@@ -26,7 +26,17 @@ public class EndpointApplicationConfig implements ServerApplicationConfig {
     }
 
     @Override
-    public Set<Class<?>> getAnnotatedEndpointClasses(Set<Class<?>> set) {
-        return null;
+    public Set<Class<?>> getAnnotatedEndpointClasses(Set<Class<?>> scanned) {
+        // Deploy all WebSocket endpoints defined by annotations in the examples
+        // web application. Filter out all others to avoid issues when running
+        // tests on Gump
+        Set<Class<?>> results = new HashSet<>();
+        for (Class<?> clazz : scanned) {
+            if (clazz.getPackage().getName().startsWith("com.pluralsight")) {
+                results.add(clazz);
+
+            }
+        }
+        return results;
     }
 }

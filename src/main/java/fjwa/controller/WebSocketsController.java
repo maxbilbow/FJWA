@@ -37,7 +37,7 @@ public class WebSocketsController {
             "'ws://localhost:8080/ws-tut1/websocket/echo' -> simple echo server"
     };
     String[] sockets = {
-            "wss://echo.websocket.org",
+            "ws://localhost:8080/debug-server/updates",
             "http://localhost:8080/spring-ng-chat/chat",
             "http://localhost:15674/stomp",
             "ws://localhost:8080/ws-tut1/websocket/echo",
