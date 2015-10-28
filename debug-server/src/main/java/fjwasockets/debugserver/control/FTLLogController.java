@@ -15,7 +15,7 @@ import javax.annotation.Resource;
  */
 @SuppressWarnings("ALL")
 @Controller
-@RequestMapping("/index.html")
+@RequestMapping("/version3.html")
 public class FTLLogController {
 
 

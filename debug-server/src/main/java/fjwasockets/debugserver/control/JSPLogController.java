@@ -14,7 +14,7 @@ import javax.annotation.Resource;
  * Created by Max on 25/10/2015.
  */
 @Controller
-@RequestMapping("/version2.html")
+@RequestMapping("index.html")///version2.html")
 public class JSPLogController {
 
 
