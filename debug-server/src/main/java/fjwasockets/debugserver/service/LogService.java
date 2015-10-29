@@ -32,6 +32,11 @@ public class LogService {
     public LogService()
     {
         instance = this;
+        try {
+            startDebugExchange();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private Set<UpdatesEndpoint> endpoints = new HashSet<>();

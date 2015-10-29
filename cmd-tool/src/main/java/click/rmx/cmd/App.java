@@ -13,6 +13,6 @@ public class App {
     {
         print("Hello, world.");
 //        CmdSocketTool.start("http://localhost:8080/spring-ng-chat/debug");
-        CmdSocketTool.start("ws://echo.websocket.org");
+//        CmdSocketTool.start("ws://echo.websocket.org");
     }
 }

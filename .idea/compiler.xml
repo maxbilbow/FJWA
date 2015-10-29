@@ -38,13 +38,6 @@
         <processorPath useClasspath="true" />
         <module name="spring-ng-chat" />
       </profile>
-      <profile default="false" name="Annotation profile for cmd-tool" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="true" />
-        <module name="cmd-tool" />
-      </profile>
       <profile default="false" name="Annotation profile for FJWA" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
@@ -80,10 +73,17 @@
         <processorPath useClasspath="true" />
         <module name="debug-server" />
       </profile>
+      <profile default="false" name="Annotation profile for cmd-tool" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="cmd-tool" />
+      </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="1.8">
       <module name="chat" target="1.8" />
-      <module name="cmd-tool" target="1.8" />
+      <module name="cmd-tool" target="1.9" />
       <module name="debug-client" target="1.8" />
       <module name="debug-server" target="1.8" />
       <module name="FJWA" target="1.8" />
