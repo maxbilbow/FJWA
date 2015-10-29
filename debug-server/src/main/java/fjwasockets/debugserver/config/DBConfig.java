@@ -30,7 +30,7 @@ public class DBConfig implements TransactionManagementConfigurer {
     }
 
     enum DB {
-        LOCAL("jdbc:mysql://localhost:3306/debug_server",
+        LOCAL("jdbc:mysql://localhost:3306/debug_server", //3307 at home
                 "root", "password");
 
         public final String url, username, password;
