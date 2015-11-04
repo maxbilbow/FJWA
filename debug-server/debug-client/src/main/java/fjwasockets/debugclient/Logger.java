@@ -93,28 +93,28 @@ public class Logger {
         }
     }
 
-    public void logWarning(Object message)
+    public void logWarning(Object object)
     {
         try {
-            send(message, null, "debug.warning");
+            send(object, null, "debug.warning");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void logException(Object message)
+    public void logException(Object object)
     {
         try {
-            send(message, null, "debug.error");
+            send(object, null, "debug.error");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void logMessage(Object message)
+    public void logMessage(Object object)
     {
         try {
-            send(message, null, "debug.log");
+            send(object, null, "debug.log");
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: fjwasockets:debug-client:1.0">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/debug-server/debug-client/pom.xml!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/debug-server/debug-client/debug-client-1.0-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/debug-server/debug-client/debug-client-1.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

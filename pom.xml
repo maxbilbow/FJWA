@@ -336,9 +336,9 @@
                 <version>2.6</version>
 
                 <configuration>
-                    <excludes>
-                        <exclude>**/log4j.properties</exclude>
-                    </excludes>
+                    <!--<excludes>-->
+                        <!--<exclude>**/log4j.properties</exclude>-->
+                    <!--</excludes>-->
                     <warSourceDirectory>src/main/webapp</warSourceDirectory>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>

@@ -98,9 +98,7 @@
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.module:jackson-module-jaxb-annotations:2.4.6" />
           <element id="library" level="project" name="Maven: org.freemarker:freemarker:2.3.23" />
           <element id="library" level="project" name="Maven: javax.json:javax.json-api:1.0" />
-          <element id="archive" name="debug-client-1.0.jar">
-            <element id="module-output" name="debug-client" />
-          </element>
+          <element id="library" level="project" name="Maven: fjwasockets:debug-client:1.0" />
           <element id="library" level="project" name="Maven: org.aspectj:aspectjweaver:1.8.7" />
         </element>
       </element>
