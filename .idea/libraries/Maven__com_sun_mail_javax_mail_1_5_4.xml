@@ -1,8 +1,6 @@
 <component name="libraryTable">
   <library name="Maven: com.sun.mail:javax.mail:1.5.4">
-    <CLASSES>
-      <root url="jar://$MAVEN_REPOSITORY$/com/sun/mail/javax.mail/1.5.4/javax.mail-1.5.4.jar!/" />
-    </CLASSES>
+    <CLASSES />
     <JAVADOC>
       <root url="jar://$MAVEN_REPOSITORY$/com/sun/mail/javax.mail/1.5.4/javax.mail-1.5.4-javadoc.jar!/" />
     </JAVADOC>

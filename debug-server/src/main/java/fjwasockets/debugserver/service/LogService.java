@@ -14,6 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.util.concurrent.TimeoutException;
 
@@ -191,8 +194,19 @@ public class LogService {
             argv.add(s);
 
         ConnectionFactory factory = new ConnectionFactory();
+
         factory.setHost("localhost");
-        connection = factory.newConnection();
+        try {
+            connection = factory.newConnection();
+        } catch (IOException e) {
+//            factory.setHost("repo.rmx.click");
+
+//            factory.setPort(5672);
+            factory.setUsername("maxbilbow");
+            factory.setPassword("lskaadl");
+
+            connection = factory.newConnection();
+        }
         channel = connection.createChannel();
 
 

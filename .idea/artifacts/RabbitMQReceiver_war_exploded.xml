@@ -8,7 +8,6 @@
         </element>
         <element id="directory" name="lib">
           <element id="library" level="project" name="Maven: org.apache.tomcat:tomcat-catalina:8.0.26" />
-          <element id="library" level="project" name="Maven: org.apache.tomcat:tomcat-servlet-api:8.0.26" />
           <element id="library" level="project" name="Maven: org.apache.tomcat:tomcat-jsp-api:8.0.26" />
           <element id="library" level="project" name="Maven: org.apache.tomcat:tomcat-el-api:8.0.26" />
           <element id="library" level="project" name="Maven: org.apache.tomcat:tomcat-juli:8.0.26" />

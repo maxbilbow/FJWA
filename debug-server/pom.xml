@@ -260,6 +260,7 @@
     </dependencies>
 
     <build>
+        <finalName>debug-server</finalName>
         <sourceDirectory>src/main/java</sourceDirectory>
 
         <resources>
