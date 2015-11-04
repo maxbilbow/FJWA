@@ -1,7 +1,8 @@
 package fjwasockets.debugclient;
 
 import click.rmx.debug.WebBugger;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
+import org.codehaus.jackson.map.ObjectMapper;
 import com.mongodb.util.JSONParseException;
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
