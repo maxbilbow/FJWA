@@ -34,7 +34,10 @@ public class UpdatesEndpoint {
 
     @OnMessage
     public String echo(String message) {
-        return message + " (from your server)";
+        String state = LogService.getInstance().isActive() ?
+                "<span style=\"color:green\">ON</span>" :
+                "<span style=\"color:red\">OFF</span>";
+        return message + " >> Server is " + state;
     }
 
     @OnClose

@@ -14,9 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.util.concurrent.TimeoutException;
 
@@ -58,7 +55,7 @@ public class LogService {
         endpoints.remove(client);
     }
 
-    private void notifySubscribers(Log log)
+    public void notifySubscribers(Log log)
     {
         ObjectMapper mapper = new ObjectMapper();
         String message = "Message Failed to sent!";
@@ -306,7 +303,11 @@ public class LogService {
     @Transactional
     public void save(Log log)
     {
-        repository.save(log);
+        try {
+            repository.save(log);
+        } catch (Exception e) {
+            notifySubscribers(addException(RMXException.unexpected(e)));
+        }
     }
 
 

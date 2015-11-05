@@ -56,8 +56,9 @@
                 To Socket
             </label>
             <select id="toSocket" onchange="updateUri()">
+                <option> --custom-- </option>
                 <option>ws://localhost:8080/debug-server/updates</option>
-                <option>ws://repo.rmx.click:8080/debug-server/updates</option>
+                <option>ws://repo.rmx.click/debug-server/updates</option>
             </select>
             <input id="customSocket" type="text" value="ws://" onchange="updateUri()" hidden="true">
         </div>

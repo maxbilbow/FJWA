@@ -58,7 +58,7 @@ public class DBConfig implements TransactionManagementConfigurer {
     }
 
     final Properties additionalProperties() {
-        final Properties hibernateProperties = new Properties();
+        final Properties hibernateProperties = new Properties();//TODO change to create-drop or add config options
         hibernateProperties.setProperty("hibernate.hbm2ddl.auto", "update");// USE_REMOTE_DATABASE ? "update" : "create-drop");
         hibernateProperties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
         hibernateProperties.setProperty("hibernate.globally_quoted_identifiers", "true");

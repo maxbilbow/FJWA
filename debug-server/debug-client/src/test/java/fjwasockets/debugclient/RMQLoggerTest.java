@@ -5,7 +5,7 @@ import org.junit.*;
 /**
  * Created by bilbowm on 27/10/2015.
  */
-public class LoggerTest {
+public class RMQLoggerTest {
 
     private Logger logger;
     private static AnObject log, warning, error;
@@ -22,7 +22,7 @@ public class LoggerTest {
     @Before
     public void setUp()
     {
-        logger = new Logger("Test #" + ++testNumber);
+        logger = new RMQLogger("Test #" + ++testNumber);
     }
 
     @After

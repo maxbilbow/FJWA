@@ -1,129 +1,94 @@
 package fjwasockets.debugclient;
 
-import click.rmx.debug.WebBugger;
-
-import org.codehaus.jackson.map.ObjectMapper;
-import com.mongodb.util.JSONParseException;
 import com.rabbitmq.client.AMQP;
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.Connection;
-import com.rabbitmq.client.ConnectionFactory;
 
 import java.util.Date;
 
 /**
  * Created by bilbowm on 27/10/2015.
  */
-public class Logger {
+public interface Logger {
 
-    private static final String EXCHANGE_NAME = WebBugger.DEBUG_EXCHANGE_NAME;
-    private final String appId;
+    /**
+     *
+     * @param message
+     * @param routing
+     * @throws Exception
+     */
+    void send(String message,  String... routing)
+            throws Exception;
 
-    public Logger(String appId) {
-        this.appId = appId;
-    }
-
-    public void send(String message, AMQP.BasicProperties properties, String... routing)
-            throws Exception {
-
-        ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost("localhost");
-        Connection connection = factory.newConnection();
-        Channel channel = connection.createChannel();
-
-        channel.exchangeDeclare(EXCHANGE_NAME, "topic");
-
-        if (properties == null)
-            properties = defaultProperties();
-
-        for (String routingKey : routing) {
-            channel.basicPublish(EXCHANGE_NAME, routingKey, properties , message.getBytes());
-            System.out.println(" ["+appId+"] Sent '" + routingKey + "':'" + message + "'");
-        }
-        connection.close();
-    }
-
-    private AMQP.BasicProperties defaultProperties()
+    default AMQP.BasicProperties defaultProperties()
     {
         return new AMQP.BasicProperties.Builder()
-            .appId(appId)
+            .appId(getAppId())
             .timestamp(new Date())
             .build();
     }
 
-    public void send(Object object, AMQP.BasicProperties properties, String... routing) throws Exception {
-        ObjectMapper mapper = new ObjectMapper();
-        String json = null;
-        try {
-           json = mapper.writeValueAsString(object);
-        } catch (JSONParseException e) {
-            try {
-                send("Couuld not parse as JSON will use toString() instead.", null,  "debug.warning");
-            } catch (Exception e1) {
-                e1.printStackTrace();
-                json = object.toString();
-            }
-        }
-        send(json, null, routing);
-    }
+    String getAppId();
 
-       public void logWarning(String message)
+
+    /**
+     *
+     * @param object
+     * @param routing
+     * @throws Exception
+     */
+    void send(Object object, String... routing) throws Exception;
+
+    default void logWarning(String message)
     {
         try {
-            send(message, null, "debug.warning");
+            send(message, "debug.warning");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void logException(String message)
+    default void logException(String message)
     {
         try {
-            send(message, null, "debug.error");
+            send(message, "debug.error");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void logMessage(String message)
+    default void logMessage(String message)
     {
         try {
-            send(message, null, "debug.log");
+            send(message, "debug.log");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void logWarning(Object object)
+    default void logWarning(Object object)
     {
         try {
-            send(object, null, "debug.warning");
+            send(object, "debug.warning");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void logException(Object object)
+    default void logException(Object object)
     {
         try {
-            send(object, null, "debug.error");
+            send(object, "debug.error");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void logMessage(Object object)
+    default void logMessage(Object object)
     {
         try {
-            send(object, null, "debug.log");
+            send(object, "debug.log");
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public static void main(String[] args)
-    {
-
     }
 
 }
