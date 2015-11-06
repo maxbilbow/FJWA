@@ -37,58 +37,81 @@ public interface Logger {
      */
     void send(Object object, String... routing) throws Exception;
 
-    default void logWarning(String message)
+    default boolean logWarning(String message)
     {
         try {
             send(message, "debug.warning");
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
+        return true;
     }
 
-    default void logException(String message)
+    default boolean logException(String message)
     {
         try {
             send(message, "debug.error");
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
+        return true;
     }
 
-    default void logMessage(String message)
+    default boolean logMessage(String message)
     {
         try {
             send(message, "debug.log");
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
+        return true;
     }
 
-    default void logWarning(Object object)
+    default boolean logWarning(Object object)
     {
         try {
             send(object, "debug.warning");
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
+        return true;
     }
 
-    default void logException(Object object)
+    default boolean logException(Object object)
     {
         try {
             send(object, "debug.error");
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
+        return true;
     }
 
-    default void logMessage(Object object)
+    default boolean logMessage(Object object)
     {
         try {
             send(object, "debug.log");
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
+        return true;
     }
 
+    void setHost(String host);
+
+    void setPort(Integer port);
+
+    void setUri(String uri);
+
+    void setVirtualHost(String virtualHost);
+
+    void setUsername(String username);
+
+    void setPassword(String password);
 }

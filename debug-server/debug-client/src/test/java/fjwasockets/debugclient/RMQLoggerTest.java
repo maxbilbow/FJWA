@@ -1,15 +1,56 @@
 package fjwasockets.debugclient;
 
 import org.junit.*;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by bilbowm on 27/10/2015.
  */
+@RunWith(Parameterized.class)
 public class RMQLoggerTest {
 
+    private String virtualHost;
+    private String username;
+    private String password;
+    private final String uri;
     private Logger logger;
+    private final String host;
+    private final Integer port;
     private static AnObject log, warning, error;
-    int testNumber = 0;
+    static int testNumber = 0;
+
+    public RMQLoggerTest(String host, Integer port,
+                      String virtualHost,
+                      String username,
+                      String password,
+                      String  uri) {
+        this.host = host;
+        this.port = port;
+        this.virtualHost = virtualHost;
+        this.username = username;
+        this.password = password;
+        this.uri = uri;
+    }
+
+    @Parameterized.Parameters
+    public static List<Object[]> hosts() {
+        List<Object[]> hosts = new ArrayList<>();
+        hosts.add(new Object[] {"localhost", 5672, null, "root", "password", null});
+//        hosts.add(new Object[] {"82.37.200.76", 5672, "/", "maxbilbow", "lskaadl", null});
+//        hosts.add(new Object[] {null,null,null,null,null,
+//                "amqp://maxbilbow:lskaadl@82.37.200.76:5672/"});
+
+
+        return hosts;
+
+    }
+
 
     @BeforeClass
     public static void setUpBeforeClass()
@@ -20,9 +61,14 @@ public class RMQLoggerTest {
     }
 
     @Before
-    public void setUp()
-    {
-        logger = new RMQLogger("Test #" + ++testNumber);
+    public void setUp() throws Exception {
+        logger = new RMQLogger(this.getClass().getCanonicalName());
+        logger.setHost(host);
+        logger.setPort(port);
+        logger.setUri(uri);
+        logger.setVirtualHost(virtualHost);
+        logger.setUsername(username);
+        logger.setPassword(password);
     }
 
     @After
@@ -30,7 +76,7 @@ public class RMQLoggerTest {
     {
         logger = null;
         try {
-            Thread.sleep(1000); //Optional - useful when checking subscribing clients
+            Thread.sleep(100); //Optional - useful when checking subscribing clients
         } catch (InterruptedException _ignored) {
             Thread.currentThread().interrupt();
         }
@@ -59,9 +105,9 @@ public class RMQLoggerTest {
 
     @Test
     public void testSendString() throws Exception {
-        logger.send("This is a log",null, "debug.log");
-        logger.send("This is a warning",null, "debug.warning");
-        logger.send("This is a error",null, "debug.error");
+        logger.send("This is a log", null, "debug.log");
+        logger.send("This is a warning", null, "debug.warning");
+        logger.send("This is a error", null, "debug.error");
     }
 
     @Test
@@ -84,31 +130,45 @@ public class RMQLoggerTest {
     }
     @Test
     public void testLogWarningString() throws Exception {
-        logger.logWarning("This is a warning string");
+        assertTrue(
+                logger.logWarning("This is a warning string")
+        );
     }
 
     @Test
     public void testLogExceptionString() throws Exception {
-        logger.logWarning("This is a exception string");
+        assertTrue(
+                logger.logException("This is a exception string")
+        );
     }
 
     @Test
     public void testLogMessageString() throws Exception {
-        logger.logWarning("This is a log string");
+        assertTrue(
+                logger.logMessage("This is a log string")
+        );
     }
 
     @Test
     public void testLogWarningObject() throws Exception {
-        logger.logWarning(warning);
+        assertTrue(
+                logger.logWarning(warning)
+        );
     }
 
     @Test
     public void testLogExceptionObject() throws Exception {
-        logger.logWarning(error);
+        assertTrue(
+                logger.logException(error)
+        );
     }
 
     @Test
     public void testLogMessageObject() throws Exception {
-        logger.logWarning(log);
+        assertTrue(
+                logger.logMessage(log)
+        );
     }
+
+
 }

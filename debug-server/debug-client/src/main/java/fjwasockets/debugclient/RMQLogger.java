@@ -12,6 +12,11 @@ import java.util.Map;
  * Created by bilbowm on 05/11/2015.
  */
 public class RMQLogger implements Logger {
+    private String exchangeName = "debug_topic_exchange";
+    private String host, virtualHost, username, password;
+    private Integer port;// = null;
+    private String uri;
+
     private static final String EXCHANGE_NAME = WebBugger.DEBUG_EXCHANGE_NAME;
     private final String appId;
 
@@ -77,4 +82,60 @@ public class RMQLogger implements Logger {
         send(json, null, routing);
     }
 
+    public String getHost() {
+        return host;
+    }
+
+    @Override
+    public void setHost(String host) {
+        this.host = host;
+    }
+
+    public String getVirtualHost() {
+        return virtualHost;
+    }
+
+    public void setVirtualHost(String virtualHost) {
+        this.virtualHost = virtualHost;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Integer getPort() {
+        return port;
+    }
+
+    public void setPort(Integer port) {
+        this.port = port;
+    }
+
+    public String getUri() {
+        return uri;
+    }
+
+    public void setUri(String uri) {
+        this.uri = uri;
+    }
+
+    public String getExchangeName() {
+        return exchangeName;
+    }
+
+    public void setExchangeName(String exchangeName) {
+        this.exchangeName = exchangeName;
+    }
 }

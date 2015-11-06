@@ -29,6 +29,36 @@ public class WSLogger implements Logger {
 
     }
 
+    @Override
+    public void setHost(String host) {
+
+    }
+
+    @Override
+    public void setPort(Integer port) {
+
+    }
+
+    @Override
+    public void setUri(String uri) {
+
+    }
+
+    @Override
+    public void setVirtualHost(String virtualHost) {
+
+    }
+
+    @Override
+    public void setUsername(String username) {
+
+    }
+
+    @Override
+    public void setPassword(String password) {
+
+    }
+
     public String getEndpoint() {
         return endpoint;
     }
