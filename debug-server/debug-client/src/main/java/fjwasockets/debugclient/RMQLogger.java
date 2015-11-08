@@ -6,7 +6,9 @@ import com.rabbitmq.client.*;
 import com.rabbitmq.client.impl.AMQBasicProperties;
 import org.codehaus.jackson.map.ObjectMapper;
 
+import java.io.IOException;
 import java.util.Map;
+import java.util.concurrent.TimeoutException;
 
 /**
  * Created by bilbowm on 05/11/2015.
@@ -24,8 +26,7 @@ public class RMQLogger implements Logger {
         this.appId = appId;
     }
 
-    public void send(String message, AMQP.BasicProperties properties, String... routing)
-            throws Exception {
+    public void send(String message, AMQP.BasicProperties properties, String... routing) throws IOException, TimeoutException {
 
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost("localhost");
@@ -49,24 +50,13 @@ public class RMQLogger implements Logger {
         return defaultProperties();//todo
     }
 
-
-    @Override
-    public void send(String message, String... routing) throws Exception {
-        send(message, null, routing);
-    }
-
     @Override
     public String getAppId() {
         return appId;
     }
 
     @Override
-    public void send(Object object, String... routing) throws Exception {
-        send(object,null,routing);
-    }
-
-
-    public void send(Object object, AMQBasicProperties properties, String... routing) throws Exception {
+    public void send(Object object, AMQP.BasicProperties properties, String... routing) throws IOException, TimeoutException  {
         ObjectMapper mapper = new ObjectMapper();
         String json = null;
         try {

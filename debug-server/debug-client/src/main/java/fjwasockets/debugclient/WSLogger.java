@@ -1,5 +1,10 @@
 package fjwasockets.debugclient;
 
+import com.rabbitmq.client.AMQP;
+
+import java.io.IOException;
+import java.util.concurrent.TimeoutException;
+
 /**
  * Created by bilbowm on 05/11/2015.
  */
@@ -15,17 +20,17 @@ public class WSLogger implements Logger {
 
 
     @Override
-    public void send(String message, String... routing) throws Exception {
-
-    }
-
-    @Override
     public String getAppId() {
         return appId;
     }
 
     @Override
-    public void send(Object object, String... routing) throws Exception {
+    public void send(Object object, AMQP.BasicProperties properties, String... routing) throws IOException, TimeoutException {
+
+    }
+
+    @Override
+    public void send(String message, AMQP.BasicProperties properties, String... routing) throws IOException, TimeoutException {
 
     }
 

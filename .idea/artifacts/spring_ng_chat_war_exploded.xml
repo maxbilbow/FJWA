@@ -36,6 +36,11 @@
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.jaxrs:jackson-jaxrs-base:2.3.3" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.module:jackson-module-jaxb-annotations:2.3.3" />
           <element id="library" level="project" name="Maven: click.rmx:rmx-debug:v0.0.3-SNAPSHOT" />
+          <element id="library" level="project" name="Maven: org.springframework.amqp:spring-rabbit:1.4.6.RELEASE" />
+          <element id="library" level="project" name="Maven: com.rabbitmq:amqp-client:3.5.5" />
+          <element id="library" level="project" name="Maven: org.springframework.retry:spring-retry:1.1.2.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework.amqp:spring-amqp:1.4.6.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-tx:4.1.8.RELEASE" />
         </element>
       </element>
       <element id="directory" name="META-INF">

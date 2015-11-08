@@ -2,21 +2,15 @@ package fjwasockets.debugclient;
 
 import com.rabbitmq.client.AMQP;
 
+import java.io.IOException;
 import java.util.Date;
+import java.util.concurrent.TimeoutException;
 
 /**
  * Created by bilbowm on 27/10/2015.
  */
 public interface Logger {
 
-    /**
-     *
-     * @param message
-     * @param routing
-     * @throws Exception
-     */
-    void send(String message,  String... routing)
-            throws Exception;
 
     default AMQP.BasicProperties defaultProperties()
     {
@@ -32,10 +26,42 @@ public interface Logger {
     /**
      *
      * @param object
+     * @param properties
      * @param routing
      * @throws Exception
      */
-    void send(Object object, String... routing) throws Exception;
+    void send(Object object, AMQP.BasicProperties properties, String... routing) throws IOException, TimeoutException ;
+
+    /**
+     *
+     * @param message
+     * @param properties
+     * @param routing
+     * @throws Exception
+     */
+    void send(String message, AMQP.BasicProperties properties, String... routing)
+            throws IOException, TimeoutException;
+
+    /**
+     *
+     * @param message
+     * @param routing
+     * @throws Exception
+     */
+    default void send(String message, String... routing) throws IOException, TimeoutException {
+        send(message, defaultProperties(), routing);
+    }
+
+    /**
+     *
+     * @param object
+     * @param routing
+     * @throws Exception
+     */
+    default void send(Object object, String... routing) throws IOException, TimeoutException
+    {
+        send(object, defaultProperties(), routing);
+    }
 
     default boolean logWarning(String message)
     {
