@@ -5,6 +5,7 @@
   </component>
   <component name="FrameworkDetectionExcludesConfiguration">
     <file type="web" url="file://$PROJECT_DIR$" />
+    <file type="web" url="file://$PROJECT_DIR$/../RMXJavaKit/rmx-kit/rmx-debug-server" />
   </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">

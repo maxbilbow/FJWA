@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="exploded-war" name="debug-server:war exploded">
-    <output-path>$PROJECT_DIR$/debug-server/target/debug-server</output-path>
+    <output-path>$PROJECT_DIR$/../RMXJavaKit/rmx-kit/rmx-debug-server/target/debug-server</output-path>
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
@@ -86,7 +86,7 @@
         </element>
       </element>
       <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/debug-server/target/debug-server/META-INF/MANIFEST.MF" />
+        <element id="file-copy" path="$PROJECT_DIR$/../RMXJavaKit/rmx-kit/rmx-debug-server/target/debug-server/META-INF/MANIFEST.MF" />
       </element>
       <element id="javaee-facet-resources" facet="debug-server/web/Web" />
     </root>
