@@ -10,14 +10,10 @@
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
-        <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/RabbitMQReceiver/pom.xml" />
-        <option value="$PROJECT_DIR$/WebSocketsExample/pom.xml" />
-        <option value="$PROJECT_DIR$/cmd-tool/pom.xml" />
         <option value="$PROJECT_DIR$/debug-server/pom.xml" />
         <option value="$PROJECT_DIR$/java-api-websockets-introduction-m5/Chat/pom.xml" />
-        <option value="$PROJECT_DIR$/pluralsight-websockets/tut1/pom.xml" />
         <option value="$PROJECT_DIR$/debug-server/debug-client/pom.xml" />
+        <option value="$PROJECT_DIR$/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
