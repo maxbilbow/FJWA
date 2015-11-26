@@ -4,13 +4,12 @@
     <groupId>FJWA</groupId>
     <artifactId>FJWA</artifactId>
     <version>0.0.2-SNAPSHOT</version>
-  
+
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>1.2.7.RELEASE</version>
-        <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <properties>
         <javax-servlet.version>3.1.0</javax-servlet.version>
@@ -34,6 +33,7 @@
             <url>http://m2.rmx.click</url>
         </repository>
     </repositories>
+
     <dependencies>
         <dependency>
             <groupId>org.apache.tomcat</groupId>
@@ -263,7 +263,7 @@
         <dependency>
             <groupId>javax.websocket</groupId>
             <artifactId>javax.websocket-api</artifactId>
-            <version>1.1</version>
+            <version>${javax.websocket-api.version}</version>
             <scope>provided</scope>
         </dependency>
 
@@ -292,25 +292,39 @@
             <artifactId>freemarker</artifactId>
             <version>${freemarker.version}</version>
         </dependency>
-
-
-        <dependency>
-            <groupId>javax.websocket</groupId>
-            <artifactId>javax.websocket-api</artifactId>
-            <version>${javax.websocket-api.version}</version>
-        </dependency>
         <dependency>
             <groupId>javax.json</groupId>
             <artifactId>javax.json-api</artifactId>
             <version>1.0</version>
         </dependency>
         <dependency>
-            <groupId>fjwasockets</groupId>
-            <artifactId>debug-client</artifactId>
-            <version>1.0</version>
+            <groupId>click.rmx</groupId>
+            <artifactId>rmx-debug-logger</artifactId>
+            <version>${rmx.version}</version>
         </dependency>
     </dependencies>
 
+    <reporting>
+        <plugins>
+            <plugin>
+                <!-- Use maven-jstools-plugin for your reports! -->
+                <groupId>gr.abiss.mvn.plugins</groupId>
+                <artifactId>maven-jstools-plugin</artifactId>
+                <version>0.1</version>
+                <configuration>
+                    <jsDir>src/main/libs</jsDir>
+                </configuration>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>jslint</report>
+                            <report>jsdoc</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+        </plugins>
+    </reporting>
 
     <build>
         <sourceDirectory>src/main/java</sourceDirectory>
@@ -318,6 +332,11 @@
             <resource>
                 <directory>src/main/resources</directory>
             </resource>
+            <!--<resource>-->
+                <!--<directory>src/main/libs</directory>-->
+                <!--<targetPath>libs</targetPath>-->
+                <!--<filtering>true</filtering>-->
+            <!--</resource>-->
         </resources>
         <plugins>
             <plugin>
@@ -347,9 +366,16 @@
                     <!--</excludes>-->
                     <warSourceDirectory>src/main/webapp</warSourceDirectory>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
+                <!--<webResources>-->
+                    <!--<resource>-->
+                        <!--<directory>src/main/libs</directory>-->
+                        <!--<targetPath>libs</targetPath>-->
+                    <!--</resource>-->
+                <!--</webResources>-->
                 </configuration>
 
             </plugin>
+
         </plugins>
     </build>
     <name>First Java Web App</name>

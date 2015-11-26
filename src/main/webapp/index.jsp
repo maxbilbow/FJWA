@@ -109,6 +109,12 @@
           Web Sockets Tester
         </a>
         </div>
+      <div class="hero-unit">
+        <h3>Misc</h3>
+        <a class="btn btn-primary" href="other.html">
+          Other
+        </a>
+      </div>
       <div class="rmx-error-log">
       </div>
     </div>

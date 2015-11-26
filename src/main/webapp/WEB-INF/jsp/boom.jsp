@@ -20,29 +20,16 @@
         .red {
             background-color: red;
         }
-        #bomb_list {
+        #bomb-list {
             display: block;
         }
     </style>
     <link href="${fjwa_root}/assets/css/bootstrap-responsive.css" rel="stylesheet">
     <link href="${fjwa_root}/assets/css/error.css" rel="stylesheet">
-    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js">
-    </script>
-    <![endif]-->
-    <!-- Le fav and touch icons -->
-    <link rel="shortcut icon" href="assets/ico/favicon.ico">
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
-    <style>
-    </style>
 
 
 </head>
-<body  onload="startSession()">
+<body >
 <div class="navbar navbar-fixed-top navbar-inverse">
     <div class="navbar-inner">
         <div class="container">
@@ -60,30 +47,30 @@
             <h1>${boom}</h1>
 
 
-            <a class="btn btn-primary" href="#" onclick="addBomb()">
+            <span class="btn btn-primary" id="add-bomb">
                 Add Bomb
-            </a>
+            </span>
 
             <a class="btn btn-primary red" href="${fjwa_root}/admin/superBomb.html">
                 DO NOT PRESS
             </a>
 
-            <a class="btn btn-primary" href="#"  onclick="defuse()">
+            <span class="btn btn-primary" id="defuse">
                 defuse!
-            </a>
+            </span>
 
-            <a class="btn btn-primary" id="show_expired" href="#" onclick="toggleBombs(true)">
-                Hide Expired
-            </a>
+            <span class="btn btn-primary" id="show-expired">
+                Show Expired
+            </span>
 <sec:authorize access="hasRole('ROLE_ADMIN')">
-            <a class="btn btn-primary" href="#" onclick="removeAll()">
+            <span class="btn btn-primary" id="remove-all">
                 Remove All
-            </a>
+            </span>
 </sec:authorize>
 
         </div>
-        <div class="hero-unit" id="bomb_list">
-              ${bombs}
+        <div class="hero-unit" id="bomb-list">
+
           </div>
 
 
@@ -92,124 +79,9 @@
 <div class="rmx-error-log">
     ${errors}
 </div>
-<script>
-
-    var fjwa;
-    function startSession() {
-        fjwa = {
-            bombs: null,
-            update: function(data) {
-                this.bombs = data;
-            },
-            showAll:false,
-            root:'${fjwa_root}'
-        };
-
-        loadData();
-        toggleBombs(false)
-        updateBombs();
-
-    }
-
-    function loadData() {
-        $.getJSON('<spring:url value="/updateBombs.json"/>', {
-            ajax : 'true'
-        }, fjwa.update);
-    }
-
-    function defuse() {
-        $.getJSON('<spring:url value="/defuse.json"/>', {
-                    ajax : 'true'
-                }, fjwa.update
-        );
-
-    }
-
-    function addBomb() {
-        $.getJSON('<spring:url value="/addBomb.json"/>', {
-                    ajax : 'true'
-                }, fjwa.update
-        );
-    }
-
-    function removeAll() {
-        $.getJSON('${fjwa_root}/removeAll.json', {
-            ajax : 'true'
-        }, fjwa.update);
-    }
-
-    function toggleBombs(toggle) {
-        if (toggle)
-            fjwa.showAll = !fjwa.showAll;
-        $(document).ready(function () {
-            $('a#show_expired').html(fjwa.showAll ? "Hide Expired" : "Show Expired");
-        });
-    }
-
-    function updateBombs() {
-        //updateClientSide();
-
-//        checkForErrors();
-        updateBombsFromServer();
-
-        window.requestAnimationFrame(updateBombs);
-
-    }
+<script data-main="${fjwa_root}/assets/js/boom" src="${fjwa_root}/assets/js/require.min.js"></script>
 
 
-    function updateClientSide() {
-        $(document).ready( function (){
-            var html = 'CLIENT SIDE:';
-            var data = fjwa.bombs;
-            if (data != null) {
-                var len = data.length;
-                for (var i = 0; i < len; i++) {
-                    html += '<br/>' + data[i].description;//.toString
-                }
-            } else {
-                html += "<br/>NULL";
-            }
-            $('p#bomb_list').html(html);
-        });
-    }
-
-    function updateBombsFromServer() {
-        $(document).ready(
-                function() {
-                    $.getJSON('<spring:url value="/updateBombs.json"/>', {
-                        ajax : 'true'
-                    }, function(data){
-
-                        var html = '';
-                        if (data != null) {
-                            fjwa.bombs = data;
-                            var len = data.length;
-                            for (var i = 0; i < len; i++) {
-                                if (fjwa.showAll || ( data[i].live && !data[i].outOfTime ) )
-                                    html += '<br/><span id="bomb_'+data[i].id+'">' + data[i].description + '</span>';//.toString
-                            }
-                        } else {
-                            html += "<br/>NULL";
-                        }
-
-
-                        $('div#bomb_list').html(html);
-                    });
-
-                });
-    }
-
-
-
-
-</script>
-
-
-
-
-<script src="${fjwa_root}/js/jquery.js">
-</script>
-<script src="http://malsup.github.com/jquery.form.js"></script>
 
 
 <script src="${fjwa_root}/assets/js/bootstrap.js">

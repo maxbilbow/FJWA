@@ -32,7 +32,7 @@
   <style>
   </style>
 </head>
-<body onload="startUpdates()">
+<body>
 <div class="navbar navbar-fixed-top navbar-inverse">
   <div class="navbar-inner">
     <div class="container">
@@ -87,38 +87,7 @@
   </div>
 </div>
 
-
-  <script type="text/javascript">
-    function update() {
-//      checkForErrors();
-//      window.requestAnimationFrame(update);
-
-    }
-
-    function startRabbitServer() {
-      var amqp = require('amqplib/callback_api');
-      amqp.connect('amqp://localhost', function(err, conn) {
-
-        conn.createChannel(function(err, ch) {
-          var q = 'websockets';
-
-          ch.assertQueue(q, {durable: false});
-        });
-      });
-      console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", q);
-      ch.consume(q, function(msg) {
-        console.log(" [x] Received %s", msg.content.toString());
-      }, {noAck: true});
-    }
-
-
-    function startUpdates() {
-
-//      startRabbitServer();
-      update();
-    }
-
-  </script>
+<script src="js/rabbitmq.js"></script>
 <script src="js/jquery.js">
 </script>
 <script src="js/debug.js"></script>
