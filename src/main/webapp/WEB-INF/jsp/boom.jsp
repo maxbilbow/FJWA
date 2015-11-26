@@ -83,7 +83,7 @@
 
 
 
-
+<script src="${fjwa_root}/assets/js/jquery.js"></script>
 <script src="${fjwa_root}/assets/js/bootstrap.js">
 </script>
 <script src="${fjwa_root}/js/debug.js"></script>
