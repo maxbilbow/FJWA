@@ -107,6 +107,7 @@ require(['jquery', 'rmxjs/rmx-sockets', 'rmxjs/pubsub', 'boom/bomb'], function (
     (function checkServer(milis){
         setTimeout(function() {
            fetchList();
+            checkServer(milis);
         }, milis);
     })(30000); //TODO use websockets instead
 
